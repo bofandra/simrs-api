@@ -1,0 +1,299 @@
+{
+  "version": "1.0.0-candidate",
+  "envelope": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "eventId",
+      "eventType",
+      "schemaVersion",
+      "aggregateType",
+      "aggregateId",
+      "organizationId",
+      "occurredAt",
+      "correlationId",
+      "payloadHash",
+      "outboxId",
+      "data"
+    ],
+    "properties": {
+      "eventId": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "eventType": {
+        "type": "string"
+      },
+      "schemaVersion": {
+        "type": "string"
+      },
+      "aggregateType": {
+        "type": "string"
+      },
+      "aggregateId": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "organizationId": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "occurredAt": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "correlationId": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "causationId": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "outboxId": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "payloadHash": {
+        "type": "string",
+        "description": "Content digest for stable dedupe, not a credential"
+      },
+      "data": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Sanitized minimum event payload; PHI stays inside authorized boundary"
+      }
+    }
+  },
+  "events": [
+    {
+      "eventType": "patient.registered",
+      "sourceModule": "M01",
+      "aggregateType": "Patient",
+      "topic": "Registration",
+      "workflows": [
+        "WF-01"
+      ],
+      "payloadMinimumFields": [
+        "patientId",
+        "registrationId",
+        "encounterId"
+      ],
+      "delivery": "after local DB commit via outbox relay",
+      "partnerAck": "separate IntegrationJob/Delivery ledger",
+      "risk": "real PHI or partner API absent from sandbox"
+    },
+    {
+      "eventType": "appointment.checked-in",
+      "sourceModule": "M01",
+      "aggregateType": "Appointment",
+      "topic": "Registration",
+      "workflows": [
+        "WF-01"
+      ],
+      "payloadMinimumFields": [
+        "patientId",
+        "registrationId",
+        "queueTicketId"
+      ],
+      "delivery": "after local DB commit via outbox relay",
+      "partnerAck": "separate IntegrationJob/Delivery ledger",
+      "risk": "real PHI or partner API absent from sandbox"
+    },
+    {
+      "eventType": "encounter.started",
+      "sourceModule": "M02",
+      "aggregateType": "Encounter",
+      "topic": "Encounter",
+      "workflows": [
+        "WF-02"
+      ],
+      "payloadMinimumFields": [
+        "encounterId",
+        "unitId"
+      ],
+      "delivery": "after local DB commit via outbox relay",
+      "partnerAck": "separate IntegrationJob/Delivery ledger",
+      "risk": "real PHI or partner API absent from sandbox"
+    },
+    {
+      "eventType": "clinical-note.signed",
+      "sourceModule": "M05",
+      "aggregateType": "ClinicalNote",
+      "topic": "ClinicalNote",
+      "workflows": [
+        "WF-02"
+      ],
+      "payloadMinimumFields": [
+        "noteId",
+        "encounterId",
+        "version",
+        "contentHash"
+      ],
+      "delivery": "after local DB commit via outbox relay",
+      "partnerAck": "separate IntegrationJob/Delivery ledger",
+      "risk": "real PHI or partner API absent from sandbox"
+    },
+    {
+      "eventType": "service-order.placed",
+      "sourceModule": "M05",
+      "aggregateType": "ServiceOrder",
+      "topic": "ServiceOrder",
+      "workflows": [
+        "WF-05"
+      ],
+      "payloadMinimumFields": [
+        "orderId",
+        "encounterId",
+        "category"
+      ],
+      "delivery": "after local DB commit via outbox relay",
+      "partnerAck": "separate IntegrationJob/Delivery ledger",
+      "risk": "real PHI or partner API absent from sandbox"
+    },
+    {
+      "eventType": "specimen.received",
+      "sourceModule": "M09",
+      "aggregateType": "Specimen",
+      "topic": "Specimen",
+      "workflows": [
+        "WF-05"
+      ],
+      "payloadMinimumFields": [
+        "specimenId",
+        "orderId",
+        "barcodeHash"
+      ],
+      "delivery": "after local DB commit via outbox relay",
+      "partnerAck": "separate IntegrationJob/Delivery ledger",
+      "risk": "real PHI or partner API absent from sandbox"
+    },
+    {
+      "eventType": "lab-report.released",
+      "sourceModule": "M09",
+      "aggregateType": "LabReport",
+      "topic": "LabReport",
+      "workflows": [
+        "WF-05"
+      ],
+      "payloadMinimumFields": [
+        "reportId",
+        "orderId",
+        "version"
+      ],
+      "delivery": "after local DB commit via outbox relay",
+      "partnerAck": "separate IntegrationJob/Delivery ledger",
+      "risk": "real PHI or partner API absent from sandbox"
+    },
+    {
+      "eventType": "critical-result.acknowledged",
+      "sourceModule": "M09",
+      "aggregateType": "CriticalAlert",
+      "topic": "CriticalAlert",
+      "workflows": [
+        "WF-05"
+      ],
+      "payloadMinimumFields": [
+        "alertId",
+        "reportId",
+        "acknowledgedAt"
+      ],
+      "delivery": "after local DB commit via outbox relay",
+      "partnerAck": "separate IntegrationJob/Delivery ledger",
+      "risk": "real PHI or partner API absent from sandbox"
+    },
+    {
+      "eventType": "prescription.ordered",
+      "sourceModule": "M11",
+      "aggregateType": "Prescription",
+      "topic": "Prescription",
+      "workflows": [
+        "WF-07"
+      ],
+      "payloadMinimumFields": [
+        "prescriptionId",
+        "encounterId",
+        "version"
+      ],
+      "delivery": "after local DB commit via outbox relay",
+      "partnerAck": "separate IntegrationJob/Delivery ledger",
+      "risk": "real PHI or partner API absent from sandbox"
+    },
+    {
+      "eventType": "prescription.reviewed",
+      "sourceModule": "M11",
+      "aggregateType": "PrescriptionReview",
+      "topic": "PrescriptionReview",
+      "workflows": [
+        "WF-07"
+      ],
+      "payloadMinimumFields": [
+        "prescriptionId",
+        "reviewId",
+        "decision"
+      ],
+      "delivery": "after local DB commit via outbox relay",
+      "partnerAck": "separate IntegrationJob/Delivery ledger",
+      "risk": "real PHI or partner API absent from sandbox"
+    },
+    {
+      "eventType": "dispense.recorded",
+      "sourceModule": "M11",
+      "aggregateType": "Dispense",
+      "topic": "Dispense",
+      "workflows": [
+        "WF-07"
+      ],
+      "payloadMinimumFields": [
+        "dispenseId",
+        "prescriptionId",
+        "sourceEventId"
+      ],
+      "delivery": "after local DB commit via outbox relay",
+      "partnerAck": "separate IntegrationJob/Delivery ledger",
+      "risk": "real PHI or partner API absent from sandbox"
+    },
+    {
+      "eventType": "encounter.completed",
+      "sourceModule": "M02",
+      "aggregateType": "Encounter",
+      "topic": "Encounter",
+      "workflows": [
+        "WF-02"
+      ],
+      "payloadMinimumFields": [
+        "encounterId",
+        "completionVersion"
+      ],
+      "delivery": "after local DB commit via outbox relay",
+      "partnerAck": "separate IntegrationJob/Delivery ledger",
+      "risk": "real PHI or partner API absent from sandbox"
+    }
+  ],
+  "outbox": {
+    "aggregateTransaction": "Core DB update and outbox insert MUST share one PostgreSQL transaction",
+    "publish": "Relay reads pending outbox; publish with at-least-once semantics; consumer idempotent by eventId/payloadHash",
+    "states": [
+      "pending",
+      "publishing",
+      "published",
+      "retry",
+      "dead-letter"
+    ],
+    "deliveryStates": [
+      "pending",
+      "sending",
+      "ack",
+      "rejected",
+      "retry",
+      "dead-letter"
+    ],
+    "retries": {
+      "policy": "bounded exponential backoff + jitter; DLQ and manual review",
+      "deadline": "per partner SOP, not yet specified"
+    },
+    "audit": "append-only actor, patient care purpose, correlation ID, before/after hashes; no secrets",
+    "risk": "Broker delivery does not equal partner ACK. Do not infer SATUSEHAT/BPJS acceptance from 202 or outbox published.",
+    "externalTraffic": "Only integration adapter through egress proxy; data tier internet denied"
+  }
+}
