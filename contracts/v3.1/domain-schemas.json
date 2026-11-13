@@ -1,0 +1,3800 @@
+{
+  "version": "3.1.0-candidate.1",
+  "source": "PRD v3.0 Chapter 4,5,6,8,10; schemas expanded as design proposals",
+  "schemas": {
+    "Identifier": {
+      "type": "object",
+      "properties": {
+        "system": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "system",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "Codeable": {
+      "type": "object",
+      "properties": {
+        "system": {
+          "type": "string",
+          "minLength": 1
+        },
+        "code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "display": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "system",
+        "code"
+      ],
+      "additionalProperties": false
+    },
+    "Reference": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "display": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "Money": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "enum": [
+            "IDR"
+          ]
+        },
+        "amountMinorUnits": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "required": [
+        "currency",
+        "amountMinorUnits"
+      ],
+      "additionalProperties": false
+    },
+    "LabAnalyte": {
+      "type": "object",
+      "properties": {
+        "analyteCode": {
+          "type": "object",
+          "properties": {
+            "system": {
+              "type": "string",
+              "minLength": 1
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "display": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "system",
+            "code"
+          ],
+          "additionalProperties": false
+        },
+        "valueNumber": {
+          "type": "number"
+        },
+        "valueText": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "referenceRangeId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "referenceRangeDisplay": {
+          "type": "string"
+        },
+        "flag": {
+          "type": "string",
+          "enum": [
+            "normal",
+            "low",
+            "high",
+            "critical-low",
+            "critical-high",
+            "invalid",
+            "unavailable"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "verified",
+            "amended"
+          ]
+        },
+        "effectiveAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "analyteCode",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "MedicationLine": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "medicationCode": {
+          "type": "object",
+          "properties": {
+            "system": {
+              "type": "string",
+              "minLength": 1
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "display": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "system",
+            "code"
+          ],
+          "additionalProperties": false
+        },
+        "dose": {
+          "type": "number"
+        },
+        "doseUnit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "route": {
+          "type": "object",
+          "properties": {
+            "system": {
+              "type": "string",
+              "minLength": 1
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "display": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "system",
+            "code"
+          ],
+          "additionalProperties": false
+        },
+        "frequency": {
+          "type": "string",
+          "minLength": 1
+        },
+        "durationValue": {
+          "type": "number"
+        },
+        "durationUnit": {
+          "type": "string",
+          "enum": [
+            "day",
+            "hour",
+            "week"
+          ]
+        },
+        "quantity": {
+          "type": "number"
+        },
+        "instructions": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "ordered",
+            "reviewed",
+            "partially-dispensed",
+            "dispensed",
+            "cancelled"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "medicationCode",
+        "dose",
+        "doseUnit",
+        "route",
+        "frequency",
+        "quantity",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "PageInfo": {
+      "type": "object",
+      "properties": {
+        "nextCursor": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "pageSize": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "hasMore": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "nextCursor",
+        "pageSize",
+        "hasMore"
+      ],
+      "additionalProperties": false
+    },
+    "AuditStamp": {
+      "type": "object",
+      "properties": {
+        "actorId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "correlationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "actorId",
+        "organizationId",
+        "at",
+        "correlationId"
+      ],
+      "additionalProperties": false
+    },
+    "ProblemV31": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "pattern": "^[A-Z0-9_]+$"
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "field": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "field",
+              "reason"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "correlationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "retryable": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "details",
+        "correlationId",
+        "retryable"
+      ],
+      "additionalProperties": false
+    },
+    "JsonPatchAllowed": {
+      "type": "object",
+      "properties": {
+        "expectedVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "changeReason": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "expectedVersion",
+        "changeReason"
+      ],
+      "additionalProperties": false
+    },
+    "Patient": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "merged",
+            "inactive"
+          ]
+        },
+        "mrn": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fullName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "birthDate": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "estimatedAge": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "gender": {
+          "type": "string",
+          "enum": [
+            "male",
+            "female",
+            "other",
+            "unknown"
+          ]
+        },
+        "identifiers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "system": {
+                "type": "string",
+                "minLength": 1
+              },
+              "value": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "system",
+              "value"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "addresses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "province": {
+                "type": "string",
+                "minLength": 1
+              },
+              "district": {
+                "type": "string",
+                "minLength": 1
+              },
+              "subDistrict": {
+                "type": "string",
+                "minLength": 1
+              },
+              "village": {
+                "type": "string",
+                "minLength": 1
+              },
+              "line": {
+                "type": "string",
+                "minLength": 1
+              },
+              "postalCode": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "province",
+              "district",
+              "subDistrict",
+              "village",
+              "line"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "contactPhones": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "possibleMatch": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "mrn",
+        "fullName",
+        "gender",
+        "identifiers"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "PatientMatchCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "possible",
+            "reviewed",
+            "dismissed"
+          ]
+        },
+        "patientId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "matchScore": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "candidateIdentifiers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "system": {
+                "type": "string",
+                "minLength": 1
+              },
+              "value": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "system",
+              "value"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "patientId",
+        "matchScore"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "AppointmentSlot": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "available",
+            "reserved",
+            "full",
+            "closed"
+          ]
+        },
+        "unitId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "practitionerId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "startsAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endsAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "capacity": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "remaining": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "unitId",
+        "startsAt",
+        "endsAt",
+        "remaining"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "Appointment": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "booked",
+            "rescheduled",
+            "cancelled",
+            "no-show"
+          ]
+        },
+        "patientId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "practitionerId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "unitId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "slotId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "startsAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "bookingNumber": {
+          "type": "string",
+          "minLength": 1
+        },
+        "history": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "minLength": 1
+              },
+              "changedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "reason": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "status",
+              "changedAt"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "patientId",
+        "unitId",
+        "slotId",
+        "startsAt",
+        "bookingNumber"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "Registration": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "voided"
+          ]
+        },
+        "patientId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "encounterId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "appointmentId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "queueTicketId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "unitId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "serviceType": {
+          "type": "string",
+          "enum": [
+            "RJ",
+            "IGD",
+            "RI"
+          ]
+        },
+        "payer": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "minLength": 1
+            },
+            "identifier": {
+              "type": "string"
+            },
+            "eligibilityStatus": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "additionalProperties": false
+        },
+        "registeredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "voidReason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "patientId",
+        "encounterId",
+        "unitId",
+        "serviceType",
+        "payer"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "QueueTicket": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "waiting",
+            "called",
+            "in-service",
+            "done"
+          ]
+        },
+        "registrationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "unitId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "counterId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "queueNumber": {
+          "type": "string",
+          "minLength": 1
+        },
+        "calledAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serviceStartedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "completedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "registrationId",
+        "unitId",
+        "queueNumber"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "Encounter": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "planned",
+            "arrived",
+            "in-progress",
+            "completed",
+            "cancelled"
+          ]
+        },
+        "patientId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "registrationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "unitId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "class": {
+          "type": "string",
+          "enum": [
+            "outpatient",
+            "emergency",
+            "inpatient"
+          ]
+        },
+        "startedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "completedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "mandatoryChecklistComplete": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "patientId",
+        "registrationId",
+        "unitId",
+        "class"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "ServiceUnit": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "inactive"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "serviceType": {
+          "type": "string",
+          "enum": [
+            "RJ",
+            "IGD",
+            "RI"
+          ]
+        },
+        "parentUnitId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "name",
+        "code"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "OutpatientSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "arrived",
+            "in-progress",
+            "completed"
+          ]
+        },
+        "encounterId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "patientId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "chiefComplaint": {
+          "type": "string"
+        },
+        "lastVitalAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "allergyAlert": {
+          "type": "boolean"
+        },
+        "pendingOrders": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "signedNotes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "disposition": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "encounterId",
+        "patientId"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "OutpatientAssessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "signed"
+          ]
+        },
+        "encounterId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "chiefComplaint": {
+          "type": "string",
+          "minLength": 1
+        },
+        "history": {
+          "type": "string"
+        },
+        "physicalExam": {
+          "type": "string"
+        },
+        "assessment": {
+          "type": "string"
+        },
+        "managementPlan": {
+          "type": "string"
+        },
+        "authorId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "signedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "encounterId",
+        "chiefComplaint"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "CompletionChecklist": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "incomplete",
+            "ready",
+            "completed"
+          ]
+        },
+        "encounterId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "readyToComplete": {
+          "type": "boolean"
+        },
+        "requiredItems": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "minLength": 1
+              },
+              "complete": {
+                "type": "boolean"
+              },
+              "reason": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code",
+              "complete"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "summaryId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "encounterId",
+        "readyToComplete",
+        "requiredItems"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "PatientEducation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "recorded",
+            "amended"
+          ]
+        },
+        "encounterId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "providedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "method": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authorId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "encounterId",
+        "text",
+        "providedAt"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "Followup": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "planned",
+            "cancelled",
+            "completed"
+          ]
+        },
+        "encounterId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "followupDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "careUnitId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "plan": {
+          "type": "string",
+          "minLength": 1
+        },
+        "appointmentId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "encounterId",
+        "followupDate",
+        "careUnitId",
+        "plan"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "ClinicalNote": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "signed",
+            "amended"
+          ]
+        },
+        "encounterId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "noteType": {
+          "type": "string",
+          "enum": [
+            "SOAP",
+            "CPPT",
+            "OTHER"
+          ]
+        },
+        "subjective": {
+          "type": "string"
+        },
+        "objective": {
+          "type": "string"
+        },
+        "assessment": {
+          "type": "string"
+        },
+        "plan": {
+          "type": "string"
+        },
+        "authorId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "signedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "hash": {
+          "type": "string"
+        },
+        "previousVersionId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "encounterId",
+        "noteType",
+        "authorId"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "ClinicalNoteVersion": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "signed",
+            "amended"
+          ]
+        },
+        "noteId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "versionNumber": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "authorId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "signedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "contentHash": {
+          "type": "string",
+          "minLength": 1
+        },
+        "previousVersionId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "noteId",
+        "versionNumber",
+        "authorId"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "Observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "preliminary",
+            "final",
+            "amended"
+          ]
+        },
+        "encounterId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "code": {
+          "type": "object",
+          "properties": {
+            "system": {
+              "type": "string",
+              "minLength": 1
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "display": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "system",
+            "code"
+          ],
+          "additionalProperties": false
+        },
+        "subjectPatientId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "valueNumber": {
+          "type": "number"
+        },
+        "valueString": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "effectiveAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "performerId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "encounterId",
+        "code",
+        "effectiveAt"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "Diagnosis": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "resolved",
+            "entered-in-error"
+          ]
+        },
+        "encounterId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "code": {
+          "type": "object",
+          "properties": {
+            "system": {
+              "type": "string",
+              "minLength": 1
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "display": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "system",
+            "code"
+          ],
+          "additionalProperties": false
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "primary",
+            "secondary"
+          ]
+        },
+        "onsetDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "recordedBy": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "encounterId",
+        "code",
+        "kind"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "ServiceOrder": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "placed",
+            "accepted",
+            "in-process",
+            "completed",
+            "cancelled"
+          ]
+        },
+        "encounterId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "patientId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "serviceCode": {
+          "type": "object",
+          "properties": {
+            "system": {
+              "type": "string",
+              "minLength": 1
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "display": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "system",
+            "code"
+          ],
+          "additionalProperties": false
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "LAB",
+            "RAD",
+            "PROCEDURE",
+            "CONSULT"
+          ]
+        },
+        "urgency": {
+          "type": "string",
+          "enum": [
+            "routine",
+            "urgent",
+            "stat"
+          ]
+        },
+        "indication": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requestedBy": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "performingUnitId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "placedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "cancelReason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "encounterId",
+        "serviceCode",
+        "category",
+        "urgency",
+        "indication"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "Referral": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "requested",
+            "accepted",
+            "rejected",
+            "completed",
+            "cancelled"
+          ]
+        },
+        "encounterId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "localStatus": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "requested",
+            "accepted",
+            "rejected",
+            "completed",
+            "cancelled"
+          ]
+        },
+        "externalStatus": {
+          "type": "string",
+          "enum": [
+            "not-sent",
+            "pending",
+            "ack",
+            "rejected",
+            "failed"
+          ]
+        },
+        "destination": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "minLength": 1
+            },
+            "id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "display": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "indication": {
+          "type": "string",
+          "minLength": 1
+        },
+        "handoverDocumentId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "encounterId",
+        "localStatus",
+        "externalStatus"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "CarePlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "active",
+            "evaluated",
+            "closed"
+          ]
+        },
+        "encounterId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "goals": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "interventions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "team": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "minLength": 1
+              },
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "display": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "type",
+              "id"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "encounterId",
+        "goals"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "ClinicalDocument": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "signed",
+            "approved",
+            "amended"
+          ]
+        },
+        "encounterId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "documentType": {
+          "type": "string",
+          "minLength": 1
+        },
+        "versionNumber": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "contentHash": {
+          "type": "string",
+          "minLength": 1
+        },
+        "signerId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "signedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "releaseStatus": {
+          "type": "string",
+          "enum": [
+            "private",
+            "eligible",
+            "released"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "encounterId",
+        "documentType",
+        "versionNumber"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "ClinicalDocumentVersion": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "signed",
+            "approved",
+            "amended"
+          ]
+        },
+        "documentId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "versionNumber": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "reason": {
+          "type": "string"
+        },
+        "contentHash": {
+          "type": "string",
+          "minLength": 1
+        },
+        "signedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "documentId",
+        "versionNumber"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "EncounterTimelineEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "recorded"
+          ]
+        },
+        "encounterId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "eventType": {
+          "type": "string",
+          "minLength": 1
+        },
+        "eventAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sourceId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "display": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authorId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "resourceType": {
+          "type": "string",
+          "minLength": 1
+        },
+        "visibility": {
+          "type": "string",
+          "enum": [
+            "care-team",
+            "restricted",
+            "patient-release"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "encounterId",
+        "eventType",
+        "eventAt",
+        "sourceId"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "LabOrder": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "placed",
+            "accepted",
+            "in-process",
+            "verified",
+            "released",
+            "cancelled"
+          ]
+        },
+        "serviceOrderId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "encounterId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "patientId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "routine",
+            "urgent",
+            "stat"
+          ]
+        },
+        "panelCodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "system": {
+                "type": "string",
+                "minLength": 1
+              },
+              "code": {
+                "type": "string",
+                "minLength": 1
+              },
+              "display": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "system",
+              "code"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "specimenIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "reportId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "serviceOrderId",
+        "encounterId",
+        "patientId"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "Specimen": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "ordered",
+            "collected",
+            "received",
+            "processed",
+            "rejected"
+          ]
+        },
+        "labOrderId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "patientId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "barcode": {
+          "type": "string",
+          "minLength": 1
+        },
+        "specimenType": {
+          "type": "object",
+          "properties": {
+            "system": {
+              "type": "string",
+              "minLength": 1
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "display": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "system",
+            "code"
+          ],
+          "additionalProperties": false
+        },
+        "collectorId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "collectedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "receiverId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "receivedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "rejectionReasonCode": {
+          "type": "object",
+          "properties": {
+            "system": {
+              "type": "string",
+              "minLength": 1
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "display": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "system",
+            "code"
+          ],
+          "additionalProperties": false
+        },
+        "previousSpecimenId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "labOrderId",
+        "patientId",
+        "barcode",
+        "specimenType"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "LabReport": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "verified",
+            "released",
+            "amended"
+          ]
+        },
+        "labOrderId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "encounterId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "specimenId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "analyteCode": {
+                "type": "object",
+                "properties": {
+                  "system": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "code": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "display": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "system",
+                  "code"
+                ],
+                "additionalProperties": false
+              },
+              "valueNumber": {
+                "type": "number"
+              },
+              "valueText": {
+                "type": "string"
+              },
+              "unit": {
+                "type": "string"
+              },
+              "referenceRangeId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "referenceRangeDisplay": {
+                "type": "string"
+              },
+              "flag": {
+                "type": "string",
+                "enum": [
+                  "normal",
+                  "low",
+                  "high",
+                  "critical-low",
+                  "critical-high",
+                  "invalid",
+                  "unavailable"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "draft",
+                  "verified",
+                  "amended"
+                ]
+              },
+              "effectiveAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "required": [
+              "analyteCode",
+              "status"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "verifiedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "verifierId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "releasedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "criticalUnacknowledged": {
+          "type": "boolean"
+        },
+        "reportVersion": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "labOrderId",
+        "encounterId",
+        "specimenId",
+        "results"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "LabReportVersion": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "verified",
+            "released",
+            "amended"
+          ]
+        },
+        "reportId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "versionNumber": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "changeReason": {
+          "type": "string"
+        },
+        "verifiedBy": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "signedHash": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "reportId",
+        "versionNumber"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "CriticalAlert": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "raised",
+            "communicated",
+            "acknowledged",
+            "escalated"
+          ]
+        },
+        "reportId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "analyteCode": {
+          "type": "object",
+          "properties": {
+            "system": {
+              "type": "string",
+              "minLength": 1
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "display": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "system",
+            "code"
+          ],
+          "additionalProperties": false
+        },
+        "raisedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "notifiedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "acknowledgedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "acknowledgedBy": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "readBackConfirmed": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "reportId",
+        "analyteCode",
+        "raisedAt"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "LabTest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "retired"
+          ]
+        },
+        "code": {
+          "type": "object",
+          "properties": {
+            "system": {
+              "type": "string",
+              "minLength": 1
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "display": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "system",
+            "code"
+          ],
+          "additionalProperties": false
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "analytes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "system": {
+                "type": "string",
+                "minLength": 1
+              },
+              "code": {
+                "type": "string",
+                "minLength": 1
+              },
+              "display": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "system",
+              "code"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "specimenTypes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "system": {
+                "type": "string",
+                "minLength": 1
+              },
+              "code": {
+                "type": "string",
+                "minLength": 1
+              },
+              "display": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "system",
+              "code"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "methods": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "system": {
+                "type": "string",
+                "minLength": 1
+              },
+              "code": {
+                "type": "string",
+                "minLength": 1
+              },
+              "display": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "system",
+              "code"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "referenceRangeVersion": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "code",
+        "name",
+        "analytes"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "LabReferenceRange": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "retired"
+          ]
+        },
+        "analyteCode": {
+          "type": "object",
+          "properties": {
+            "system": {
+              "type": "string",
+              "minLength": 1
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "display": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "system",
+            "code"
+          ],
+          "additionalProperties": false
+        },
+        "methodCode": {
+          "type": "object",
+          "properties": {
+            "system": {
+              "type": "string",
+              "minLength": 1
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "display": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "system",
+            "code"
+          ],
+          "additionalProperties": false
+        },
+        "minAgeDays": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "maxAgeDays": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sex": {
+          "type": "string",
+          "enum": [
+            "male",
+            "female",
+            "any"
+          ]
+        },
+        "low": {
+          "type": "number"
+        },
+        "high": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "versionLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "effectiveFrom": {
+          "type": "string",
+          "format": "date"
+        },
+        "effectiveTo": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "analyteCode",
+        "methodCode",
+        "sex",
+        "versionLabel"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "Prescription": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "ordered",
+            "reviewed",
+            "partially-dispensed",
+            "dispensed",
+            "cancelled"
+          ]
+        },
+        "encounterId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "patientId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "medicationCode": {
+                "type": "object",
+                "properties": {
+                  "system": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "code": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "display": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "system",
+                  "code"
+                ],
+                "additionalProperties": false
+              },
+              "dose": {
+                "type": "number"
+              },
+              "doseUnit": {
+                "type": "string",
+                "minLength": 1
+              },
+              "route": {
+                "type": "object",
+                "properties": {
+                  "system": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "code": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "display": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "system",
+                  "code"
+                ],
+                "additionalProperties": false
+              },
+              "frequency": {
+                "type": "string",
+                "minLength": 1
+              },
+              "durationValue": {
+                "type": "number"
+              },
+              "durationUnit": {
+                "type": "string",
+                "enum": [
+                  "day",
+                  "hour",
+                  "week"
+                ]
+              },
+              "quantity": {
+                "type": "number"
+              },
+              "instructions": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "ordered",
+                  "reviewed",
+                  "partially-dispensed",
+                  "dispensed",
+                  "cancelled"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "medicationCode",
+              "dose",
+              "doseUnit",
+              "route",
+              "frequency",
+              "quantity",
+              "status"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "indication": {
+          "type": "string"
+        },
+        "prescriberId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "reviewedBy": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "signedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "allergyReviewStatus": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "passed",
+            "override-required",
+            "blocked"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "encounterId",
+        "patientId",
+        "items",
+        "prescriberId"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "PrescriptionReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "approved",
+            "clarification-requested",
+            "rejected"
+          ]
+        },
+        "prescriptionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "pharmacistId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "decision": {
+          "type": "string",
+          "enum": [
+            "approved",
+            "clarification-requested",
+            "rejected"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        },
+        "reviewedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "interactionFlags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "prescriptionId",
+        "pharmacistId",
+        "decision"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "DispensableLine": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "available",
+            "unavailable",
+            "review-required"
+          ]
+        },
+        "prescriptionItemId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "medicationCode": {
+          "type": "object",
+          "properties": {
+            "system": {
+              "type": "string",
+              "minLength": 1
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "display": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "system",
+            "code"
+          ],
+          "additionalProperties": false
+        },
+        "outstandingQuantity": {
+          "type": "number"
+        },
+        "availableQuantity": {
+          "type": "number"
+        },
+        "lotIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "allergyFlag": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "prescriptionItemId",
+        "outstandingQuantity",
+        "availableQuantity"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "Dispense": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "prepared",
+            "dispensed",
+            "partially-dispensed",
+            "returned"
+          ]
+        },
+        "prescriptionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "lines": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "prescriptionItemId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "lotId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "quantity": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "expiryDate": {
+                "type": "string",
+                "format": "date"
+              }
+            },
+            "required": [
+              "prescriptionItemId",
+              "lotId",
+              "quantity"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "dispensedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "receivingParty": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sourceMovementIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "prescriptionId",
+        "lines"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "DispenseReturn": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending-review",
+            "approved",
+            "rejected",
+            "posted"
+          ]
+        },
+        "dispenseId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lines": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "prescriptionItemId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "lotId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "quantity": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            },
+            "required": [
+              "prescriptionItemId",
+              "lotId",
+              "quantity"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "approvedBy": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "postedMovementIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "dispenseId",
+        "reason",
+        "lines"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "MedicationAdministration": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "scheduled",
+            "given",
+            "not-given"
+          ]
+        },
+        "encounterId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "prescriptionItemId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "patientBarcode": {
+          "type": "string",
+          "minLength": 1
+        },
+        "drugBarcode": {
+          "type": "string",
+          "minLength": 1
+        },
+        "administeredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "notGivenReasonCode": {
+          "type": "object",
+          "properties": {
+            "system": {
+              "type": "string",
+              "minLength": 1
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "display": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "system",
+            "code"
+          ],
+          "additionalProperties": false
+        },
+        "performerId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "encounterId",
+        "prescriptionItemId"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    },
+    "StockAvailability": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "available",
+            "low-stock",
+            "unavailable"
+          ]
+        },
+        "medicationCode": {
+          "type": "object",
+          "properties": {
+            "system": {
+              "type": "string",
+              "minLength": 1
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "display": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "system",
+            "code"
+          ],
+          "additionalProperties": false
+        },
+        "locationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "availableQuantity": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "earliestExpiry": {
+          "type": "string",
+          "format": "date"
+        },
+        "asOf": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "organizationId",
+        "version",
+        "updatedAt",
+        "status",
+        "medicationCode",
+        "locationId",
+        "availableQuantity",
+        "unit",
+        "asOf"
+      ],
+      "x-entity": "shared domain read model",
+      "x-auth-scope": "enforce in backend; mock is not security",
+      "x-candidate": true
+    }
+  }
+}
