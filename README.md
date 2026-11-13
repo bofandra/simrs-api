@@ -1,5 +1,29 @@
 # SIMRS Baru — API contract v3.0 dan sandbox
 
+## Contract v3.1 (candidate) — latest specification
+
+**Current design work:** [OpenAPI v3.1 (180 operations)](openapi-v3.1.json) and [full contract guide](contracts/v3.1/README.md). This extends the original 106 PRD v3.0 operation IDs with **74 new lifecycle proposals** in M01, M02, M05, M09, M11. It does **not** mean 180 production endpoints are implemented or approved. Original [OpenAPI v3.0](openapi.json) remains unchanged for comparison.
+
+- [Operation additions](contracts/v3.1/expansions.json) · [47 typed domain schemas](contracts/v3.1/domain-schemas.json) · [Traceability](contracts/v3.1/traceability.json)
+- [State machines](contracts/v3.1/state-machines.json) · [12 workflow mappings](contracts/v3.1/workflows.json)
+- [Outbox/domain events](contracts/v3.1/domain-events.json) · [Integration boundaries](contracts/v3.1/integration-boundaries.json)
+- [Open decisions and risk gates](docs/CONTRACT_V31_DESIGN_DECISIONS.md)
+
+### Local Swagger + contract checks
+
+```bash
+npm run check:v3.1       # checks generated OpenAPI, examples, traceability and states
+npm test                 # HTTP demo tests including WF-05 and WF-07 negative paths
+npm run start:v3.1       # Swagger HTTP synthetic mock: http://127.0.0.1:4010/docs
+```
+
+**Version choice:** `npm start` remains original v3.0 mock (106 operations), and `npm run start:v3.1` serves the v3.1 candidate (180). The mock server listens on loopback and is never a real clinical, finance, prescription, inventory or partner integration service.
+
+**FE handoff:** The GitHub Pages UI in [bofandra/simrs](https://github.com/bofandra/simrs) has an API Sandbox. Its static contract viewer must be synchronized to v3.1 as an explicit FE update, because v3.1 changes list responses from bare arrays to pagination envelopes.
+
+---
+
+
 Kontrak kandidat **106 operasi** untuk **21 modul operasional (M01–M21) dan Portal Pasien (CH01)**, diturunkan dari [PRD SIMRS Baru v3.0 tanggal 12 November 2026](https://docs.google.com/document/d/1NzQ6ryYk8Jqat-nqI-Nbyjbx1inSn-ss/edit).
 
 > **HANYA DEMO / DATA SINTETIS.** Jangan gunakan data pasien nyata, jangan mengaktifkan tindakan klinis, tanda tangan legal, mutasi stok, pembayaran, klaim, pengiriman SATUSEHAT/BPJS atau layanan nasional apa pun. Schema adalah rancangan kontrak, belum kontrak produksi yang telah disetujui.
