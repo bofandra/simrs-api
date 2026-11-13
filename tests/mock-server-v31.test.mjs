@@ -17,9 +17,9 @@ async function withServer(fn){
  finally{server.close();await once(server,'close')}
 }
 async function request(url,opts){const r=await fetch(url,opts);return {status:r.status,data:await r.json(),mock:r.headers.get('X-SIMRS-Mock')}}
-test('v3.1 has 178 HTTP mock operations and paginated read collections',async()=>withServer(async base=>{
+test('v3.1 has 180 HTTP mock operations and paginated read collections',async()=>withServer(async base=>{
  const health=await request(base+'/healthz');
- assert.equal(health.status,200);assert.equal(health.data.operations,178);
+ assert.equal(health.status,200);assert.equal(health.data.operations,180);
  assert.equal(health.data.mode,'synthetic-mock');
  const spec=await request(base+'/openapi.json');assert.equal(spec.data.info.version,'3.1.0-candidate.1');
  const patients=await request(base+'/api/v1/patients?q=demo');
