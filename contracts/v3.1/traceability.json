@@ -4097,6 +4097,47 @@
       ],
       "permission": "pharmacy.stock.read",
       "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "createPrescriptionDraft",
+      "module": "M11",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M11-01"
+      ],
+      "fr": [
+        "FR-020"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "permission": "prescription.write",
+      "notes": "New draft lifecycle inferred from PRD F-M11-01 and explicit permission review; not baseline PRD endpoint."
+    },
+    {
+      "operationId": "placePrescription",
+      "module": "M11",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M11-01"
+      ],
+      "fr": [
+        "FR-020"
+      ],
+      "us": [
+        "US-MED-04"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "permission": "prescription.place",
+      "notes": "New draft lifecycle inferred from PRD F-M11-01 and explicit permission review; not baseline PRD endpoint."
     }
   ]
 }
