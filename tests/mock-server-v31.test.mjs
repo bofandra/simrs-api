@@ -79,3 +79,23 @@ test('tenant mock scoping and forced negative scenarios',async()=>withServer(asy
    headers:{'Content-Type':'application/json','Idempotency-Key':'v31-patch-001'},body:JSON.stringify({expectedVersion:1,subjective:'Demo'})});
  assert.equal(c.status,412);
 }));
+
+test('WF-07 draft prescription: edit with optimistic version and place before review',async()=>withServer(async base=>{
+ const drug={id:unitId,medicationCode:{system:'https://example.invalid/drugs',code:'DEMO-DRUG'},dose:1,
+  doseUnit:'tablet',route:{system:'https://example.invalid/routes',code:'PO'},frequency:'1x/day',quantity:3,status:'ordered'};
+ const draft=await request(base+'/api/v1/pharmacy/prescriptions/drafts',
+   opt({encounterId,items:[drug],indication:'Mock clinical intent'}));
+ assert.equal(draft.status,201);assert.equal(draft.data.status,'draft');const rx=draft.data.id;
+ const edit=await request(base+'/api/v1/pharmacy/prescriptions/'+rx,
+   {...opt({items:[drug],expectedVersion:1,indication:'Draft revised'}),method:'PATCH'});
+ assert.equal(edit.status,200);assert.equal(edit.data.version,2);
+ const stale=await request(base+'/api/v1/pharmacy/prescriptions/'+rx+'/place',
+   opt({expectedVersion:1,signReason:'Demonstration only'}));
+ assert.equal(stale.status,412);assert.equal(stale.data.code,'STALE_VERSION');
+ const placed=await request(base+'/api/v1/pharmacy/prescriptions/'+rx+'/place',
+   opt({expectedVersion:2,signReason:'Demonstration only'},{'If-Match':'2'}));
+ assert.equal(placed.status,200);assert.equal(placed.data.status,'ordered');
+ const reedit=await request(base+'/api/v1/pharmacy/prescriptions/'+rx,
+   {...opt({items:[drug],expectedVersion:3},{'If-Match':'3'}),method:'PATCH'});
+ assert.equal(reedit.status,409);assert.equal(reedit.data.code,'PRESCRIPTION_NOT_DRAFT');
+}));
