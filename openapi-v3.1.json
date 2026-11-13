@@ -3,7 +3,7 @@
   "info": {
     "title": "SIMRS Baru — Comprehensive API Contract v3.1 (candidate)",
     "version": "3.1.0-candidate.1",
-    "description": "106 PRD v3.0 candidate operations plus 72 proposed lifecycle operations for M01 M02 M05 M09 M11. For FE-BE review only; NOT production. No real clinical, stock, finance, signature or national partner action.",
+    "description": "106 PRD v3.0 candidate operations plus 74 proposed lifecycle operations for M01 M02 M05 M09 M11. For FE-BE review only; NOT production. No real clinical, stock, finance, signature or national partner action.",
     "contact": {
       "name": "SIMRS Product / Frontend–Backend"
     }
@@ -17632,7 +17632,7 @@
                       "organizationId": "11111111-1111-4111-8111-111111111111",
                       "version": 1,
                       "updatedAt": "2026-11-13T08:00:00+07:00",
-                      "status": "ordered",
+                      "status": "draft",
                       "encounterId": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768",
                       "patientId": "d2f8ba55-b1d0-4fd3-a95e-3bfca006b7f1",
                       "items": [
@@ -50316,7 +50316,7 @@
                   "organizationId": "11111111-1111-4111-8111-111111111111",
                   "version": 1,
                   "updatedAt": "2026-11-13T08:00:00+07:00",
-                  "status": "ordered",
+                  "status": "draft",
                   "encounterId": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768",
                   "patientId": "d2f8ba55-b1d0-4fd3-a95e-3bfca006b7f1",
                   "items": [
@@ -53043,6 +53043,613 @@
                   "correlationId": "a9f0bc36-b553-41c6-b2f0-d8e970b2ae10",
                   "retryable": true
                 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacy/prescriptions/drafts": {
+      "post": {
+        "tags": [
+          "M11"
+        ],
+        "operationId": "createPrescriptionDraft",
+        "summary": "create Prescription Draft",
+        "description": "NEW v3.1 PROPOSAL (not verbatim PRD). Optional draft before physician approval; new extension not in original PRD API table.",
+        "x-contract-status": "proposed-v3.1; FE/BE and clinical review required",
+        "x-source-provenance": "Inferred from PRD v3.0 form/workflow gap",
+        "x-module": "M11",
+        "x-permission": "prescription.write",
+        "x-fr": [
+          "FR-020"
+        ],
+        "x-us": [
+          "US-MED-04",
+          "US-MED-05"
+        ],
+        "x-forms": [
+          "F-M11-01"
+        ],
+        "x-workflows": [
+          "WF-07"
+        ],
+        "x-target-state": "draft",
+        "x-optimistic-lock": false,
+        "x-idempotency-required": true,
+        "x-simulation-only": true,
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CorrelationId"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Synthetic example (not an actual hospital operation)",
+            "headers": {
+              "ETag": {
+                "$ref": "#/components/headers/ETag"
+              },
+              "X-Correlation-ID": {
+                "$ref": "#/components/headers/X-Correlation-ID"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Prescription"
+                },
+                "example": {
+                  "id": "11111111-1111-4111-8111-111111111111",
+                  "organizationId": "11111111-1111-4111-8111-111111111111",
+                  "version": 1,
+                  "updatedAt": "2026-11-13T08:00:00+07:00",
+                  "status": "draft",
+                  "encounterId": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768",
+                  "patientId": "d2f8ba55-b1d0-4fd3-a95e-3bfca006b7f1",
+                  "items": [
+                    {
+                      "id": "11111111-1111-4111-8111-111111111111",
+                      "medicationCode": {
+                        "system": "https://example.invalid/terminology",
+                        "code": "DEMO"
+                      },
+                      "dose": 1,
+                      "doseUnit": "DEMO",
+                      "route": {
+                        "system": "https://example.invalid/terminology",
+                        "code": "DEMO"
+                      },
+                      "frequency": "DEMO",
+                      "quantity": 1,
+                      "status": "ordered"
+                    }
+                  ],
+                  "prescriberId": "11111111-1111-4111-8111-111111111111"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "MALFORMED_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemV31"
+                },
+                "example": {
+                  "code": "MALFORMED_REQUEST",
+                  "message": "Respons error simulasi MALFORMED_REQUEST",
+                  "details": [],
+                  "correlationId": "a9f0bc36-b553-41c6-b2f0-d8e970b2ae10",
+                  "retryable": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemV31"
+                },
+                "example": {
+                  "code": "UNAUTHENTICATED",
+                  "message": "Respons error simulasi UNAUTHENTICATED",
+                  "details": [],
+                  "correlationId": "a9f0bc36-b553-41c6-b2f0-d8e970b2ae10",
+                  "retryable": false
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemV31"
+                },
+                "example": {
+                  "code": "FORBIDDEN",
+                  "message": "Respons error simulasi FORBIDDEN",
+                  "details": [],
+                  "correlationId": "a9f0bc36-b553-41c6-b2f0-d8e970b2ae10",
+                  "retryable": false
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemV31"
+                },
+                "example": {
+                  "code": "NOT_FOUND",
+                  "message": "Respons error simulasi NOT_FOUND",
+                  "details": [],
+                  "correlationId": "a9f0bc36-b553-41c6-b2f0-d8e970b2ae10",
+                  "retryable": false
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "STATE_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemV31"
+                },
+                "example": {
+                  "code": "STATE_CONFLICT",
+                  "message": "Respons error simulasi STATE_CONFLICT",
+                  "details": [],
+                  "correlationId": "a9f0bc36-b553-41c6-b2f0-d8e970b2ae10",
+                  "retryable": false
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "STALE_VERSION",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemV31"
+                },
+                "example": {
+                  "code": "STALE_VERSION",
+                  "message": "Respons error simulasi STALE_VERSION",
+                  "details": [],
+                  "correlationId": "a9f0bc36-b553-41c6-b2f0-d8e970b2ae10",
+                  "retryable": false
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "BUSINESS_VALIDATION_FAILED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemV31"
+                },
+                "example": {
+                  "code": "BUSINESS_VALIDATION_FAILED",
+                  "message": "Respons error simulasi BUSINESS_VALIDATION_FAILED",
+                  "details": [],
+                  "correlationId": "a9f0bc36-b553-41c6-b2f0-d8e970b2ae10",
+                  "retryable": false
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemV31"
+                },
+                "example": {
+                  "code": "RATE_LIMITED",
+                  "message": "Respons error simulasi RATE_LIMITED",
+                  "details": [],
+                  "correlationId": "a9f0bc36-b553-41c6-b2f0-d8e970b2ae10",
+                  "retryable": true
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemV31"
+                },
+                "example": {
+                  "code": "INTERNAL_ERROR",
+                  "message": "Respons error simulasi INTERNAL_ERROR",
+                  "details": [],
+                  "correlationId": "a9f0bc36-b553-41c6-b2f0-d8e970b2ae10",
+                  "retryable": true
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DEPENDENCY_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemV31"
+                },
+                "example": {
+                  "code": "DEPENDENCY_UNAVAILABLE",
+                  "message": "Respons error simulasi DEPENDENCY_UNAVAILABLE",
+                  "details": [],
+                  "correlationId": "a9f0bc36-b553-41c6-b2f0-d8e970b2ae10",
+                  "retryable": true
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "encounterId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "11111111-1111-4111-8111-111111111111"
+                  },
+                  "items": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "$ref": "#/components/schemas/MedicationLine"
+                    }
+                  },
+                  "indication": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "encounterId",
+                  "items"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "encounterId": "11111111-1111-4111-8111-111111111111",
+                "items": [
+                  {
+                    "id": "11111111-1111-4111-8111-111111111111",
+                    "medicationCode": {
+                      "system": "https://example.invalid/terminology",
+                      "code": "DEMO"
+                    },
+                    "dose": 1,
+                    "doseUnit": "DEMO",
+                    "route": {
+                      "system": "https://example.invalid/terminology",
+                      "code": "DEMO"
+                    },
+                    "frequency": "DEMO",
+                    "quantity": 1,
+                    "status": "ordered"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacy/prescriptions/{id}/place": {
+      "post": {
+        "tags": [
+          "M11"
+        ],
+        "operationId": "placePrescription",
+        "summary": "place Prescription",
+        "description": "NEW v3.1 PROPOSAL (not verbatim PRD). Convert authorized physician draft into ordered prescription with immutable version; sign-off required.",
+        "x-contract-status": "proposed-v3.1; FE/BE and clinical review required",
+        "x-source-provenance": "Inferred from PRD v3.0 form/workflow gap",
+        "x-module": "M11",
+        "x-permission": "prescription.place",
+        "x-fr": [
+          "FR-020"
+        ],
+        "x-us": [
+          "US-MED-04"
+        ],
+        "x-forms": [
+          "F-M11-01"
+        ],
+        "x-workflows": [
+          "WF-07"
+        ],
+        "x-target-state": "ordered",
+        "x-optimistic-lock": true,
+        "x-idempotency-required": true,
+        "x-simulation-only": true,
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "11111111-1111-4111-8111-111111111111"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/CorrelationId"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
+            "$ref": "#/components/parameters/IfMatch"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Synthetic example (not an actual hospital operation)",
+            "headers": {
+              "ETag": {
+                "$ref": "#/components/headers/ETag"
+              },
+              "X-Correlation-ID": {
+                "$ref": "#/components/headers/X-Correlation-ID"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Prescription"
+                },
+                "example": {
+                  "id": "11111111-1111-4111-8111-111111111111",
+                  "organizationId": "11111111-1111-4111-8111-111111111111",
+                  "version": 1,
+                  "updatedAt": "2026-11-13T08:00:00+07:00",
+                  "status": "ordered",
+                  "encounterId": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768",
+                  "patientId": "d2f8ba55-b1d0-4fd3-a95e-3bfca006b7f1",
+                  "items": [
+                    {
+                      "id": "11111111-1111-4111-8111-111111111111",
+                      "medicationCode": {
+                        "system": "https://example.invalid/terminology",
+                        "code": "DEMO"
+                      },
+                      "dose": 1,
+                      "doseUnit": "DEMO",
+                      "route": {
+                        "system": "https://example.invalid/terminology",
+                        "code": "DEMO"
+                      },
+                      "frequency": "DEMO",
+                      "quantity": 1,
+                      "status": "ordered"
+                    }
+                  ],
+                  "prescriberId": "11111111-1111-4111-8111-111111111111"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "MALFORMED_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemV31"
+                },
+                "example": {
+                  "code": "MALFORMED_REQUEST",
+                  "message": "Respons error simulasi MALFORMED_REQUEST",
+                  "details": [],
+                  "correlationId": "a9f0bc36-b553-41c6-b2f0-d8e970b2ae10",
+                  "retryable": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemV31"
+                },
+                "example": {
+                  "code": "UNAUTHENTICATED",
+                  "message": "Respons error simulasi UNAUTHENTICATED",
+                  "details": [],
+                  "correlationId": "a9f0bc36-b553-41c6-b2f0-d8e970b2ae10",
+                  "retryable": false
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemV31"
+                },
+                "example": {
+                  "code": "FORBIDDEN",
+                  "message": "Respons error simulasi FORBIDDEN",
+                  "details": [],
+                  "correlationId": "a9f0bc36-b553-41c6-b2f0-d8e970b2ae10",
+                  "retryable": false
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemV31"
+                },
+                "example": {
+                  "code": "NOT_FOUND",
+                  "message": "Respons error simulasi NOT_FOUND",
+                  "details": [],
+                  "correlationId": "a9f0bc36-b553-41c6-b2f0-d8e970b2ae10",
+                  "retryable": false
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "STATE_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemV31"
+                },
+                "example": {
+                  "code": "STATE_CONFLICT",
+                  "message": "Respons error simulasi STATE_CONFLICT",
+                  "details": [],
+                  "correlationId": "a9f0bc36-b553-41c6-b2f0-d8e970b2ae10",
+                  "retryable": false
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "STALE_VERSION",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemV31"
+                },
+                "example": {
+                  "code": "STALE_VERSION",
+                  "message": "Respons error simulasi STALE_VERSION",
+                  "details": [],
+                  "correlationId": "a9f0bc36-b553-41c6-b2f0-d8e970b2ae10",
+                  "retryable": false
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "BUSINESS_VALIDATION_FAILED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemV31"
+                },
+                "example": {
+                  "code": "BUSINESS_VALIDATION_FAILED",
+                  "message": "Respons error simulasi BUSINESS_VALIDATION_FAILED",
+                  "details": [],
+                  "correlationId": "a9f0bc36-b553-41c6-b2f0-d8e970b2ae10",
+                  "retryable": false
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemV31"
+                },
+                "example": {
+                  "code": "RATE_LIMITED",
+                  "message": "Respons error simulasi RATE_LIMITED",
+                  "details": [],
+                  "correlationId": "a9f0bc36-b553-41c6-b2f0-d8e970b2ae10",
+                  "retryable": true
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemV31"
+                },
+                "example": {
+                  "code": "INTERNAL_ERROR",
+                  "message": "Respons error simulasi INTERNAL_ERROR",
+                  "details": [],
+                  "correlationId": "a9f0bc36-b553-41c6-b2f0-d8e970b2ae10",
+                  "retryable": true
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DEPENDENCY_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemV31"
+                },
+                "example": {
+                  "code": "DEPENDENCY_UNAVAILABLE",
+                  "message": "Respons error simulasi DEPENDENCY_UNAVAILABLE",
+                  "details": [],
+                  "correlationId": "a9f0bc36-b553-41c6-b2f0-d8e970b2ae10",
+                  "retryable": true
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "expectedVersion": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "signReason": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "expectedVersion"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "expectedVersion": 1
               }
             }
           }
@@ -57101,6 +57708,7 @@
           "status": {
             "type": "string",
             "enum": [
+              "draft",
               "ordered",
               "reviewed",
               "partially-dispensed",
@@ -57263,7 +57871,8 @@
         ],
         "x-entity": "shared domain read model",
         "x-auth-scope": "enforce in backend; mock is not security",
-        "x-candidate": true
+        "x-candidate": true,
+        "x-proposal-note": "Draft status is a proposed extension enabling explicit draft/edit/place lifecycle; not in original PRD v3.0 pharmacy states."
       },
       "PrescriptionReview": {
         "type": "object",
@@ -57823,10 +58432,10 @@
   "x-release-status": "candidate; clinical/FE/BE sign-off required",
   "x-architecture": "on-premise Node.js modular monolith, transactional outbox, PostgreSQL, OIDC, async integration adapters",
   "x-compatibility-warning": "Existing list GET operations now use page envelope instead of bare arrays; candidate breaking change.",
-  "x-operation-count": 178,
+  "x-operation-count": 180,
   "x-operation-breakdown": {
     "get": 55,
-    "post": 118,
+    "post": 120,
     "patch": 5,
     "put": 0,
     "delete": 0
