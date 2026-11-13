@@ -7,10 +7,15 @@ import { readFileSync } from 'node:fs';
 import { randomUUID } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { buildHosnexV32Spec } from './scripts/compose-hosnex-v32.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const V31 = process.argv.includes('--v31') || process.env.SIMRS_CONTRACT_VERSION === '3.1';
-const spec = JSON.parse(readFileSync(join(HERE, V31 ? 'openapi-v3.1.json' : 'openapi.json'), 'utf8'));
+const V32 = process.argv.includes('--v32') || process.env.SIMRS_CONTRACT_VERSION === '3.2';
+const V31 = V32 || process.argv.includes('--v31') || process.env.SIMRS_CONTRACT_VERSION === '3.1';
+const baselineSpec = JSON.parse(readFileSync(join(HERE, V31 ? 'openapi-v3.1.json' : 'openapi.json'), 'utf8'));
+const v32Overlay = V32 ? JSON.parse(readFileSync(join(HERE,'contracts/v3.2/hosnex-p0-overlay.json'),'utf8')) : null;
+const spec = V32 ? buildHosnexV32Spec(baselineSpec,v32Overlay) : baselineSpec;
+const overlayOperations = new Set(v32Overlay?.operations.map(x=>x.operationId) ?? []);
 const operations = Object.entries(spec.paths).flatMap(([template, verbs]) =>
   Object.entries(verbs).filter(([verb]) => ['get', 'post', 'put', 'patch', 'delete'].includes(verb))
     .map(([verb, detail]) => ({ template, verb: verb.toUpperCase(), detail,
@@ -24,7 +29,7 @@ const state = () => ({
   patients: [{ patientId, mrn: 'DEMO-MRN-001', name: 'Pasien Simulasi A',
     fullName: 'Pasien Simulasi A', matchScore: 1, identifiers: [{ system: 'MRN', value: 'DEMO-MRN-001' }] }],
   registrations: [], notes: [], orders: [], labResults: [], prescriptions: [], specimens: [], dispenses: [],
-  charges: [], payments: [], encounters: [{ id: encounterId, patientId, status: 'in-progress', unitId }],
+  charges: [], payments: [], clinicalDrafts: [], encounters: [{ id: encounterId, patientId, status: 'in-progress', unitId }],
   idempotency: new Map()
 });
 function json(res, status, value, correlationId, extra = {}) {
@@ -85,12 +90,14 @@ function successResponse(detail) {
   const schema = detail.responses[code]?.content?.['application/json'];
   return { status: Number(code), sample: clone(schema?.example ?? {}) };
 }
-function applyScenario(operationId, body, output, db, requestPath) {
+function applyScenario(operationId, body, output, db, requestPath, search = new URLSearchParams()) {
   const id = randomUUID();
   switch (operationId) {
-    case 'searchPatients':
-      return db.patients.map(p => ({ patientId: p.patientId, matchScore: p.matchScore || 1,
-        identifiers: p.identifiers, fullName: p.fullName, mrn: p.mrn }));
+    case 'searchPatients': {
+      const q=String(search.get('q')||search.get('nik')||search.get('mrn')||'').toLowerCase();
+      return db.patients.filter(p=>!q||[p.fullName,p.mrn,...p.identifiers.map(i=>i.value)].join(' ').toLowerCase().includes(q))
+        .map(p=>({patientId:p.patientId,matchScore:p.matchScore||1,identifiers:p.identifiers,fullName:p.fullName,mrn:p.mrn}));
+    }
     case 'createPatient': {
       const patient = { patientId: id, mrn: 'DEMO-MRN-' + String(db.patients.length + 1).padStart(3, '0'),
         name: body.name, fullName: body.name, matchScore: 1, identifiers: body.identifiers || [] };
@@ -98,30 +105,38 @@ function applyScenario(operationId, body, output, db, requestPath) {
       return { patientId: id, mrn: patient.mrn, possibleMatches: [] };
     }
     case 'listOutpatientWorklist':
-      return db.encounters.map(e => ({ id: e.id, encounterId: e.id, patientId: e.patientId,
-        patientName: 'Pasien Simulasi A', status: e.status, unitId: e.unitId }));
+      return db.encounters.filter(e=>!search.get('unitId')||e.unitId===search.get('unitId'))
+        .map(e=>({id:e.id,encounterId:e.id,patientId:e.patientId,
+          patientName:db.patients.find(p=>p.patientId===e.patientId)?.fullName||'Pasien tidak diketahui',
+          status:e.status,unitId:e.unitId}));
     case 'getEncounterChart': {
       const idFromPath = requestPath.split('/')[4];
       const e = db.encounters.find(x => x.id === idFromPath);
       if (!e) return null;
-      return { encounter: { id: e.id, status: e.status, class: 'outpatient', period: {},
-          unitVisits: [{ unitId: e.unitId, status: 'active' }] },
-        patient: { id: e.patientId, mrn: 'DEMO-MRN-001', fullName: 'Pasien Simulasi A',
-          allergies: [], risks: [] },
-        notes: db.notes.filter(n => n.encounterId === e.id),
-        observations: [], diagnoses: [], orders: db.orders.filter(o => o.encounterId === e.id),
-        prescriptions: db.prescriptions.filter(p => p.encounterId === e.id), careTeam: [] };
+      const p=db.patients.find(x=>x.patientId===e.patientId);
+      return {encounter:{id:e.id,status:e.status,class:'outpatient',period:{},
+          unitVisits:[{unitId:e.unitId,status:'active'}]},
+        patient:{id:e.patientId,mrn:p?.mrn||'',fullName:p?.fullName||'',allergies:[],risks:[]},
+        notes:db.notes.filter(n=>n.encounterId===e.id),observations:[],diagnoses:[],
+        orders:db.orders.filter(o=>o.encounterId===e.id),
+        labReports:db.labResults.filter(r=>r.encounterId===e.id&&r.status==='released'),
+        prescriptions:db.prescriptions.filter(rx=>rx.encounterId===e.id),careTeam:[]};
     }
     case 'createRegistration': {
+      if(!db.patients.some(p=>p.patientId===body.patientId))
+        return {__error:[422,'UNKNOWN_PATIENT','Pasien sintetis tidak ditemukan']};
       const encounter = { id: randomUUID(), patientId: body.patientId, status: 'arrived',
         unitId: body.unitId };
       db.encounters.push(encounter);
-      const reg = { registrationId: id, encounterId: encounter.id, queueTicketId: randomUUID(),
-        status: 'ACTIVE' };
+      const reg = {registrationId:id,encounterId:encounter.id,patientId:body.patientId,unitId:body.unitId,
+        queueTicketId:randomUUID(),queueNumber:'A-'+String(db.registrations.length+1).padStart(3,'0'),
+        payer:body.payer,status:'ACTIVE'};
       db.registrations.push(reg);
       return reg;
     }
     case 'createClinicalNote': {
+      if(!db.encounters.some(e=>e.id===body.encounterId))
+        return {__error:[422,'UNKNOWN_ENCOUNTER','Encounter demo tidak ditemukan']};
       const note = { id, encounterId: body.encounterId, noteType: body.noteType,
         subjective: body.subjective, objective: body.objective,
         assessment: body.assessment, plan: body.plan, status: 'draft', version: 1 };
@@ -137,6 +152,8 @@ function applyScenario(operationId, body, output, db, requestPath) {
       return { id: noteId, status: 'signed', signedAt: new Date().toISOString() };
     }
     case 'createServiceOrder': {
+      if(!db.encounters.some(e=>e.id===body.encounterId))
+        return {__error:[422,'UNKNOWN_ENCOUNTER','Encounter demo tidak ditemukan']};
       const order = { id, encounterId: body.encounterId,
         category: body.category || 'LAB', serviceCode: body.serviceCode, status: 'placed' };
       db.orders.push(order);
@@ -160,6 +177,8 @@ function applyScenario(operationId, body, output, db, requestPath) {
       return { id: result.id, status: 'verified' };
     }
     case 'createPrescription': {
+      if(!db.encounters.some(e=>e.id===body.encounterId))
+        return {__error:[422,'UNKNOWN_ENCOUNTER','Encounter demo tidak ditemukan']};
       db.prescriptions.push({ id, encounterId: body.encounterId, status: 'ordered',
         items: body.items || [] });
       return { id, status: 'ordered' };
@@ -194,8 +213,8 @@ function applyScenario(operationId, body, output, db, requestPath) {
  * dispensing, ledger posting, or national system communication. The demo state
  * covers select WF-01/WF-02/WF-05/WF-07 edges, not production domain execution.
  */
-function applyV31(operation, body, output, db, requestPath) {
-  if (!V31) return applyScenario(operation.detail.operationId, body, output, db, requestPath);
+function applyV31(operation, body, output, db, requestPath, search) {
+  if (!V31) return applyScenario(operation.detail.operationId, body, output, db, requestPath, search);
   const op = operation.detail.operationId;
   const id = requestPath.split('/').filter(Boolean).find(s => /^[0-9a-f-]{36}$/i.test(s));
   const error = (status, code, message) => ({ __error: [status, code, message] });
@@ -364,7 +383,36 @@ function applyV31(operation, body, output, db, requestPath) {
       if(!disp)return error(404,'DISPENSE_NOT_FOUND','Catatan dispensing demo tidak ditemukan');
       return entity(output,{id:randomUUID(),dispenseId:id,reason:body.reason,lines:body.lines,status:'pending-review',postedMovementIds:[]});
     }
-    default: return applyScenario(op,body,output,db,requestPath);
+    default: return applyScenario(op,body,output,db,requestPath,search);
+  }
+}
+function applyV32(operation, body, output, db, requestPath, search) {
+  const op=operation.detail.operationId;
+  if(!V32 || !overlayOperations.has(op))return applyV31(operation,body,output,db,requestPath,search);
+  const error=(status,code,message)=>({__error:[status,code,message]});
+  switch(op){
+    case 'listUnitPractitioners':
+      return {items:[{practitionerId:unitId,displayName:'Dokter Demo Poli'}]};
+    case 'checkBPJSEligibility': {
+      if(!db.patients.some(p=>p.patientId===body.patientId))
+        return error(422,'UNKNOWN_PATIENT','Pasien sintetis tidak ditemukan');
+      return {eligibilityCheckId:randomUUID(),status:'ELIGIBLE',checkedAt:new Date().toISOString()};
+    }
+    case 'saveCompositeEncounterDraft': {
+      const target=requestPath.split('/')[4];
+      if(!db.encounters.some(e=>e.id===target))return error(404,'ENCOUNTER_NOT_FOUND','Encounter tidak ditemukan');
+      if(db.notes.some(n=>n.encounterId===target&&n.status==='signed'))
+        return error(409,'SIGNED_NOTE_IMMUTABLE','Draft tidak boleh mengubah catatan signed');
+      const previous=db.clinicalDrafts.find(d=>d.encounterId===target);
+      const version=previous?.version||1;
+      if(body.expectedVersion!==version)return error(412,'STALE_VERSION','Versi draft demo berbeda');
+      if(previous){previous.version++;previous.body=structuredClone(body);}
+      else db.clinicalDrafts.push({encounterId:target,version:2,body:structuredClone(body)});
+      return {encounterId:target,version:version+1,status:'draft'};
+    }
+    default:
+      return error(501,'SCENARIO_NOT_IMPLEMENTED',
+        'Operation kontrak v3.2 ini masih proposal; belum ada mock stateful yang valid');
   }
 }
 function normalizeV31Response(operation, value, status) {
@@ -403,8 +451,8 @@ export function createMockServer() {
       return json(res, 200, { service: 'simrs-api', mode: 'synthetic-mock',
         operations: operations.length, status: 'ok' }, correlationId);
     }
-    if (url.pathname === '/openapi.json' || url.pathname === '/openapi-v3.1.json' || url.pathname === '/contracts/operations.json') {
-      return json(res, 200, url.pathname === '/openapi.json' ? spec : url.pathname === '/openapi-v3.1.json' ? JSON.parse(readFileSync(join(HERE,'openapi-v3.1.json'),'utf8')) :
+    if (url.pathname === '/openapi.json' || url.pathname === '/openapi-v3.1.json' || url.pathname === '/openapi-v3.2.json' || url.pathname === '/contracts/operations.json') {
+      return json(res, 200, url.pathname === '/openapi.json' || url.pathname === '/openapi-v3.2.json' ? spec : url.pathname === '/openapi-v3.1.json' ? JSON.parse(readFileSync(join(HERE,'openapi-v3.1.json'),'utf8')) :
         JSON.parse(readFileSync(join(HERE, 'contracts/operations.json'), 'utf8')), correlationId);
     }
     if (url.pathname === '/' || url.pathname === '/docs' || url.pathname === '/docs/') {
@@ -449,7 +497,7 @@ export function createMockServer() {
         return json(res, previous.status, previous.result, correlationId, { 'X-Idempotent-Replay': 'true' });
       }
       const { status, sample } = successResponse(operation.detail);
-      let result = applyV31(operation, body, sample, db, url.pathname);
+      let result = applyV32(operation, body, sample, db, url.pathname, url.searchParams);
       if (result?.__error) {
         const [code, errorCode, message] = result.__error;
         return json(res, code, problem(errorCode, message, correlationId), correlationId);
@@ -462,7 +510,10 @@ export function createMockServer() {
       return json(res, status, result, correlationId);
     }
     const { status, sample } = successResponse(operation.detail);
-    const result = normalizeV31Response(operation,applyV31(operation, {}, sample, db, url.pathname),status);
+    const response=applyV32(operation,{},sample,db,url.pathname,url.searchParams);
+    if(response?.__error){const [code,errorCode,message]=response.__error;
+      return json(res,code,problem(errorCode,message,correlationId),correlationId);}
+    const result = normalizeV31Response(operation,response,status);
     if (result === null) return json(res, 404,
       problem('NOT_FOUND', 'Objek demo tidak ada dalam scope', correlationId), correlationId);
     return json(res, status, result, correlationId);
@@ -471,5 +522,5 @@ export function createMockServer() {
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const port = Number(process.env.PORT || 4010);
   createMockServer().listen(port, '127.0.0.1', () =>
-    console.log('SIMRS synthetic API mock: http://127.0.0.1:' + port + '/docs (' + operations.length + ' operations; '+(V31?'v3.1':'v3.0')+')'));
+    console.log('SIMRS synthetic API mock: http://127.0.0.1:' + port + '/docs (' + operations.length + ' operations; '+(V32?'v3.2':V31?'v3.1':'v3.0')+')'));
 }
