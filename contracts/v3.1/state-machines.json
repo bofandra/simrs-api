@@ -1,0 +1,484 @@
+{
+  "version": "3.1.0-candidate.1",
+  "stateMachines": [
+    {
+      "resource": "Appointment",
+      "module": "M01",
+      "source": "PRD M01 state; no-show inferred from WF-01",
+      "states": [
+        "booked",
+        "rescheduled",
+        "cancelled",
+        "no-show"
+      ],
+      "transitions": [
+        {
+          "from": "booked",
+          "to": "rescheduled",
+          "operationId": "rescheduleAppointment",
+          "guard": "slot available and atomic capacity lock",
+          "sideEffects": "slot change event, audit",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "booked",
+          "to": "cancelled",
+          "operationId": "cancelAppointment",
+          "guard": "reason and version valid",
+          "sideEffects": "capacity release, audit",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "rescheduled",
+          "to": "cancelled",
+          "operationId": "cancelAppointment",
+          "guard": "reason and version valid",
+          "sideEffects": "capacity release, audit",
+          "requiresVersion": true,
+          "requiresAudit": true
+        }
+      ],
+      "enforcement": "backend-transactional; mock assertions are representative only"
+    },
+    {
+      "resource": "Registration",
+      "module": "M01",
+      "source": "PRD M01 and FR-006",
+      "states": [
+        "active",
+        "voided"
+      ],
+      "transitions": [
+        {
+          "from": "active",
+          "to": "voided",
+          "operationId": "voidRegistration",
+          "guard": "authorized reason and no unauthorized downstream encounter state",
+          "sideEffects": "audit; not destructive delete",
+          "requiresVersion": true,
+          "requiresAudit": true
+        }
+      ],
+      "enforcement": "backend-transactional; mock assertions are representative only"
+    },
+    {
+      "resource": "QueueTicket",
+      "module": "M01",
+      "source": "PRD M01 queue state",
+      "states": [
+        "waiting",
+        "called",
+        "in-service",
+        "done"
+      ],
+      "transitions": [
+        {
+          "from": "waiting",
+          "to": "called",
+          "operationId": "callQueue",
+          "guard": "authorized counter, ticket belongs to unit/date",
+          "sideEffects": "record calledAt",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "called",
+          "to": "in-service",
+          "operationId": "startQueueService",
+          "guard": "registration active",
+          "sideEffects": "record serviceStartedAt",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "in-service",
+          "to": "done",
+          "operationId": "completeQueueService",
+          "guard": "service legitimately concluded",
+          "sideEffects": "record completedAt",
+          "requiresVersion": true,
+          "requiresAudit": true
+        }
+      ],
+      "enforcement": "backend-transactional; mock assertions are representative only"
+    },
+    {
+      "resource": "Encounter",
+      "module": "M02",
+      "source": "PRD FR-006, M02, WF-02",
+      "states": [
+        "planned",
+        "arrived",
+        "in-progress",
+        "completed",
+        "cancelled"
+      ],
+      "transitions": [
+        {
+          "from": "arrived",
+          "to": "in-progress",
+          "operationId": "startOutpatientEncounter",
+          "guard": "right patient, active registration, relation-to-care",
+          "sideEffects": "record startedAt",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "in-progress",
+          "to": "completed",
+          "operationId": "completeOutpatientEncounter",
+          "guard": "signed mandatory notes, checklist complete, no blocking safety requirements",
+          "sideEffects": "record completedAt and local outbox event (no external ACK assumption)",
+          "requiresVersion": true,
+          "requiresAudit": true
+        }
+      ],
+      "enforcement": "backend-transactional; mock assertions are representative only"
+    },
+    {
+      "resource": "ClinicalNote",
+      "module": "M05",
+      "source": "PRD FR-009/013, M05, WF-02",
+      "states": [
+        "draft",
+        "signed",
+        "amended"
+      ],
+      "transitions": [
+        {
+          "from": "draft",
+          "to": "draft",
+          "operationId": "updateClinicalNoteDraft",
+          "guard": "If-Match and author/assignment; never mutate signed note",
+          "sideEffects": "increment version and audit",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "draft",
+          "to": "signed",
+          "operationId": "signClinicalNote",
+          "guard": "signer credential and required content, auth and consent gates",
+          "sideEffects": "immutable signed version + hash",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "signed",
+          "to": "amended",
+          "operationId": "addClinicalAddendum",
+          "guard": "reason and signed addendum reference",
+          "sideEffects": "append new version; preserve old signed content",
+          "requiresVersion": true,
+          "requiresAudit": true
+        }
+      ],
+      "enforcement": "backend-transactional; mock assertions are representative only"
+    },
+    {
+      "resource": "ServiceOrder",
+      "module": "M05",
+      "source": "PRD FR-016, M05/WF-05",
+      "states": [
+        "draft",
+        "placed",
+        "accepted",
+        "in-process",
+        "completed",
+        "cancelled"
+      ],
+      "transitions": [
+        {
+          "from": "placed",
+          "to": "accepted",
+          "operationId": "acceptServiceOrder",
+          "guard": "accepted performing unit; valid service code",
+          "sideEffects": "emit order accepted domain event",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "placed",
+          "to": "cancelled",
+          "operationId": "cancelServiceOrder",
+          "guard": "reason and authorized before downstream execution",
+          "sideEffects": "audit cancel",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "accepted",
+          "to": "cancelled",
+          "operationId": "cancelServiceOrder",
+          "guard": "compensation policy if specimen/work already started",
+          "sideEffects": "compensation event; no silent deletion",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "accepted",
+          "to": "in-process",
+          "operationId": "submitLabResults",
+          "guard": "valid accepted order and specimen",
+          "sideEffects": "link laboratory processing",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "in-process",
+          "to": "completed",
+          "operationId": "releaseLabReport",
+          "guard": "report verified and release conditions met",
+          "sideEffects": "link report to encounter",
+          "requiresVersion": true,
+          "requiresAudit": true
+        }
+      ],
+      "enforcement": "backend-transactional; mock assertions are representative only"
+    },
+    {
+      "resource": "Specimen",
+      "module": "M09",
+      "source": "PRD FR-017 and WF-05",
+      "states": [
+        "ordered",
+        "collected",
+        "received",
+        "processed",
+        "rejected"
+      ],
+      "transitions": [
+        {
+          "from": "ordered",
+          "to": "collected",
+          "operationId": "collectLabSpecimen",
+          "guard": "barcode order patient match and valid collector",
+          "sideEffects": "capture collectedAt",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "collected",
+          "to": "received",
+          "operationId": "receiveSpecimen",
+          "guard": "barcode and condition match, authorized receiver",
+          "sideEffects": "capture receivedAt",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "collected",
+          "to": "rejected",
+          "operationId": "rejectLabSpecimen",
+          "guard": "reason required, prevent further result release",
+          "sideEffects": "flag recollection required",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "received",
+          "to": "rejected",
+          "operationId": "rejectLabSpecimen",
+          "guard": "reason required, notify ordering context",
+          "sideEffects": "block verify/release",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "received",
+          "to": "processed",
+          "operationId": "submitLabResults",
+          "guard": "analytes valid, accepted sample, no wrong patient",
+          "sideEffects": "draft results available",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "rejected",
+          "to": "ordered",
+          "operationId": "recollectLabSpecimen",
+          "guard": "new specimen linked, preserve rejected history",
+          "sideEffects": "new barcode required; previous specimen retained",
+          "requiresVersion": true,
+          "requiresAudit": true
+        }
+      ],
+      "enforcement": "backend-transactional; mock assertions are representative only"
+    },
+    {
+      "resource": "LabReport",
+      "module": "M09",
+      "source": "PRD FR-017/051; WF-05",
+      "states": [
+        "draft",
+        "verified",
+        "released",
+        "amended"
+      ],
+      "transitions": [
+        {
+          "from": "draft",
+          "to": "verified",
+          "operationId": "verifyLabReport",
+          "guard": "specimen not rejected, all required analytes completed, validator authorization",
+          "sideEffects": "immutable verified version",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "verified",
+          "to": "released",
+          "operationId": "releaseLabReport",
+          "guard": "approved release policy and critical communication evidence when required",
+          "sideEffects": "visible on chart; outbox event",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "released",
+          "to": "amended",
+          "operationId": "createLabReportAmendment",
+          "guard": "reason and traceable corrected version",
+          "sideEffects": "new version, prior version immutable",
+          "requiresVersion": true,
+          "requiresAudit": true
+        }
+      ],
+      "enforcement": "backend-transactional; mock assertions are representative only"
+    },
+    {
+      "resource": "CriticalAlert",
+      "module": "M09",
+      "source": "PRD FR-051; proposed granular critical reporting",
+      "states": [
+        "raised",
+        "communicated",
+        "acknowledged",
+        "escalated"
+      ],
+      "transitions": [
+        {
+          "from": "raised",
+          "to": "communicated",
+          "operationId": "verifyLabReport",
+          "guard": "recipient contact evidence",
+          "sideEffects": "record communication",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "communicated",
+          "to": "acknowledged",
+          "operationId": "acknowledgeCriticalLabResult",
+          "guard": "recipient identity, timestamp, read-back evidence",
+          "sideEffects": "persist acknowledgement and audit",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "raised",
+          "to": "escalated",
+          "operationId": "acknowledgeCriticalLabResult",
+          "guard": "timeout/failed contact requires escalation protocol",
+          "sideEffects": "review queue; no fake ack",
+          "requiresVersion": true,
+          "requiresAudit": true
+        }
+      ],
+      "enforcement": "backend-transactional; mock assertions are representative only"
+    },
+    {
+      "resource": "Prescription",
+      "module": "M11",
+      "source": "PRD FR-020, M11 and WF-07",
+      "states": [
+        "ordered",
+        "reviewed",
+        "partially-dispensed",
+        "dispensed",
+        "cancelled"
+      ],
+      "transitions": [
+        {
+          "from": "ordered",
+          "to": "reviewed",
+          "operationId": "reviewPrescription",
+          "guard": "pharmacist review, allergy and interaction checks",
+          "sideEffects": "record decision and review",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "reviewed",
+          "to": "partially-dispensed",
+          "operationId": "dispensePrescription",
+          "guard": "qty<=outstanding; valid lot/expiry; verified receiver",
+          "sideEffects": "sourceEvent-linked dispense and ledger",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "reviewed",
+          "to": "dispensed",
+          "operationId": "dispensePrescription",
+          "guard": "qty<=outstanding; valid lot/expiry; FEFO",
+          "sideEffects": "dispense event and stock movement once",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "ordered",
+          "to": "cancelled",
+          "operationId": "cancelPrescription",
+          "guard": "no dispenses or compensation policy",
+          "sideEffects": "audit",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "reviewed",
+          "to": "cancelled",
+          "operationId": "cancelPrescription",
+          "guard": "no dispenses or compensation policy",
+          "sideEffects": "audit",
+          "requiresVersion": true,
+          "requiresAudit": true
+        }
+      ],
+      "enforcement": "backend-transactional; mock assertions are representative only"
+    },
+    {
+      "resource": "MedicationAdministration",
+      "module": "M11",
+      "source": "PRD FR-021; M11",
+      "states": [
+        "scheduled",
+        "given",
+        "not-given"
+      ],
+      "transitions": [
+        {
+          "from": "scheduled",
+          "to": "given",
+          "operationId": "recordMedicationAdministration",
+          "guard": "patient and drug barcode, order, dose, time and authorized nurse match",
+          "sideEffects": "eMAR event",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "scheduled",
+          "to": "not-given",
+          "operationId": "recordMedicationNotGiven",
+          "guard": "coded reason and documented time",
+          "sideEffects": "eMAR event, no dispense reversal automatically",
+          "requiresVersion": true,
+          "requiresAudit": true
+        }
+      ],
+      "enforcement": "backend-transactional; mock assertions are representative only"
+    }
+  ]
+}
