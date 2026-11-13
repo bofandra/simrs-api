@@ -35,7 +35,7 @@ test('v3.2 overlay is discoverable as 199 review-only operations without alterin
 test('same patient and encounter propagate across HTTP registration, clinical, lab and pharmacy demo',async()=>withServer(async base=>{
   let r=await send(base,'/api/v1/patients',{
     identifiers:[{system:'MRN',value:'DEMO-2026-001'}],name:'Pasien E2E Sintetis',birthDate:'1990-02-01',
-    gender:'female',addresses:[{text:'Alamat simulasi'}],contacts:[]
+    gender:'female',addresses:[{province:'32',district:'3275',subDistrict:'327503',village:'3275031001',line:'Jalan Simulasi No. 1'}],contactPhones:[]
   });
   assert.equal(r.status,201);const patientId=r.data.patientId;assert(r.data.mrn);
   const filtered=await get(base,'/api/v1/patients?q=Pasien%20E2E');
