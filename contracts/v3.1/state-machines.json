@@ -394,6 +394,7 @@
       "module": "M11",
       "source": "PRD FR-020, M11 and WF-07",
       "states": [
+        "draft",
         "ordered",
         "reviewed",
         "partially-dispensed",
@@ -401,6 +402,24 @@
         "cancelled"
       ],
       "transitions": [
+        {
+          "from": "draft",
+          "to": "draft",
+          "operationId": "updatePrescriptionDraft",
+          "guard": "author authorization and If-Match; no editing ordered prescriptions",
+          "sideEffects": "increment draft version and audit",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
+        {
+          "from": "draft",
+          "to": "ordered",
+          "operationId": "placePrescription",
+          "guard": "authorized prescriber, clinical allergy checks, signed order intent",
+          "sideEffects": "record signed order evidence; no dispensing and no stock movement",
+          "requiresVersion": true,
+          "requiresAudit": true
+        },
         {
           "from": "ordered",
           "to": "reviewed",
