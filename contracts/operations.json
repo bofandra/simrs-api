@@ -1,0 +1,1542 @@
+{
+  "source": {
+    "title": "PRD_SIMRS_Baru_v3.0_Lengkap_Mandiri_2026-11-12.docx",
+    "url": "https://docs.google.com/document/d/1NzQ6ryYk8Jqat-nqI-Nbyjbx1inSn-ss/edit",
+    "version": "3.0",
+    "date": "2026-11-12"
+  },
+  "contractStatus": "candidate; synthetic mock, not approved production API",
+  "operations": [
+    {
+      "module": "M01",
+      "moduleName": "Pendaftaran, Janji Temu & Antrean",
+      "operationId": "searchPatients",
+      "method": "GET",
+      "path": "/api/v1/patients",
+      "permission": "patient.read",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "q, birthDate?, nik?, mrn?",
+      "responseSpec": "PatientCandidate[]{patientId,matchScore,identifiers}"
+    },
+    {
+      "module": "M01",
+      "moduleName": "Pendaftaran, Janji Temu & Antrean",
+      "operationId": "createPatient",
+      "method": "POST",
+      "path": "/api/v1/patients",
+      "permission": "patient.create",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        409,
+        422
+      ],
+      "requestSpec": "identifiers,name,birthDate,gender,addresses,contacts",
+      "responseSpec": "Patient{patientId,mrn,possibleMatches}"
+    },
+    {
+      "module": "M01",
+      "moduleName": "Pendaftaran, Janji Temu & Antrean",
+      "operationId": "reviewPatientMatch",
+      "method": "POST",
+      "path": "/api/v1/patients/matches/reviews",
+      "permission": "mpi.review",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        409
+      ],
+      "requestSpec": "candidateIds,decision,reason",
+      "responseSpec": "MatchReview{id,status}"
+    },
+    {
+      "module": "M01",
+      "moduleName": "Pendaftaran, Janji Temu & Antrean",
+      "operationId": "listAppointments",
+      "method": "GET",
+      "path": "/api/v1/appointments",
+      "permission": "appointment.read",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "unitId,date,doctorId,status",
+      "responseSpec": "Appointment[]"
+    },
+    {
+      "module": "M01",
+      "moduleName": "Pendaftaran, Janji Temu & Antrean",
+      "operationId": "bookAppointment",
+      "method": "POST",
+      "path": "/api/v1/appointments",
+      "permission": "appointment.write",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        409
+      ],
+      "requestSpec": "patientId,doctorId,unitId,slotId,payerId",
+      "responseSpec": "Appointment{id,bookingNumber,status}"
+    },
+    {
+      "module": "M01",
+      "moduleName": "Pendaftaran, Janji Temu & Antrean",
+      "operationId": "createRegistration",
+      "method": "POST",
+      "path": "/api/v1/registrations",
+      "permission": "registration.create",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        409
+      ],
+      "requestSpec": "patientId,serviceType,unitId,payer,appointmentId?",
+      "responseSpec": "Registration{registrationId,encounterId,queueTicketId}"
+    },
+    {
+      "module": "M01",
+      "moduleName": "Pendaftaran, Janji Temu & Antrean",
+      "operationId": "callQueue",
+      "method": "POST",
+      "path": "/api/v1/queues/tickets/{id}/call",
+      "permission": "queue.call",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200,
+        409
+      ],
+      "requestSpec": "counterId,callAt",
+      "responseSpec": "QueueTicket{id,status,calledAt}"
+    },
+    {
+      "module": "M01",
+      "moduleName": "Pendaftaran, Janji Temu & Antrean",
+      "operationId": "printRegistration",
+      "method": "GET",
+      "path": "/api/v1/registrations/{id}/documents",
+      "permission": "registration.read",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "type=card/label/visit",
+      "responseSpec": "Document{documentId,downloadUrl}"
+    },
+    {
+      "module": "M02",
+      "moduleName": "Rawat Jalan",
+      "operationId": "listOutpatientWorklist",
+      "method": "GET",
+      "path": "/api/v1/outpatient/worklist",
+      "permission": "encounter.read",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "unitId,date,doctorId,status",
+      "responseSpec": "EncounterWorklistItem[]"
+    },
+    {
+      "module": "M02",
+      "moduleName": "Rawat Jalan",
+      "operationId": "getEncounterChart",
+      "method": "GET",
+      "path": "/api/v1/encounters/{id}/chart",
+      "permission": "chart.read",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "include=notes,allergies,observations,orders",
+      "responseSpec": "PatientChart{patient,encounter,timeline}"
+    },
+    {
+      "module": "M02",
+      "moduleName": "Rawat Jalan",
+      "operationId": "completeOutpatientEncounter",
+      "method": "POST",
+      "path": "/api/v1/encounters/{id}/complete",
+      "permission": "encounter.complete",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200,
+        409,
+        422
+      ],
+      "requestSpec": "checklist,disposition,summaryId",
+      "responseSpec": "Encounter{id,status,completedAt}"
+    },
+    {
+      "module": "M03",
+      "moduleName": "Instalasi Gawat Darurat",
+      "operationId": "createEmergencyTriage",
+      "method": "POST",
+      "path": "/api/v1/emergency/triages",
+      "permission": "emergency.triage",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        422
+      ],
+      "requestSpec": "patientId?,emergencyEncounterId,priority,vitals,arrivalAt",
+      "responseSpec": "Triage{id,priority,status}"
+    },
+    {
+      "module": "M03",
+      "moduleName": "Instalasi Gawat Darurat",
+      "operationId": "recordEmergencyIntervention",
+      "method": "POST",
+      "path": "/api/v1/emergency/interventions",
+      "permission": "emergency.act",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        409
+      ],
+      "requestSpec": "encounterId,procedureCode,performedAt,performer,materials?",
+      "responseSpec": "Intervention{id,status}"
+    },
+    {
+      "module": "M03",
+      "moduleName": "Instalasi Gawat Darurat",
+      "operationId": "recordEncounterConsumables",
+      "method": "POST",
+      "path": "/api/v1/encounters/{id}/consumables",
+      "permission": "emergency.act",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        409
+      ],
+      "requestSpec": "itemId,quantity,uom,locationId,procedureId",
+      "responseSpec": "ConsumableUse{id,postingStatus}"
+    },
+    {
+      "module": "M03",
+      "moduleName": "Instalasi Gawat Darurat",
+      "operationId": "reassessEmergency",
+      "method": "POST",
+      "path": "/api/v1/emergency/triages/{id}/reassess",
+      "permission": "emergency.triage",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "priority,vitals,reason,assessedAt",
+      "responseSpec": "TriageReassessment{id}"
+    },
+    {
+      "module": "M03",
+      "moduleName": "Instalasi Gawat Darurat",
+      "operationId": "confirmEmergencyDisposition",
+      "method": "POST",
+      "path": "/api/v1/emergency/encounters/{id}/disposition",
+      "permission": "emergency.disposition",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200,
+        422
+      ],
+      "requestSpec": "type,reason,targetUnitId?,referralId?",
+      "responseSpec": "Disposition{id,status,handoverId?}"
+    },
+    {
+      "module": "M04",
+      "moduleName": "Rawat Inap & Manajemen Tempat Tidur",
+      "operationId": "listBeds",
+      "method": "GET",
+      "path": "/api/v1/beds",
+      "permission": "bed.read",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "unitId,wardId,class,status",
+      "responseSpec": "Bed[]{bedId,status,occupancyVersion}"
+    },
+    {
+      "module": "M04",
+      "moduleName": "Rawat Inap & Manajemen Tempat Tidur",
+      "operationId": "createAdmission",
+      "method": "POST",
+      "path": "/api/v1/admissions",
+      "permission": "admission.create",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        409
+      ],
+      "requestSpec": "encounterId,fromUnitId,toUnitId,bedId,dpjpId",
+      "responseSpec": "Admission{id,bedAssignmentId,status}"
+    },
+    {
+      "module": "M04",
+      "moduleName": "Rawat Inap & Manajemen Tempat Tidur",
+      "operationId": "transferAdmission",
+      "method": "POST",
+      "path": "/api/v1/admissions/{id}/transfers",
+      "permission": "admission.transfer",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        409
+      ],
+      "requestSpec": "toUnitId,toBedId,handover,reason",
+      "responseSpec": "Transfer{id,status}"
+    },
+    {
+      "module": "M04",
+      "moduleName": "Rawat Inap & Manajemen Tempat Tidur",
+      "operationId": "completeDischarge",
+      "method": "POST",
+      "path": "/api/v1/admissions/{id}/discharge",
+      "permission": "admission.discharge",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200,
+        422
+      ],
+      "requestSpec": "diagnosisIds,summaryId,education,medicationReconciliationId",
+      "responseSpec": "Discharge{id,status,releasedBedId}"
+    },
+    {
+      "module": "M05",
+      "moduleName": "Rekam Medis & Dokumentasi Klinis",
+      "operationId": "createClinicalNote",
+      "method": "POST",
+      "path": "/api/v1/clinical/notes",
+      "permission": "clinical.note.write",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "encounterId,noteType,subjective,objective,assessment,plan",
+      "responseSpec": "ClinicalNote{id,status=draft,version}"
+    },
+    {
+      "module": "M05",
+      "moduleName": "Rekam Medis & Dokumentasi Klinis",
+      "operationId": "signClinicalNote",
+      "method": "POST",
+      "path": "/api/v1/clinical/notes/{id}/sign",
+      "permission": "clinical.note.sign",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200,
+        409
+      ],
+      "requestSpec": "version,signReason?,signatureContext",
+      "responseSpec": "ClinicalNote{id,status=signed,signedAt}"
+    },
+    {
+      "module": "M05",
+      "moduleName": "Rekam Medis & Dokumentasi Klinis",
+      "operationId": "addClinicalAddendum",
+      "method": "POST",
+      "path": "/api/v1/clinical/notes/{id}/addenda",
+      "permission": "clinical.note.amend",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "reason,text,relatedVersion",
+      "responseSpec": "Addendum{id,signatureStatus}"
+    },
+    {
+      "module": "M05",
+      "moduleName": "Rekam Medis & Dokumentasi Klinis",
+      "operationId": "recordObservation",
+      "method": "POST",
+      "path": "/api/v1/clinical/observations",
+      "permission": "clinical.observation.write",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        422
+      ],
+      "requestSpec": "encounterId,code,value,unit,observedAt,performerId",
+      "responseSpec": "Observation{id,status}"
+    },
+    {
+      "module": "M05",
+      "moduleName": "Rekam Medis & Dokumentasi Klinis",
+      "operationId": "recordDiagnosis",
+      "method": "POST",
+      "path": "/api/v1/clinical/diagnoses",
+      "permission": "clinical.diagnosis.write",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        422
+      ],
+      "requestSpec": "encounterId,codeSystem,code,kind,status,onset",
+      "responseSpec": "Diagnosis{id,status}"
+    },
+    {
+      "module": "M05",
+      "moduleName": "Rekam Medis & Dokumentasi Klinis",
+      "operationId": "createServiceOrder",
+      "method": "POST",
+      "path": "/api/v1/orders",
+      "permission": "order.create",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        422
+      ],
+      "requestSpec": "encounterId,serviceCode,urgency,indication,targetUnitId",
+      "responseSpec": "ServiceOrder{id,status=placed}"
+    },
+    {
+      "module": "M05",
+      "moduleName": "Rekam Medis & Dokumentasi Klinis",
+      "operationId": "createCarePlan",
+      "method": "POST",
+      "path": "/api/v1/clinical/care-plans",
+      "permission": "careplan.write",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "encounterId,goals,interventions,team",
+      "responseSpec": "CarePlan{id,status}"
+    },
+    {
+      "module": "M05",
+      "moduleName": "Rekam Medis & Dokumentasi Klinis",
+      "operationId": "createReferral",
+      "method": "POST",
+      "path": "/api/v1/referrals",
+      "permission": "referral.create",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "encounterId,target,indication,handoverDocumentId",
+      "responseSpec": "Referral{id,localStatus,externalStatus}"
+    },
+    {
+      "module": "M05",
+      "moduleName": "Rekam Medis & Dokumentasi Klinis",
+      "operationId": "issueMedicalCertificate",
+      "method": "POST",
+      "path": "/api/v1/clinical/certificates",
+      "permission": "certificate.issue",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        422
+      ],
+      "requestSpec": "encounterId,templateId,reason,signerId",
+      "responseSpec": "MedicalCertificate{id,status,number}"
+    },
+    {
+      "module": "M06",
+      "moduleName": "Keperawatan",
+      "operationId": "saveNursingAssessment",
+      "method": "POST",
+      "path": "/api/v1/nursing/assessments",
+      "permission": "nursing.assess",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "encounterId,shiftId,physiological,psychological,social,spiritual,risk",
+      "responseSpec": "NursingAssessment{id,status}"
+    },
+    {
+      "module": "M06",
+      "moduleName": "Keperawatan",
+      "operationId": "createNursingPlan",
+      "method": "POST",
+      "path": "/api/v1/nursing/care-plans",
+      "permission": "nursing.plan",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "encounterId,diagnoses,goals,interventions",
+      "responseSpec": "NursingPlan{id,status}"
+    },
+    {
+      "module": "M06",
+      "moduleName": "Keperawatan",
+      "operationId": "recordNursingAction",
+      "method": "POST",
+      "path": "/api/v1/nursing/actions",
+      "permission": "nursing.act",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "patientId,encounterId,interventionId,performedAt,result",
+      "responseSpec": "NursingAction{id,status}"
+    },
+    {
+      "module": "M06",
+      "moduleName": "Keperawatan",
+      "operationId": "handoverShift",
+      "method": "POST",
+      "path": "/api/v1/nursing/handovers",
+      "permission": "nursing.handover",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "fromShiftId,toShiftId,patients,risks,pendingTasks",
+      "responseSpec": "Handover{id,status=pending-acceptance}"
+    },
+    {
+      "module": "M07",
+      "moduleName": "Kamar Operasi & Anestesi",
+      "operationId": "createSurgeryCase",
+      "method": "POST",
+      "path": "/api/v1/surgery/cases",
+      "permission": "surgery.schedule",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "patientId,encounterId,procedure,team,room,scheduledAt",
+      "responseSpec": "SurgeryCase{id,status}"
+    },
+    {
+      "module": "M07",
+      "moduleName": "Kamar Operasi & Anestesi",
+      "operationId": "completeSurgeryChecklist",
+      "method": "POST",
+      "path": "/api/v1/surgery/cases/{id}/checklist",
+      "permission": "surgery.checklist",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200,
+        422
+      ],
+      "requestSpec": "phase,items,confirmedBy,confirmedAt",
+      "responseSpec": "SafetyChecklist{phase,status}"
+    },
+    {
+      "module": "M07",
+      "moduleName": "Kamar Operasi & Anestesi",
+      "operationId": "recordAnesthesia",
+      "method": "POST",
+      "path": "/api/v1/anesthesia/records",
+      "permission": "anesthesia.write",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "surgeryCaseId,events,medications,vitals,performer",
+      "responseSpec": "AnesthesiaRecord{id,status}"
+    },
+    {
+      "module": "M07",
+      "moduleName": "Kamar Operasi & Anestesi",
+      "operationId": "releasePACU",
+      "method": "POST",
+      "path": "/api/v1/anesthesia/recoveries/{id}/release",
+      "permission": "anesthesia.release",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200,
+        422
+      ],
+      "requestSpec": "score,vitals,receiver,destination",
+      "responseSpec": "Recovery{id,status=released}"
+    },
+    {
+      "module": "M08",
+      "moduleName": "Pelayanan Khusus",
+      "operationId": "recordDialysisSession",
+      "method": "POST",
+      "path": "/api/v1/dialysis/sessions",
+      "permission": "dialysis.write",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "encounterId,prescriptionId,access,monitoring,performedAt",
+      "responseSpec": "DialysisSession{id,status}"
+    },
+    {
+      "module": "M08",
+      "moduleName": "Pelayanan Khusus",
+      "operationId": "recordRehabSession",
+      "method": "POST",
+      "path": "/api/v1/rehabilitation/sessions",
+      "permission": "rehab.write",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "encounterId,planId,performedAt,assessment,outcome",
+      "responseSpec": "RehabSession{id,status}"
+    },
+    {
+      "module": "M08",
+      "moduleName": "Pelayanan Khusus",
+      "operationId": "createMCUPackage",
+      "method": "POST",
+      "path": "/api/v1/mcu/episodes",
+      "permission": "mcu.write",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "patientId,packageId,componentOrders",
+      "responseSpec": "MCUEpisode{id,items,status}"
+    },
+    {
+      "module": "M08",
+      "moduleName": "Pelayanan Khusus",
+      "operationId": "requestTransfusion",
+      "method": "POST",
+      "path": "/api/v1/transfusions",
+      "permission": "transfusion.order",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "encounterId,bloodProduct,quantity,indication,consentId",
+      "responseSpec": "TransfusionOrder{id,status}"
+    },
+    {
+      "module": "M08",
+      "moduleName": "Pelayanan Khusus",
+      "operationId": "confirmTransfusionAdministration",
+      "method": "POST",
+      "path": "/api/v1/transfusions/{id}/administer",
+      "permission": "transfusion.administer",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200,
+        422
+      ],
+      "requestSpec": "unitNumber,patientIdentityCheck,crossmatchId,monitoring",
+      "responseSpec": "TransfusionAdministration{id,status}"
+    },
+    {
+      "module": "M08",
+      "moduleName": "Pelayanan Khusus",
+      "operationId": "createDeliveryRecord",
+      "method": "POST",
+      "path": "/api/v1/maternal/deliveries",
+      "permission": "maternal.write",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        409
+      ],
+      "requestSpec": "motherEncounterId,deliveryAt,newbornPatientId,deliveryDetails",
+      "responseSpec": "DeliveryRecord{id,status}"
+    },
+    {
+      "module": "M09",
+      "moduleName": "Laboratorium",
+      "operationId": "listLabOrders",
+      "method": "GET",
+      "path": "/api/v1/laboratory/orders",
+      "permission": "laboratory.read",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "status,unitId,priority,from,to",
+      "responseSpec": "LabOrder[]"
+    },
+    {
+      "module": "M09",
+      "moduleName": "Laboratorium",
+      "operationId": "receiveSpecimen",
+      "method": "POST",
+      "path": "/api/v1/laboratory/specimens/{id}/receive",
+      "permission": "laboratory.specimen",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200,
+        422
+      ],
+      "requestSpec": "barcode,receivedAt,condition,receiverId",
+      "responseSpec": "Specimen{id,status}"
+    },
+    {
+      "module": "M09",
+      "moduleName": "Laboratorium",
+      "operationId": "submitLabResults",
+      "method": "POST",
+      "path": "/api/v1/laboratory/orders/{id}/results",
+      "permission": "laboratory.result",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "observations[],method,analyzerId",
+      "responseSpec": "LabResult{id,status=draft}"
+    },
+    {
+      "module": "M09",
+      "moduleName": "Laboratorium",
+      "operationId": "verifyLabReport",
+      "method": "POST",
+      "path": "/api/v1/laboratory/reports/{id}/verify",
+      "permission": "laboratory.verify",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200,
+        422
+      ],
+      "requestSpec": "resultVersion,verifier,criticalCommunication?",
+      "responseSpec": "DiagnosticReport{id,status=verified}"
+    },
+    {
+      "module": "M09",
+      "moduleName": "Laboratorium",
+      "operationId": "recordCultureAST",
+      "method": "POST",
+      "path": "/api/v1/laboratory/microbiology",
+      "permission": "laboratory.result",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "specimenId,organism,antibiogram[],interpretation",
+      "responseSpec": "MicrobiologyReport{id,status}"
+    },
+    {
+      "module": "M10",
+      "moduleName": "Radiologi & PACS",
+      "operationId": "listRadiologyWorklist",
+      "method": "GET",
+      "path": "/api/v1/radiology/orders",
+      "permission": "radiology.read",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "status,modality,unitId,date",
+      "responseSpec": "RadiologyOrder[]"
+    },
+    {
+      "module": "M10",
+      "moduleName": "Radiologi & PACS",
+      "operationId": "linkDICOMStudy",
+      "method": "POST",
+      "path": "/api/v1/radiology/studies",
+      "permission": "radiology.study.write",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        409
+      ],
+      "requestSpec": "orderId,studyInstanceUID,seriesCount,acquisitionAt",
+      "responseSpec": "ImagingStudyRef{id,studyUID}"
+    },
+    {
+      "module": "M10",
+      "moduleName": "Radiologi & PACS",
+      "operationId": "signRadiologyReport",
+      "method": "POST",
+      "path": "/api/v1/radiology/reports/{id}/sign",
+      "permission": "radiology.sign",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200,
+        409
+      ],
+      "requestSpec": "findings,impression,version",
+      "responseSpec": "RadiologyReport{id,status=signed}"
+    },
+    {
+      "module": "M10",
+      "moduleName": "Radiologi & PACS",
+      "operationId": "createViewerSession",
+      "method": "POST",
+      "path": "/api/v1/radiology/studies/{id}/viewer-sessions",
+      "permission": "radiology.viewer",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        403
+      ],
+      "requestSpec": "purpose,encounterId",
+      "responseSpec": "ViewerSession{scopedUrl,expiresAt}"
+    },
+    {
+      "module": "M11",
+      "moduleName": "Farmasi & Apotek",
+      "operationId": "createPrescription",
+      "method": "POST",
+      "path": "/api/v1/pharmacy/prescriptions",
+      "permission": "prescription.write",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        422
+      ],
+      "requestSpec": "encounterId,items[{drugId,dose,route,frequency,duration}],indication",
+      "responseSpec": "Prescription{id,status=ordered}"
+    },
+    {
+      "module": "M11",
+      "moduleName": "Farmasi & Apotek",
+      "operationId": "reviewPrescription",
+      "method": "POST",
+      "path": "/api/v1/pharmacy/prescriptions/{id}/review",
+      "permission": "pharmacy.review",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200,
+        422
+      ],
+      "requestSpec": "decision,clarification,pharmacistId",
+      "responseSpec": "Prescription{id,status=reviewed}"
+    },
+    {
+      "module": "M11",
+      "moduleName": "Farmasi & Apotek",
+      "operationId": "dispensePrescription",
+      "method": "POST",
+      "path": "/api/v1/pharmacy/dispenses",
+      "permission": "pharmacy.dispense",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        409
+      ],
+      "requestSpec": "prescriptionId,items[{lotId,qty,expiry}],receiver",
+      "responseSpec": "Dispense{id,status,stockMovementIds}"
+    },
+    {
+      "module": "M11",
+      "moduleName": "Farmasi & Apotek",
+      "operationId": "recordMedicationAdministration",
+      "method": "POST",
+      "path": "/api/v1/medication-administrations",
+      "permission": "nursing.medadmin",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        422
+      ],
+      "requestSpec": "encounterId,prescriptionItemId,patientBarcode,drugBarcode,administeredAt",
+      "responseSpec": "MedicationAdministration{id,status}"
+    },
+    {
+      "module": "M12",
+      "moduleName": "Gizi Klinis & Produksi Makanan",
+      "operationId": "createDietOrder",
+      "method": "POST",
+      "path": "/api/v1/nutrition/diets",
+      "permission": "nutrition.diet",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "encounterId,dietCode,texture,allergies,effectiveFrom",
+      "responseSpec": "DietOrder{id,status=approved}"
+    },
+    {
+      "module": "M12",
+      "moduleName": "Gizi Klinis & Produksi Makanan",
+      "operationId": "createKitchenBatch",
+      "method": "POST",
+      "path": "/api/v1/nutrition/kitchen-batches",
+      "permission": "nutrition.kitchen",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "mealDate,mealType,dietCounts,menuId",
+      "responseSpec": "KitchenBatch{id,status}"
+    },
+    {
+      "module": "M12",
+      "moduleName": "Gizi Klinis & Produksi Makanan",
+      "operationId": "confirmTrayDelivery",
+      "method": "POST",
+      "path": "/api/v1/nutrition/trays/{id}/deliver",
+      "permission": "nutrition.deliver",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200,
+        422
+      ],
+      "requestSpec": "patientId,bedId,deliveredAt,receiver",
+      "responseSpec": "Tray{id,status=delivered}"
+    },
+    {
+      "module": "M13",
+      "moduleName": "Billing & Kasir",
+      "operationId": "createCharge",
+      "method": "POST",
+      "path": "/api/v1/billing/charges",
+      "permission": "billing.charge",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        409
+      ],
+      "requestSpec": "sourceEventId,encounterId,serviceId,tariffId,qty",
+      "responseSpec": "Charge{id,amount,status}"
+    },
+    {
+      "module": "M13",
+      "moduleName": "Billing & Kasir",
+      "operationId": "issueInvoice",
+      "method": "POST",
+      "path": "/api/v1/billing/invoices",
+      "permission": "billing.invoice",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        422
+      ],
+      "requestSpec": "encounterId,chargeIds,payerAllocation",
+      "responseSpec": "Invoice{id,total,balance,status}"
+    },
+    {
+      "module": "M13",
+      "moduleName": "Billing & Kasir",
+      "operationId": "allocatePayment",
+      "method": "POST",
+      "path": "/api/v1/payments",
+      "permission": "cashier.payment",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        409
+      ],
+      "requestSpec": "invoiceId,method,amount,transactionRef",
+      "responseSpec": "Payment{id,allocatedAmount,status}"
+    },
+    {
+      "module": "M13",
+      "moduleName": "Billing & Kasir",
+      "operationId": "requestRefund",
+      "method": "POST",
+      "path": "/api/v1/billing/refunds",
+      "permission": "cashier.refund",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        422
+      ],
+      "requestSpec": "paymentId,amount,reason,approverId",
+      "responseSpec": "Refund{id,status=pending-approval}"
+    },
+    {
+      "module": "M14",
+      "moduleName": "Penjamin, Casemix & Klaim",
+      "operationId": "verifyCoverage",
+      "method": "POST",
+      "path": "/api/v1/coverages/eligibility-checks",
+      "permission": "coverage.verify",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "patientId,encounterId,payer,memberId",
+      "responseSpec": "Eligibility{status,verifiedAt,externalRef}"
+    },
+    {
+      "module": "M14",
+      "moduleName": "Penjamin, Casemix & Klaim",
+      "operationId": "requestBPJSSEP",
+      "method": "POST",
+      "path": "/api/v1/bpjs/sep",
+      "permission": "bpjs.sep",
+      "successStatus": 202,
+      "declaredStatuses": [
+        202,
+        422
+      ],
+      "requestSpec": "encounterId,memberNumber,referralId",
+      "responseSpec": "PartnerRequest{id,externalStatus}"
+    },
+    {
+      "module": "M14",
+      "moduleName": "Penjamin, Casemix & Klaim",
+      "operationId": "createClaimDossier",
+      "method": "POST",
+      "path": "/api/v1/claims/dossiers",
+      "permission": "claims.prepare",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "encounterId,payerId,documentIds,diagnosisIds",
+      "responseSpec": "ClaimDossier{id,completeness,status}"
+    },
+    {
+      "module": "M14",
+      "moduleName": "Penjamin, Casemix & Klaim",
+      "operationId": "submitClaim",
+      "method": "POST",
+      "path": "/api/v1/claims/{id}/submit",
+      "permission": "claims.submit",
+      "successStatus": 202,
+      "declaredStatuses": [
+        202,
+        422
+      ],
+      "requestSpec": "version,submissionType",
+      "responseSpec": "Claim{id,status,partnerJobId}"
+    },
+    {
+      "module": "M14",
+      "moduleName": "Penjamin, Casemix & Klaim",
+      "operationId": "reconcileClaimRemittance",
+      "method": "POST",
+      "path": "/api/v1/claims/remittances/reconcile",
+      "permission": "claims.reconcile",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "payerRef,items[],settlementDate",
+      "responseSpec": "Reconciliation{id,mismatches[]}"
+    },
+    {
+      "module": "M15",
+      "moduleName": "Keuangan, Akuntansi & Costing",
+      "operationId": "postJournal",
+      "method": "POST",
+      "path": "/api/v1/finance/journals/{id}/post",
+      "permission": "finance.post",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200,
+        422
+      ],
+      "requestSpec": "periodId,approvalId,expectedVersion",
+      "responseSpec": "Journal{id,status=posted}"
+    },
+    {
+      "module": "M15",
+      "moduleName": "Keuangan, Akuntansi & Costing",
+      "operationId": "listReceivables",
+      "method": "GET",
+      "path": "/api/v1/finance/receivables",
+      "permission": "finance.read",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "payerId,dueBefore,status",
+      "responseSpec": "Receivable[]"
+    },
+    {
+      "module": "M15",
+      "moduleName": "Keuangan, Akuntansi & Costing",
+      "operationId": "approveBudget",
+      "method": "POST",
+      "path": "/api/v1/finance/budgets/{id}/approve",
+      "permission": "finance.budget",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "costCenterId,periodId,version",
+      "responseSpec": "Budget{id,status=approved}"
+    },
+    {
+      "module": "M15",
+      "moduleName": "Keuangan, Akuntansi & Costing",
+      "operationId": "calculateUnitCost",
+      "method": "POST",
+      "path": "/api/v1/finance/unit-costs/runs",
+      "permission": "finance.costing",
+      "successStatus": 202,
+      "declaredStatuses": [
+        202
+      ],
+      "requestSpec": "periodId,method,costDrivers,volumeSource",
+      "responseSpec": "CostRun{id,status,assumptions}"
+    },
+    {
+      "module": "M16",
+      "moduleName": "Gudang, Inventori & Pengadaan",
+      "operationId": "listStockBalances",
+      "method": "GET",
+      "path": "/api/v1/inventory/balances",
+      "permission": "inventory.read",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "warehouseId,sku,lot,expiryBefore",
+      "responseSpec": "StockBalance[]{onHand,reserved,available}"
+    },
+    {
+      "module": "M16",
+      "moduleName": "Gudang, Inventori & Pengadaan",
+      "operationId": "createMaterialRequest",
+      "method": "POST",
+      "path": "/api/v1/inventory/material-requests",
+      "permission": "inventory.request",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "sourceUnitId,lines[{sku,qty,uom}],neededAt",
+      "responseSpec": "MaterialRequest{id,status}"
+    },
+    {
+      "module": "M16",
+      "moduleName": "Gudang, Inventori & Pengadaan",
+      "operationId": "approveMaterialRequest",
+      "method": "POST",
+      "path": "/api/v1/inventory/material-requests/{id}/approve",
+      "permission": "inventory.approve",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200,
+        422
+      ],
+      "requestSpec": "approvedLines[],rejectedLines[],reason",
+      "responseSpec": "MaterialRequest{id,status}"
+    },
+    {
+      "module": "M16",
+      "moduleName": "Gudang, Inventori & Pengadaan",
+      "operationId": "receiveGoods",
+      "method": "POST",
+      "path": "/api/v1/inventory/receipts",
+      "permission": "inventory.receive",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        422
+      ],
+      "requestSpec": "purchaseOrderId,lines[{sku,lot,expiry,qty}],invoiceRef",
+      "responseSpec": "GoodsReceipt{id,status}"
+    },
+    {
+      "module": "M16",
+      "moduleName": "Gudang, Inventori & Pengadaan",
+      "operationId": "postStockMovement",
+      "method": "POST",
+      "path": "/api/v1/inventory/movements",
+      "permission": "inventory.post",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        409
+      ],
+      "requestSpec": "sourceId,movementType,fromLocation,toLocation,lines",
+      "responseSpec": "StockMovement{id,status=posted}"
+    },
+    {
+      "module": "M16",
+      "moduleName": "Gudang, Inventori & Pengadaan",
+      "operationId": "approveStockCount",
+      "method": "POST",
+      "path": "/api/v1/inventory/stock-counts/{id}/approve",
+      "permission": "inventory.adjust",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "countVersion,reason,approverId",
+      "responseSpec": "StockAdjustment{id,status}"
+    },
+    {
+      "module": "M16",
+      "moduleName": "Gudang, Inventori & Pengadaan",
+      "operationId": "createPurchaseOrder",
+      "method": "POST",
+      "path": "/api/v1/procurement/purchase-orders",
+      "permission": "procurement.write",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "supplierId,PRId,lines,approvals",
+      "responseSpec": "PurchaseOrder{id,status}"
+    },
+    {
+      "module": "M17",
+      "moduleName": "Penunjang Operasional & Fasilitas",
+      "operationId": "releaseSterileSet",
+      "method": "POST",
+      "path": "/api/v1/cssd/cycles/{id}/release",
+      "permission": "cssd.release",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200,
+        422
+      ],
+      "requestSpec": "indicatorResults,reviewer,releaseAt",
+      "responseSpec": "CSSDCycle{id,status=released}"
+    },
+    {
+      "module": "M17",
+      "moduleName": "Penunjang Operasional & Fasilitas",
+      "operationId": "completeLaundryCycle",
+      "method": "POST",
+      "path": "/api/v1/laundry/cycles/{id}/complete",
+      "permission": "laundry.complete",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "receivedQty,cleanQty,rejectedQty,QC",
+      "responseSpec": "LaundryCycle{id,status}"
+    },
+    {
+      "module": "M17",
+      "moduleName": "Penunjang Operasional & Fasilitas",
+      "operationId": "closeMaintenanceOrder",
+      "method": "POST",
+      "path": "/api/v1/maintenance/orders/{id}/close",
+      "permission": "maintenance.close",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "performedWork,calibrationResult,engineer,closedAt",
+      "responseSpec": "MaintenanceOrder{id,status,assetReadiness}"
+    },
+    {
+      "module": "M17",
+      "moduleName": "Penunjang Operasional & Fasilitas",
+      "operationId": "markFacilityReady",
+      "method": "POST",
+      "path": "/api/v1/facilities/tasks/{id}/complete",
+      "permission": "facility.complete",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "checklist,photoEvidence?,reviewer",
+      "responseSpec": "FacilityTask{id,status=ready}"
+    },
+    {
+      "module": "M17",
+      "moduleName": "Penunjang Operasional & Fasilitas",
+      "operationId": "dispatchAmbulance",
+      "method": "POST",
+      "path": "/api/v1/ambulance/trips",
+      "permission": "ambulance.dispatch",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201,
+        409
+      ],
+      "requestSpec": "patientId,from,to,vehicleId,crewIds",
+      "responseSpec": "AmbulanceTrip{id,status}"
+    },
+    {
+      "module": "M18",
+      "moduleName": "SDM & Kepegawaian",
+      "operationId": "createEmployee",
+      "method": "POST",
+      "path": "/api/v1/hr/employees",
+      "permission": "hr.manage",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "name,identity,professionalCredentials,assignment",
+      "responseSpec": "Employee{id,status}"
+    },
+    {
+      "module": "M18",
+      "moduleName": "SDM & Kepegawaian",
+      "operationId": "transferEmployee",
+      "method": "POST",
+      "path": "/api/v1/hr/employees/{id}/transfers",
+      "permission": "hr.transfer",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "toUnit,position,effectiveDate,approval",
+      "responseSpec": "EmployeeTransfer{id,status}"
+    },
+    {
+      "module": "M18",
+      "moduleName": "SDM & Kepegawaian",
+      "operationId": "finalizePayroll",
+      "method": "POST",
+      "path": "/api/v1/hr/payroll/{periodId}/finalize",
+      "permission": "hr.payroll",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200,
+        409
+      ],
+      "requestSpec": "approvalId,version",
+      "responseSpec": "PayrollRun{id,status=finalized}"
+    },
+    {
+      "module": "M18",
+      "moduleName": "SDM & Kepegawaian",
+      "operationId": "updateRecruitmentStage",
+      "method": "POST",
+      "path": "/api/v1/hr/recruitment/{id}/transition",
+      "permission": "hr.recruit",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "stage,reason,reviewer",
+      "responseSpec": "RecruitmentApplication{id,stage}"
+    },
+    {
+      "module": "M19",
+      "moduleName": "Mutu, Keselamatan & Akreditasi",
+      "operationId": "reportSafetyIncident",
+      "method": "POST",
+      "path": "/api/v1/quality/incidents",
+      "permission": "quality.incident",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "category,date,location,description,confidentiality",
+      "responseSpec": "SafetyIncident{id,status}"
+    },
+    {
+      "module": "M19",
+      "moduleName": "Mutu, Keselamatan & Akreditasi",
+      "operationId": "reviewHAICase",
+      "method": "POST",
+      "path": "/api/v1/quality/hais/{id}/review",
+      "permission": "quality.ppi",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "definitionVersion,assessment,reviewer",
+      "responseSpec": "HAICase{id,status}"
+    },
+    {
+      "module": "M19",
+      "moduleName": "Mutu, Keselamatan & Akreditasi",
+      "operationId": "calculateQualityIndicator",
+      "method": "POST",
+      "path": "/api/v1/quality/indicators/{id}/calculate",
+      "permission": "quality.kpi",
+      "successStatus": 202,
+      "declaredStatuses": [
+        202
+      ],
+      "requestSpec": "period,dataSnapshotId",
+      "responseSpec": "IndicatorResult{id,numerator,denominator}"
+    },
+    {
+      "module": "M19",
+      "moduleName": "Mutu, Keselamatan & Akreditasi",
+      "operationId": "verifyRiskMitigation",
+      "method": "POST",
+      "path": "/api/v1/quality/risks/{id}/verify",
+      "permission": "quality.risk",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "evidenceIds,residualRisk,verifier",
+      "responseSpec": "Risk{id,status}"
+    },
+    {
+      "module": "M20",
+      "moduleName": "Pelaporan, Dashboard & Analitik",
+      "operationId": "createReport",
+      "method": "POST",
+      "path": "/api/v1/reports",
+      "permission": "report.create",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "templateId,filters,period,sourceVersion",
+      "responseSpec": "Report{id,status=draft}"
+    },
+    {
+      "module": "M20",
+      "moduleName": "Pelaporan, Dashboard & Analitik",
+      "operationId": "approveReport",
+      "method": "POST",
+      "path": "/api/v1/reports/{id}/approve",
+      "permission": "report.approve",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "snapshotVersion,approverId",
+      "responseSpec": "Report{id,status=approved}"
+    },
+    {
+      "module": "M20",
+      "moduleName": "Pelaporan, Dashboard & Analitik",
+      "operationId": "getDashboard",
+      "method": "GET",
+      "path": "/api/v1/analytics/dashboards/{id}",
+      "permission": "analytics.read",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "period,unitId,orgScope",
+      "responseSpec": "Dashboard{metrics,definitions,watermark}"
+    },
+    {
+      "module": "M20",
+      "moduleName": "Pelaporan, Dashboard & Analitik",
+      "operationId": "exportReport",
+      "method": "POST",
+      "path": "/api/v1/reports/{id}/exports",
+      "permission": "report.export",
+      "successStatus": 202,
+      "declaredStatuses": [
+        202
+      ],
+      "requestSpec": "format,version",
+      "responseSpec": "ExportJob{id,url?,status}"
+    },
+    {
+      "module": "M21",
+      "moduleName": "Administrasi Sistem & Master Data",
+      "operationId": "createTenant",
+      "method": "POST",
+      "path": "/api/v1/tenants",
+      "permission": "system.tenant",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "organizationCode,name,adminId",
+      "responseSpec": "Tenant{id,status}"
+    },
+    {
+      "module": "M21",
+      "moduleName": "Administrasi Sistem & Master Data",
+      "operationId": "assignRole",
+      "method": "POST",
+      "path": "/api/v1/access/role-assignments",
+      "permission": "system.access",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "userId,roleId,unitId,effectiveFrom,effectiveTo",
+      "responseSpec": "RoleAssignment{id}"
+    },
+    {
+      "module": "M21",
+      "moduleName": "Administrasi Sistem & Master Data",
+      "operationId": "updatePractitionerCredential",
+      "method": "POST",
+      "path": "/api/v1/practitioners/{id}/credentials",
+      "permission": "system.master",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "credentialType,number,validFrom,validTo",
+      "responseSpec": "Credential{id,status}"
+    },
+    {
+      "module": "M21",
+      "moduleName": "Administrasi Sistem & Master Data",
+      "operationId": "publishTariff",
+      "method": "POST",
+      "path": "/api/v1/catalog/tariffs",
+      "permission": "system.catalog",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "serviceCode,payerId,class,amount,effectiveFrom",
+      "responseSpec": "TariffVersion{id,status}"
+    },
+    {
+      "module": "M21",
+      "moduleName": "Administrasi Sistem & Master Data",
+      "operationId": "reviewTerminologyMapping",
+      "method": "POST",
+      "path": "/api/v1/terminology/mappings/{id}/approve",
+      "permission": "system.terminology",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "targetCode,codeSystem,version,reviewer",
+      "responseSpec": "Mapping{id,status}"
+    },
+    {
+      "module": "M21",
+      "moduleName": "Administrasi Sistem & Master Data",
+      "operationId": "updateConsent",
+      "method": "POST",
+      "path": "/api/v1/consents",
+      "permission": "system.consent",
+      "successStatus": 201,
+      "declaredStatuses": [
+        201
+      ],
+      "requestSpec": "patientId,scope,purpose,grantee,period,decision",
+      "responseSpec": "Consent{id,status}"
+    },
+    {
+      "module": "M21",
+      "moduleName": "Administrasi Sistem & Master Data",
+      "operationId": "listIntegrationJobs",
+      "method": "GET",
+      "path": "/api/v1/integrations/jobs",
+      "permission": "system.integration",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "provider,resourceType,status,from,to",
+      "responseSpec": "DeliveryJob[]"
+    },
+    {
+      "module": "M21",
+      "moduleName": "Administrasi Sistem & Master Data",
+      "operationId": "retryIntegrationJob",
+      "method": "POST",
+      "path": "/api/v1/integrations/jobs/{id}/retry",
+      "permission": "system.integration",
+      "successStatus": 202,
+      "declaredStatuses": [
+        202
+      ],
+      "requestSpec": "reason,expectedVersion",
+      "responseSpec": "DeliveryJob{id,status=retry}"
+    },
+    {
+      "module": "CH01",
+      "moduleName": "Portal Pasien",
+      "operationId": "getPatientPortalSummary",
+      "method": "GET",
+      "path": "/api/v1/portal/me/summary",
+      "permission": "portal.read",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "patientScope",
+      "responseSpec": "PortalSummary{appointments,documents,consents}"
+    },
+    {
+      "module": "CH01",
+      "moduleName": "Portal Pasien",
+      "operationId": "revokePatientProxy",
+      "method": "POST",
+      "path": "/api/v1/portal/proxy-grants/{id}/revoke",
+      "permission": "portal.manage",
+      "successStatus": 200,
+      "declaredStatuses": [
+        200
+      ],
+      "requestSpec": "reason,revokedAt",
+      "responseSpec": "ProxyGrant{id,status=revoked}"
+    }
+  ]
+}
