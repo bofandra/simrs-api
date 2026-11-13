@@ -311,7 +311,7 @@ function applyV31(operation, body, output, db, requestPath) {
       const draft=db.prescriptions.find(v=>v.id===id);
       if(!draft)return error(404,'PRESCRIPTION_NOT_FOUND','Draft resep demo tidak ditemukan');
       if(draft.status!=='draft')return error(409,'PRESCRIPTION_NOT_DRAFT','Hanya draft resep yang dapat diubah');
-      if(body.expectedVersion!==draft.version)return error(412,'STALE_VERSION','Versi draft resep demo sudah berubah');
+      if(body.expectedVersion!==draft.version)return error(412,'STALE_VERSION','Versi draft resep sudah berubah');
       draft.items=body.items||draft.items;draft.indication=body.indication||draft.indication;
       draft.version=(draft.version||1)+1;return entity(output,draft);
     }
@@ -319,7 +319,7 @@ function applyV31(operation, body, output, db, requestPath) {
       const draft=db.prescriptions.find(v=>v.id===id);
       if(!draft)return error(404,'PRESCRIPTION_NOT_FOUND','Draft resep demo tidak ditemukan');
       if(draft.status!=='draft')return error(409,'PRESCRIPTION_NOT_DRAFT','Hanya draft yang dapat di-place');
-      if(body.expectedVersion!==draft.version)return error(412,'STALE_VERSION','Versi draft resep demo sudah berubah');
+      if(body.expectedVersion!==draft.version)return error(412,'STALE_VERSION','Versi draft resep sudah berubah');
       if(!draft.items.length)return error(422,'PRESCRIPTION_ITEMS_REQUIRED','Resep demo tidak memiliki item');
       draft.status='ordered';draft.version=(draft.version||1)+1;
       return entity(output,draft);
