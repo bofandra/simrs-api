@@ -3112,6 +3112,7 @@
         "status": {
           "type": "string",
           "enum": [
+            "draft",
             "ordered",
             "reviewed",
             "partially-dispensed",
@@ -3274,7 +3275,8 @@
       ],
       "x-entity": "shared domain read model",
       "x-auth-scope": "enforce in backend; mock is not security",
-      "x-candidate": true
+      "x-candidate": true,
+      "x-proposal-note": "Draft status is a proposed extension enabling explicit draft/edit/place lifecycle; not in original PRD v3.0 pharmacy states."
     },
     "PrescriptionReview": {
       "type": "object",
