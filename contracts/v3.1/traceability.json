@@ -1,0 +1,4143 @@
+{
+  "version": "3.1.0-candidate.1",
+  "prdUrl": "https://docs.google.com/document/d/1NzQ6ryYk8Jqat-nqI-Nbyjbx1inSn-ss/edit",
+  "sourceLimitations": "Module-level FR/US is not verified per operation. New 72 operations are proposals.",
+  "moduleLookup": {
+    "M01": {
+      "fr": [
+        "FR-004",
+        "FR-005",
+        "FR-006",
+        "FR-007",
+        "FR-061"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ]
+    },
+    "M02": {
+      "fr": [],
+      "us": [
+        "US-RME-01"
+      ]
+    },
+    "M03": {
+      "fr": [
+        "FR-010"
+      ],
+      "us": [
+        "US-RME-02"
+      ]
+    },
+    "M04": {
+      "fr": [
+        "FR-011",
+        "FR-047",
+        "FR-063"
+      ],
+      "us": [
+        "US-RME-03",
+        "US-OPS-10"
+      ]
+    },
+    "M05": {
+      "fr": [
+        "FR-009",
+        "FR-012",
+        "FR-013",
+        "FR-014",
+        "FR-015",
+        "FR-016",
+        "FR-033",
+        "FR-034",
+        "FR-042",
+        "FR-052",
+        "FR-053",
+        "FR-055",
+        "FR-059",
+        "FR-060"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11",
+        "US-ENT-04"
+      ]
+    },
+    "M06": {
+      "fr": [],
+      "us": [
+        "US-RME-07"
+      ]
+    },
+    "M07": {
+      "fr": [],
+      "us": [
+        "US-MED-06",
+        "US-MED-07"
+      ]
+    },
+    "M08": {
+      "fr": [
+        "FR-019",
+        "FR-048",
+        "FR-049",
+        "FR-056",
+        "FR-057",
+        "FR-058"
+      ],
+      "us": [
+        "US-MED-08",
+        "US-MED-09",
+        "US-MED-10",
+        "US-MED-12"
+      ]
+    },
+    "M09": {
+      "fr": [
+        "FR-017",
+        "FR-051"
+      ],
+      "us": [
+        "US-MED-01"
+      ]
+    },
+    "M10": {
+      "fr": [
+        "FR-018"
+      ],
+      "us": [
+        "US-MED-02",
+        "US-MED-03"
+      ]
+    },
+    "M11": {
+      "fr": [
+        "FR-020",
+        "FR-021",
+        "FR-038",
+        "FR-050"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ]
+    },
+    "M12": {
+      "fr": [
+        "FR-024"
+      ],
+      "us": [
+        "US-MED-11",
+        "US-OPS-05"
+      ]
+    },
+    "M13": {
+      "fr": [
+        "FR-025",
+        "FR-026",
+        "FR-065"
+      ],
+      "us": [
+        "US-FIN-01",
+        "US-FIN-02",
+        "US-FIN-03"
+      ]
+    },
+    "M14": {
+      "fr": [
+        "FR-027",
+        "FR-040",
+        "FR-041",
+        "FR-062",
+        "FR-064"
+      ],
+      "us": [
+        "US-FIN-04",
+        "US-FIN-05",
+        "US-FIN-06",
+        "US-FIN-07"
+      ]
+    },
+    "M15": {
+      "fr": [
+        "FR-028"
+      ],
+      "us": [
+        "US-FIN-08",
+        "US-FIN-09",
+        "US-FIN-10",
+        "US-FIN-11"
+      ]
+    },
+    "M16": {
+      "fr": [
+        "FR-022",
+        "FR-036",
+        "FR-045",
+        "FR-066"
+      ],
+      "us": [
+        "US-OPS-01",
+        "US-OPS-02"
+      ]
+    },
+    "M17": {
+      "fr": [
+        "FR-023",
+        "FR-044"
+      ],
+      "us": [
+        "US-OPS-03",
+        "US-OPS-04",
+        "US-OPS-06",
+        "US-OPS-07",
+        "US-OPS-08",
+        "US-OPS-09"
+      ]
+    },
+    "M18": {
+      "fr": [
+        "FR-029",
+        "FR-046"
+      ],
+      "us": [
+        "US-ENT-01",
+        "US-ENT-02",
+        "US-ENT-03"
+      ]
+    },
+    "M19": {
+      "fr": [
+        "FR-030",
+        "FR-043",
+        "FR-054"
+      ],
+      "us": [
+        "US-ENT-05",
+        "US-ENT-06",
+        "US-ENT-07",
+        "US-ENT-08"
+      ]
+    },
+    "M20": {
+      "fr": [
+        "FR-031"
+      ],
+      "us": [
+        "US-ENT-09",
+        "US-ENT-10"
+      ]
+    },
+    "M21": {
+      "fr": [
+        "FR-001",
+        "FR-002",
+        "FR-003",
+        "FR-008",
+        "FR-032",
+        "FR-035",
+        "FR-037"
+      ],
+      "us": [
+        "US-CORE-01",
+        "US-CORE-02",
+        "US-CORE-03",
+        "US-CORE-04",
+        "US-CORE-05",
+        "US-CORE-06",
+        "US-CORE-07",
+        "US-CORE-12",
+        "US-ENT-11"
+      ]
+    },
+    "CH01": {
+      "fr": [
+        "FR-008"
+      ],
+      "us": []
+    }
+  },
+  "operations": [
+    {
+      "operationId": "searchPatients",
+      "module": "M01",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-01"
+      ],
+      "fr": [
+        "FR-004"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "patient.read",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "createPatient",
+      "module": "M01",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-01"
+      ],
+      "fr": [
+        "FR-004"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "patient.create",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "reviewPatientMatch",
+      "module": "M01",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-01"
+      ],
+      "fr": [
+        "FR-004"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "mpi.review",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "listAppointments",
+      "module": "M01",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-03"
+      ],
+      "fr": [
+        "FR-005"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "appointment.read",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "bookAppointment",
+      "module": "M01",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-03"
+      ],
+      "fr": [
+        "FR-005"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "appointment.write",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "createRegistration",
+      "module": "M01",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-02"
+      ],
+      "fr": [
+        "FR-006"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "registration.create",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "callQueue",
+      "module": "M01",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-04"
+      ],
+      "fr": [
+        "FR-007"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "queue.call",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "printRegistration",
+      "module": "M01",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-05"
+      ],
+      "fr": [
+        "FR-006"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "registration.read",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "listOutpatientWorklist",
+      "module": "M02",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M02-01"
+      ],
+      "fr": [
+        "FR-006"
+      ],
+      "us": [
+        "US-RME-01"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "encounter.read",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "getEncounterChart",
+      "module": "M02",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M02-02"
+      ],
+      "fr": [
+        "FR-009"
+      ],
+      "us": [
+        "US-RME-01"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "chart.read",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "completeOutpatientEncounter",
+      "module": "M02",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M02-03"
+      ],
+      "fr": [
+        "FR-060"
+      ],
+      "us": [
+        "US-RME-01"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "encounter.complete",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "createEmergencyTriage",
+      "module": "M03",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-010"
+      ],
+      "us": [
+        "US-RME-02"
+      ],
+      "workflows": [],
+      "permission": "emergency.triage",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "recordEmergencyIntervention",
+      "module": "M03",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-010"
+      ],
+      "us": [
+        "US-RME-02"
+      ],
+      "workflows": [],
+      "permission": "emergency.act",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "recordEncounterConsumables",
+      "module": "M03",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-010"
+      ],
+      "us": [
+        "US-RME-02"
+      ],
+      "workflows": [],
+      "permission": "emergency.act",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "reassessEmergency",
+      "module": "M03",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-010"
+      ],
+      "us": [
+        "US-RME-02"
+      ],
+      "workflows": [],
+      "permission": "emergency.triage",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "confirmEmergencyDisposition",
+      "module": "M03",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-010"
+      ],
+      "us": [
+        "US-RME-02"
+      ],
+      "workflows": [],
+      "permission": "emergency.disposition",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "listBeds",
+      "module": "M04",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-011",
+        "FR-047",
+        "FR-063"
+      ],
+      "us": [
+        "US-RME-03",
+        "US-OPS-10"
+      ],
+      "workflows": [],
+      "permission": "bed.read",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "createAdmission",
+      "module": "M04",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-011",
+        "FR-047",
+        "FR-063"
+      ],
+      "us": [
+        "US-RME-03",
+        "US-OPS-10"
+      ],
+      "workflows": [],
+      "permission": "admission.create",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "transferAdmission",
+      "module": "M04",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-011",
+        "FR-047",
+        "FR-063"
+      ],
+      "us": [
+        "US-RME-03",
+        "US-OPS-10"
+      ],
+      "workflows": [],
+      "permission": "admission.transfer",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "completeDischarge",
+      "module": "M04",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-011",
+        "FR-047",
+        "FR-063"
+      ],
+      "us": [
+        "US-RME-03",
+        "US-OPS-10"
+      ],
+      "workflows": [],
+      "permission": "admission.discharge",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "createClinicalNote",
+      "module": "M05",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-01"
+      ],
+      "fr": [
+        "FR-009"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11",
+        "US-ENT-04"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "clinical.note.write",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "signClinicalNote",
+      "module": "M05",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-01"
+      ],
+      "fr": [
+        "FR-009"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11",
+        "US-ENT-04"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "clinical.note.sign",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "addClinicalAddendum",
+      "module": "M05",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-07"
+      ],
+      "fr": [
+        "FR-009"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11",
+        "US-ENT-04"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "clinical.note.amend",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "recordObservation",
+      "module": "M05",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-02"
+      ],
+      "fr": [
+        "FR-009"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11",
+        "US-ENT-04"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "clinical.observation.write",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "recordDiagnosis",
+      "module": "M05",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-03"
+      ],
+      "fr": [
+        "FR-059"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11",
+        "US-ENT-04"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "clinical.diagnosis.write",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "createServiceOrder",
+      "module": "M05",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-04"
+      ],
+      "fr": [
+        "FR-016"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11",
+        "US-ENT-04"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "order.create",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "createCarePlan",
+      "module": "M05",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-05"
+      ],
+      "fr": [
+        "FR-012"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11",
+        "US-ENT-04"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "careplan.write",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "createReferral",
+      "module": "M05",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-06"
+      ],
+      "fr": [
+        "FR-014"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11",
+        "US-ENT-04"
+      ],
+      "workflows": [
+        "WF-09"
+      ],
+      "permission": "referral.create",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "issueMedicalCertificate",
+      "module": "M05",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-07"
+      ],
+      "fr": [
+        "FR-013"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11",
+        "US-ENT-04"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "certificate.issue",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "saveNursingAssessment",
+      "module": "M06",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [],
+      "us": [
+        "US-RME-07"
+      ],
+      "workflows": [],
+      "permission": "nursing.assess",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "createNursingPlan",
+      "module": "M06",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [],
+      "us": [
+        "US-RME-07"
+      ],
+      "workflows": [],
+      "permission": "nursing.plan",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "recordNursingAction",
+      "module": "M06",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [],
+      "us": [
+        "US-RME-07"
+      ],
+      "workflows": [],
+      "permission": "nursing.act",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "handoverShift",
+      "module": "M06",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [],
+      "us": [
+        "US-RME-07"
+      ],
+      "workflows": [],
+      "permission": "nursing.handover",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "createSurgeryCase",
+      "module": "M07",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [],
+      "us": [
+        "US-MED-06",
+        "US-MED-07"
+      ],
+      "workflows": [],
+      "permission": "surgery.schedule",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "completeSurgeryChecklist",
+      "module": "M07",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [],
+      "us": [
+        "US-MED-06",
+        "US-MED-07"
+      ],
+      "workflows": [],
+      "permission": "surgery.checklist",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "recordAnesthesia",
+      "module": "M07",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [],
+      "us": [
+        "US-MED-06",
+        "US-MED-07"
+      ],
+      "workflows": [],
+      "permission": "anesthesia.write",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "releasePACU",
+      "module": "M07",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [],
+      "us": [
+        "US-MED-06",
+        "US-MED-07"
+      ],
+      "workflows": [],
+      "permission": "anesthesia.release",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "recordDialysisSession",
+      "module": "M08",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-019",
+        "FR-048",
+        "FR-049",
+        "FR-056",
+        "FR-057",
+        "FR-058"
+      ],
+      "us": [
+        "US-MED-08",
+        "US-MED-09",
+        "US-MED-10",
+        "US-MED-12"
+      ],
+      "workflows": [],
+      "permission": "dialysis.write",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "recordRehabSession",
+      "module": "M08",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-019",
+        "FR-048",
+        "FR-049",
+        "FR-056",
+        "FR-057",
+        "FR-058"
+      ],
+      "us": [
+        "US-MED-08",
+        "US-MED-09",
+        "US-MED-10",
+        "US-MED-12"
+      ],
+      "workflows": [],
+      "permission": "rehab.write",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "createMCUPackage",
+      "module": "M08",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-019",
+        "FR-048",
+        "FR-049",
+        "FR-056",
+        "FR-057",
+        "FR-058"
+      ],
+      "us": [
+        "US-MED-08",
+        "US-MED-09",
+        "US-MED-10",
+        "US-MED-12"
+      ],
+      "workflows": [],
+      "permission": "mcu.write",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "requestTransfusion",
+      "module": "M08",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-019",
+        "FR-048",
+        "FR-049",
+        "FR-056",
+        "FR-057",
+        "FR-058"
+      ],
+      "us": [
+        "US-MED-08",
+        "US-MED-09",
+        "US-MED-10",
+        "US-MED-12"
+      ],
+      "workflows": [],
+      "permission": "transfusion.order",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "confirmTransfusionAdministration",
+      "module": "M08",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-019",
+        "FR-048",
+        "FR-049",
+        "FR-056",
+        "FR-057",
+        "FR-058"
+      ],
+      "us": [
+        "US-MED-08",
+        "US-MED-09",
+        "US-MED-10",
+        "US-MED-12"
+      ],
+      "workflows": [],
+      "permission": "transfusion.administer",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "createDeliveryRecord",
+      "module": "M08",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-019",
+        "FR-048",
+        "FR-049",
+        "FR-056",
+        "FR-057",
+        "FR-058"
+      ],
+      "us": [
+        "US-MED-08",
+        "US-MED-09",
+        "US-MED-10",
+        "US-MED-12"
+      ],
+      "workflows": [],
+      "permission": "maternal.write",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "listLabOrders",
+      "module": "M09",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M09-01"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "laboratory.read",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "receiveSpecimen",
+      "module": "M09",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M09-02"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "laboratory.specimen",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "submitLabResults",
+      "module": "M09",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M09-03"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "laboratory.result",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "verifyLabReport",
+      "module": "M09",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M09-03"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "laboratory.verify",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "recordCultureAST",
+      "module": "M09",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M09-04"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "laboratory.result",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "listRadiologyWorklist",
+      "module": "M10",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-018"
+      ],
+      "us": [
+        "US-MED-02",
+        "US-MED-03"
+      ],
+      "workflows": [],
+      "permission": "radiology.read",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "linkDICOMStudy",
+      "module": "M10",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-018"
+      ],
+      "us": [
+        "US-MED-02",
+        "US-MED-03"
+      ],
+      "workflows": [],
+      "permission": "radiology.study.write",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "signRadiologyReport",
+      "module": "M10",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-018"
+      ],
+      "us": [
+        "US-MED-02",
+        "US-MED-03"
+      ],
+      "workflows": [],
+      "permission": "radiology.sign",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "createViewerSession",
+      "module": "M10",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-018"
+      ],
+      "us": [
+        "US-MED-02",
+        "US-MED-03"
+      ],
+      "workflows": [],
+      "permission": "radiology.viewer",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "createPrescription",
+      "module": "M11",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M11-01"
+      ],
+      "fr": [
+        "FR-020"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "permission": "prescription.write",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "reviewPrescription",
+      "module": "M11",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M11-02"
+      ],
+      "fr": [
+        "FR-020"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "permission": "pharmacy.review",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "dispensePrescription",
+      "module": "M11",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M11-03"
+      ],
+      "fr": [
+        "FR-021"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "permission": "pharmacy.dispense",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "recordMedicationAdministration",
+      "module": "M11",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M11-04"
+      ],
+      "fr": [
+        "FR-021"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "permission": "nursing.medadmin",
+      "notes": "Operation-to-form/FR/WF mapping inferred across PRD chapters; requires review"
+    },
+    {
+      "operationId": "createDietOrder",
+      "module": "M12",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-024"
+      ],
+      "us": [
+        "US-MED-11",
+        "US-OPS-05"
+      ],
+      "workflows": [],
+      "permission": "nutrition.diet",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "createKitchenBatch",
+      "module": "M12",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-024"
+      ],
+      "us": [
+        "US-MED-11",
+        "US-OPS-05"
+      ],
+      "workflows": [],
+      "permission": "nutrition.kitchen",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "confirmTrayDelivery",
+      "module": "M12",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-024"
+      ],
+      "us": [
+        "US-MED-11",
+        "US-OPS-05"
+      ],
+      "workflows": [],
+      "permission": "nutrition.deliver",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "createCharge",
+      "module": "M13",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-025",
+        "FR-026",
+        "FR-065"
+      ],
+      "us": [
+        "US-FIN-01",
+        "US-FIN-02",
+        "US-FIN-03"
+      ],
+      "workflows": [],
+      "permission": "billing.charge",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "issueInvoice",
+      "module": "M13",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-025",
+        "FR-026",
+        "FR-065"
+      ],
+      "us": [
+        "US-FIN-01",
+        "US-FIN-02",
+        "US-FIN-03"
+      ],
+      "workflows": [],
+      "permission": "billing.invoice",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "allocatePayment",
+      "module": "M13",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-025",
+        "FR-026",
+        "FR-065"
+      ],
+      "us": [
+        "US-FIN-01",
+        "US-FIN-02",
+        "US-FIN-03"
+      ],
+      "workflows": [],
+      "permission": "cashier.payment",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "requestRefund",
+      "module": "M13",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-025",
+        "FR-026",
+        "FR-065"
+      ],
+      "us": [
+        "US-FIN-01",
+        "US-FIN-02",
+        "US-FIN-03"
+      ],
+      "workflows": [],
+      "permission": "cashier.refund",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "verifyCoverage",
+      "module": "M14",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-027",
+        "FR-040",
+        "FR-041",
+        "FR-062",
+        "FR-064"
+      ],
+      "us": [
+        "US-FIN-04",
+        "US-FIN-05",
+        "US-FIN-06",
+        "US-FIN-07"
+      ],
+      "workflows": [],
+      "permission": "coverage.verify",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "requestBPJSSEP",
+      "module": "M14",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-027",
+        "FR-040",
+        "FR-041",
+        "FR-062",
+        "FR-064"
+      ],
+      "us": [
+        "US-FIN-04",
+        "US-FIN-05",
+        "US-FIN-06",
+        "US-FIN-07"
+      ],
+      "workflows": [],
+      "permission": "bpjs.sep",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "createClaimDossier",
+      "module": "M14",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-027",
+        "FR-040",
+        "FR-041",
+        "FR-062",
+        "FR-064"
+      ],
+      "us": [
+        "US-FIN-04",
+        "US-FIN-05",
+        "US-FIN-06",
+        "US-FIN-07"
+      ],
+      "workflows": [],
+      "permission": "claims.prepare",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "submitClaim",
+      "module": "M14",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-027",
+        "FR-040",
+        "FR-041",
+        "FR-062",
+        "FR-064"
+      ],
+      "us": [
+        "US-FIN-04",
+        "US-FIN-05",
+        "US-FIN-06",
+        "US-FIN-07"
+      ],
+      "workflows": [],
+      "permission": "claims.submit",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "reconcileClaimRemittance",
+      "module": "M14",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-027",
+        "FR-040",
+        "FR-041",
+        "FR-062",
+        "FR-064"
+      ],
+      "us": [
+        "US-FIN-04",
+        "US-FIN-05",
+        "US-FIN-06",
+        "US-FIN-07"
+      ],
+      "workflows": [],
+      "permission": "claims.reconcile",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "postJournal",
+      "module": "M15",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-028"
+      ],
+      "us": [
+        "US-FIN-08",
+        "US-FIN-09",
+        "US-FIN-10",
+        "US-FIN-11"
+      ],
+      "workflows": [],
+      "permission": "finance.post",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "listReceivables",
+      "module": "M15",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-028"
+      ],
+      "us": [
+        "US-FIN-08",
+        "US-FIN-09",
+        "US-FIN-10",
+        "US-FIN-11"
+      ],
+      "workflows": [],
+      "permission": "finance.read",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "approveBudget",
+      "module": "M15",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-028"
+      ],
+      "us": [
+        "US-FIN-08",
+        "US-FIN-09",
+        "US-FIN-10",
+        "US-FIN-11"
+      ],
+      "workflows": [],
+      "permission": "finance.budget",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "calculateUnitCost",
+      "module": "M15",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-028"
+      ],
+      "us": [
+        "US-FIN-08",
+        "US-FIN-09",
+        "US-FIN-10",
+        "US-FIN-11"
+      ],
+      "workflows": [],
+      "permission": "finance.costing",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "listStockBalances",
+      "module": "M16",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-022",
+        "FR-036",
+        "FR-045",
+        "FR-066"
+      ],
+      "us": [
+        "US-OPS-01",
+        "US-OPS-02"
+      ],
+      "workflows": [],
+      "permission": "inventory.read",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "createMaterialRequest",
+      "module": "M16",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-022",
+        "FR-036",
+        "FR-045",
+        "FR-066"
+      ],
+      "us": [
+        "US-OPS-01",
+        "US-OPS-02"
+      ],
+      "workflows": [],
+      "permission": "inventory.request",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "approveMaterialRequest",
+      "module": "M16",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-022",
+        "FR-036",
+        "FR-045",
+        "FR-066"
+      ],
+      "us": [
+        "US-OPS-01",
+        "US-OPS-02"
+      ],
+      "workflows": [],
+      "permission": "inventory.approve",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "receiveGoods",
+      "module": "M16",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-022",
+        "FR-036",
+        "FR-045",
+        "FR-066"
+      ],
+      "us": [
+        "US-OPS-01",
+        "US-OPS-02"
+      ],
+      "workflows": [],
+      "permission": "inventory.receive",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "postStockMovement",
+      "module": "M16",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-022",
+        "FR-036",
+        "FR-045",
+        "FR-066"
+      ],
+      "us": [
+        "US-OPS-01",
+        "US-OPS-02"
+      ],
+      "workflows": [],
+      "permission": "inventory.post",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "approveStockCount",
+      "module": "M16",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-022",
+        "FR-036",
+        "FR-045",
+        "FR-066"
+      ],
+      "us": [
+        "US-OPS-01",
+        "US-OPS-02"
+      ],
+      "workflows": [],
+      "permission": "inventory.adjust",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "createPurchaseOrder",
+      "module": "M16",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-022",
+        "FR-036",
+        "FR-045",
+        "FR-066"
+      ],
+      "us": [
+        "US-OPS-01",
+        "US-OPS-02"
+      ],
+      "workflows": [],
+      "permission": "procurement.write",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "releaseSterileSet",
+      "module": "M17",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-023",
+        "FR-044"
+      ],
+      "us": [
+        "US-OPS-03",
+        "US-OPS-04",
+        "US-OPS-06",
+        "US-OPS-07",
+        "US-OPS-08",
+        "US-OPS-09"
+      ],
+      "workflows": [],
+      "permission": "cssd.release",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "completeLaundryCycle",
+      "module": "M17",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-023",
+        "FR-044"
+      ],
+      "us": [
+        "US-OPS-03",
+        "US-OPS-04",
+        "US-OPS-06",
+        "US-OPS-07",
+        "US-OPS-08",
+        "US-OPS-09"
+      ],
+      "workflows": [],
+      "permission": "laundry.complete",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "closeMaintenanceOrder",
+      "module": "M17",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-023",
+        "FR-044"
+      ],
+      "us": [
+        "US-OPS-03",
+        "US-OPS-04",
+        "US-OPS-06",
+        "US-OPS-07",
+        "US-OPS-08",
+        "US-OPS-09"
+      ],
+      "workflows": [],
+      "permission": "maintenance.close",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "markFacilityReady",
+      "module": "M17",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-023",
+        "FR-044"
+      ],
+      "us": [
+        "US-OPS-03",
+        "US-OPS-04",
+        "US-OPS-06",
+        "US-OPS-07",
+        "US-OPS-08",
+        "US-OPS-09"
+      ],
+      "workflows": [],
+      "permission": "facility.complete",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "dispatchAmbulance",
+      "module": "M17",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-023",
+        "FR-044"
+      ],
+      "us": [
+        "US-OPS-03",
+        "US-OPS-04",
+        "US-OPS-06",
+        "US-OPS-07",
+        "US-OPS-08",
+        "US-OPS-09"
+      ],
+      "workflows": [],
+      "permission": "ambulance.dispatch",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "createEmployee",
+      "module": "M18",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-029",
+        "FR-046"
+      ],
+      "us": [
+        "US-ENT-01",
+        "US-ENT-02",
+        "US-ENT-03"
+      ],
+      "workflows": [],
+      "permission": "hr.manage",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "transferEmployee",
+      "module": "M18",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-029",
+        "FR-046"
+      ],
+      "us": [
+        "US-ENT-01",
+        "US-ENT-02",
+        "US-ENT-03"
+      ],
+      "workflows": [],
+      "permission": "hr.transfer",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "finalizePayroll",
+      "module": "M18",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-029",
+        "FR-046"
+      ],
+      "us": [
+        "US-ENT-01",
+        "US-ENT-02",
+        "US-ENT-03"
+      ],
+      "workflows": [],
+      "permission": "hr.payroll",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "updateRecruitmentStage",
+      "module": "M18",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-029",
+        "FR-046"
+      ],
+      "us": [
+        "US-ENT-01",
+        "US-ENT-02",
+        "US-ENT-03"
+      ],
+      "workflows": [],
+      "permission": "hr.recruit",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "reportSafetyIncident",
+      "module": "M19",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-030",
+        "FR-043",
+        "FR-054"
+      ],
+      "us": [
+        "US-ENT-05",
+        "US-ENT-06",
+        "US-ENT-07",
+        "US-ENT-08"
+      ],
+      "workflows": [],
+      "permission": "quality.incident",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "reviewHAICase",
+      "module": "M19",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-030",
+        "FR-043",
+        "FR-054"
+      ],
+      "us": [
+        "US-ENT-05",
+        "US-ENT-06",
+        "US-ENT-07",
+        "US-ENT-08"
+      ],
+      "workflows": [],
+      "permission": "quality.ppi",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "calculateQualityIndicator",
+      "module": "M19",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-030",
+        "FR-043",
+        "FR-054"
+      ],
+      "us": [
+        "US-ENT-05",
+        "US-ENT-06",
+        "US-ENT-07",
+        "US-ENT-08"
+      ],
+      "workflows": [],
+      "permission": "quality.kpi",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "verifyRiskMitigation",
+      "module": "M19",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-030",
+        "FR-043",
+        "FR-054"
+      ],
+      "us": [
+        "US-ENT-05",
+        "US-ENT-06",
+        "US-ENT-07",
+        "US-ENT-08"
+      ],
+      "workflows": [],
+      "permission": "quality.risk",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "createReport",
+      "module": "M20",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-031"
+      ],
+      "us": [
+        "US-ENT-09",
+        "US-ENT-10"
+      ],
+      "workflows": [],
+      "permission": "report.create",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "approveReport",
+      "module": "M20",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-031"
+      ],
+      "us": [
+        "US-ENT-09",
+        "US-ENT-10"
+      ],
+      "workflows": [],
+      "permission": "report.approve",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "getDashboard",
+      "module": "M20",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-031"
+      ],
+      "us": [
+        "US-ENT-09",
+        "US-ENT-10"
+      ],
+      "workflows": [],
+      "permission": "analytics.read",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "exportReport",
+      "module": "M20",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-031"
+      ],
+      "us": [
+        "US-ENT-09",
+        "US-ENT-10"
+      ],
+      "workflows": [],
+      "permission": "report.export",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "createTenant",
+      "module": "M21",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-001",
+        "FR-002",
+        "FR-003",
+        "FR-008",
+        "FR-032",
+        "FR-035",
+        "FR-037"
+      ],
+      "us": [
+        "US-CORE-01",
+        "US-CORE-02",
+        "US-CORE-03",
+        "US-CORE-04",
+        "US-CORE-05",
+        "US-CORE-06",
+        "US-CORE-07",
+        "US-CORE-12",
+        "US-ENT-11"
+      ],
+      "workflows": [],
+      "permission": "system.tenant",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "assignRole",
+      "module": "M21",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-001",
+        "FR-002",
+        "FR-003",
+        "FR-008",
+        "FR-032",
+        "FR-035",
+        "FR-037"
+      ],
+      "us": [
+        "US-CORE-01",
+        "US-CORE-02",
+        "US-CORE-03",
+        "US-CORE-04",
+        "US-CORE-05",
+        "US-CORE-06",
+        "US-CORE-07",
+        "US-CORE-12",
+        "US-ENT-11"
+      ],
+      "workflows": [],
+      "permission": "system.access",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "updatePractitionerCredential",
+      "module": "M21",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-001",
+        "FR-002",
+        "FR-003",
+        "FR-008",
+        "FR-032",
+        "FR-035",
+        "FR-037"
+      ],
+      "us": [
+        "US-CORE-01",
+        "US-CORE-02",
+        "US-CORE-03",
+        "US-CORE-04",
+        "US-CORE-05",
+        "US-CORE-06",
+        "US-CORE-07",
+        "US-CORE-12",
+        "US-ENT-11"
+      ],
+      "workflows": [],
+      "permission": "system.master",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "publishTariff",
+      "module": "M21",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-001",
+        "FR-002",
+        "FR-003",
+        "FR-008",
+        "FR-032",
+        "FR-035",
+        "FR-037"
+      ],
+      "us": [
+        "US-CORE-01",
+        "US-CORE-02",
+        "US-CORE-03",
+        "US-CORE-04",
+        "US-CORE-05",
+        "US-CORE-06",
+        "US-CORE-07",
+        "US-CORE-12",
+        "US-ENT-11"
+      ],
+      "workflows": [],
+      "permission": "system.catalog",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "reviewTerminologyMapping",
+      "module": "M21",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-001",
+        "FR-002",
+        "FR-003",
+        "FR-008",
+        "FR-032",
+        "FR-035",
+        "FR-037"
+      ],
+      "us": [
+        "US-CORE-01",
+        "US-CORE-02",
+        "US-CORE-03",
+        "US-CORE-04",
+        "US-CORE-05",
+        "US-CORE-06",
+        "US-CORE-07",
+        "US-CORE-12",
+        "US-ENT-11"
+      ],
+      "workflows": [],
+      "permission": "system.terminology",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "updateConsent",
+      "module": "M21",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-001",
+        "FR-002",
+        "FR-003",
+        "FR-008",
+        "FR-032",
+        "FR-035",
+        "FR-037"
+      ],
+      "us": [
+        "US-CORE-01",
+        "US-CORE-02",
+        "US-CORE-03",
+        "US-CORE-04",
+        "US-CORE-05",
+        "US-CORE-06",
+        "US-CORE-07",
+        "US-CORE-12",
+        "US-ENT-11"
+      ],
+      "workflows": [],
+      "permission": "system.consent",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "listIntegrationJobs",
+      "module": "M21",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-001",
+        "FR-002",
+        "FR-003",
+        "FR-008",
+        "FR-032",
+        "FR-035",
+        "FR-037"
+      ],
+      "us": [
+        "US-CORE-01",
+        "US-CORE-02",
+        "US-CORE-03",
+        "US-CORE-04",
+        "US-CORE-05",
+        "US-CORE-06",
+        "US-CORE-07",
+        "US-CORE-12",
+        "US-ENT-11"
+      ],
+      "workflows": [],
+      "permission": "system.integration",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "retryIntegrationJob",
+      "module": "M21",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-001",
+        "FR-002",
+        "FR-003",
+        "FR-008",
+        "FR-032",
+        "FR-035",
+        "FR-037"
+      ],
+      "us": [
+        "US-CORE-01",
+        "US-CORE-02",
+        "US-CORE-03",
+        "US-CORE-04",
+        "US-CORE-05",
+        "US-CORE-06",
+        "US-CORE-07",
+        "US-CORE-12",
+        "US-ENT-11"
+      ],
+      "workflows": [],
+      "permission": "system.integration",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "getPatientPortalSummary",
+      "module": "CH01",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-008"
+      ],
+      "us": [],
+      "workflows": [],
+      "permission": "portal.read",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "revokePatientProxy",
+      "module": "CH01",
+      "source": "PRD-v3.0-Bab-10.2",
+      "mappingConfidence": "prd-module-level-only",
+      "forms": [],
+      "fr": [
+        "FR-008"
+      ],
+      "us": [],
+      "workflows": [],
+      "permission": "portal.manage",
+      "notes": "FR/US at MODULE scope only; per-operation form/workflow traceability pending"
+    },
+    {
+      "operationId": "getPatient",
+      "module": "M01",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-01"
+      ],
+      "fr": [
+        "FR-004"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "patient.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "updatePatientDemographics",
+      "module": "M01",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-01"
+      ],
+      "fr": [
+        "FR-004"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "patient.update",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "listPatientEncounters",
+      "module": "M01",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-01"
+      ],
+      "fr": [
+        "FR-006"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "encounter.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "listPatientMatchCandidates",
+      "module": "M01",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-01"
+      ],
+      "fr": [
+        "FR-004"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "mpi.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "listScheduleSlots",
+      "module": "M01",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-03"
+      ],
+      "fr": [
+        "FR-005"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "appointment.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "getAppointment",
+      "module": "M01",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-03"
+      ],
+      "fr": [
+        "FR-005"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "appointment.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "rescheduleAppointment",
+      "module": "M01",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-03"
+      ],
+      "fr": [
+        "FR-005"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "appointment.write",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "cancelAppointment",
+      "module": "M01",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-03"
+      ],
+      "fr": [
+        "FR-005"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "appointment.write",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "checkInAppointment",
+      "module": "M01",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-02"
+      ],
+      "fr": [
+        "FR-006"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "registration.create",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "getRegistration",
+      "module": "M01",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-02"
+      ],
+      "fr": [
+        "FR-006"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "registration.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "voidRegistration",
+      "module": "M01",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-02"
+      ],
+      "fr": [
+        "FR-006"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "registration.void",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "listQueueTickets",
+      "module": "M01",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-04"
+      ],
+      "fr": [
+        "FR-007"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "queue.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "getQueueTicket",
+      "module": "M01",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-04"
+      ],
+      "fr": [
+        "FR-007"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "queue.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "startQueueService",
+      "module": "M01",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-04"
+      ],
+      "fr": [
+        "FR-007"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "queue.serve",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "completeQueueService",
+      "module": "M01",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-04"
+      ],
+      "fr": [
+        "FR-007"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "queue.serve",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "listServiceUnits",
+      "module": "M01",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M01-02"
+      ],
+      "fr": [
+        "FR-003"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "permission": "master.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "getOutpatientSummary",
+      "module": "M02",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M02-02"
+      ],
+      "fr": [
+        "FR-009"
+      ],
+      "us": [
+        "US-RME-01"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "encounter.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "startOutpatientEncounter",
+      "module": "M02",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M02-02"
+      ],
+      "fr": [
+        "FR-006"
+      ],
+      "us": [
+        "US-RME-01"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "encounter.start",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "getOutpatientCompletionChecklist",
+      "module": "M02",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M02-03"
+      ],
+      "fr": [
+        "FR-060"
+      ],
+      "us": [
+        "US-RME-01"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "encounter.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "updateOutpatientAssessment",
+      "module": "M02",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M02-02"
+      ],
+      "fr": [
+        "FR-009"
+      ],
+      "us": [
+        "US-RME-01"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "clinical.assessment.write",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "recordOutpatientEducation",
+      "module": "M02",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M02-03"
+      ],
+      "fr": [
+        "FR-052"
+      ],
+      "us": [
+        "US-RME-01"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "clinical.education.write",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "createOutpatientFollowup",
+      "module": "M02",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M02-03"
+      ],
+      "fr": [
+        "FR-060"
+      ],
+      "us": [
+        "US-RME-01"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "encounter.followup",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "listOutpatientFollowups",
+      "module": "M02",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M02-03"
+      ],
+      "fr": [
+        "FR-060"
+      ],
+      "us": [
+        "US-RME-01"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "encounter.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "listClinicalNotes",
+      "module": "M05",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-01"
+      ],
+      "fr": [
+        "FR-009"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "clinical.note.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "getClinicalNote",
+      "module": "M05",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-01"
+      ],
+      "fr": [
+        "FR-009"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "clinical.note.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "updateClinicalNoteDraft",
+      "module": "M05",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-01"
+      ],
+      "fr": [
+        "FR-009"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "clinical.note.write",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "listClinicalNoteVersions",
+      "module": "M05",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-07"
+      ],
+      "fr": [
+        "FR-009"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "clinical.note.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "listClinicalAddenda",
+      "module": "M05",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-07"
+      ],
+      "fr": [
+        "FR-009"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "clinical.note.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "listEncounterObservations",
+      "module": "M05",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-02"
+      ],
+      "fr": [
+        "FR-009"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "clinical.observation.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "listEncounterDiagnoses",
+      "module": "M05",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-03"
+      ],
+      "fr": [
+        "FR-059"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "clinical.diagnosis.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "listServiceOrders",
+      "module": "M05",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-04"
+      ],
+      "fr": [
+        "FR-016"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "order.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "getServiceOrder",
+      "module": "M05",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-04"
+      ],
+      "fr": [
+        "FR-016"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "order.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "acceptServiceOrder",
+      "module": "M05",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-04"
+      ],
+      "fr": [
+        "FR-016"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "order.accept",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "cancelServiceOrder",
+      "module": "M05",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-04"
+      ],
+      "fr": [
+        "FR-016"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "order.cancel",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "getReferral",
+      "module": "M05",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-06"
+      ],
+      "fr": [
+        "FR-014"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-09"
+      ],
+      "permission": "referral.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "acceptReferral",
+      "module": "M05",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-06"
+      ],
+      "fr": [
+        "FR-014"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-09"
+      ],
+      "permission": "referral.accept",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "rejectReferral",
+      "module": "M05",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-06"
+      ],
+      "fr": [
+        "FR-014"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-09"
+      ],
+      "permission": "referral.reject",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "getEncounterCarePlans",
+      "module": "M05",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-05"
+      ],
+      "fr": [
+        "FR-012"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "careplan.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "getClinicalDocument",
+      "module": "M05",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-07"
+      ],
+      "fr": [
+        "FR-013"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "clinical.document.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "listClinicalDocumentVersions",
+      "module": "M05",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-07"
+      ],
+      "fr": [
+        "FR-013"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "clinical.document.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "getEncounterTimeline",
+      "module": "M05",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M05-01"
+      ],
+      "fr": [
+        "FR-009"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "permission": "chart.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "getLabOrder",
+      "module": "M09",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M09-01"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "laboratory.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "acceptLabOrder",
+      "module": "M09",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M09-01"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "laboratory.order.accept",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "cancelLabOrder",
+      "module": "M09",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M09-01"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "laboratory.order.cancel",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "listLabOrderSpecimens",
+      "module": "M09",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M09-02"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "laboratory.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "createLabSpecimen",
+      "module": "M09",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M09-02"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "laboratory.specimen",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "getLabSpecimen",
+      "module": "M09",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M09-02"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "laboratory.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "collectLabSpecimen",
+      "module": "M09",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M09-02"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "laboratory.specimen",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "rejectLabSpecimen",
+      "module": "M09",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M09-02"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "laboratory.specimen.reject",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "recollectLabSpecimen",
+      "module": "M09",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M09-02"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "laboratory.specimen",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "getLabReport",
+      "module": "M09",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M09-03"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "laboratory.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "updateLabResultDraft",
+      "module": "M09",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M09-03"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "laboratory.result",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "releaseLabReport",
+      "module": "M09",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M09-03"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "laboratory.release",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "createLabReportAmendment",
+      "module": "M09",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M09-03"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "laboratory.amend",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "listLabReportVersions",
+      "module": "M09",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M09-03"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "laboratory.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "listLabCriticalAlerts",
+      "module": "M09",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M09-03"
+      ],
+      "fr": [
+        "FR-051"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "laboratory.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "acknowledgeCriticalLabResult",
+      "module": "M09",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M09-03"
+      ],
+      "fr": [
+        "FR-051"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "laboratory.critical.ack",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "getLabTestCatalog",
+      "module": "M09",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M09-05"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "laboratory.catalog.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "getLabReferenceRanges",
+      "module": "M09",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M09-05"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "permission": "laboratory.catalog.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "listPrescriptions",
+      "module": "M11",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M11-01"
+      ],
+      "fr": [
+        "FR-020"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "permission": "prescription.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "getPrescription",
+      "module": "M11",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M11-01"
+      ],
+      "fr": [
+        "FR-020"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "permission": "prescription.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "updatePrescriptionDraft",
+      "module": "M11",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M11-01"
+      ],
+      "fr": [
+        "FR-020"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "permission": "prescription.write",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "cancelPrescription",
+      "module": "M11",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M11-01"
+      ],
+      "fr": [
+        "FR-020"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "permission": "prescription.cancel",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "listPrescriptionReviews",
+      "module": "M11",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M11-02"
+      ],
+      "fr": [
+        "FR-020"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "permission": "pharmacy.review",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "getDispensableLines",
+      "module": "M11",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M11-03"
+      ],
+      "fr": [
+        "FR-021"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "permission": "pharmacy.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "listDispenses",
+      "module": "M11",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M11-03"
+      ],
+      "fr": [
+        "FR-021"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "permission": "pharmacy.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "getDispense",
+      "module": "M11",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M11-03"
+      ],
+      "fr": [
+        "FR-021"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "permission": "pharmacy.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "createDispenseReturn",
+      "module": "M11",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M11-03"
+      ],
+      "fr": [
+        "FR-021"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "permission": "pharmacy.return",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "listMedicationAdministrations",
+      "module": "M11",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M11-04"
+      ],
+      "fr": [
+        "FR-021"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "permission": "nursing.medadmin.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "getMedicationAdministration",
+      "module": "M11",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M11-04"
+      ],
+      "fr": [
+        "FR-021"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "permission": "nursing.medadmin.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "recordMedicationNotGiven",
+      "module": "M11",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M11-04"
+      ],
+      "fr": [
+        "FR-021"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "permission": "nursing.medadmin",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "getPharmacyStockAvailability",
+      "module": "M11",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M11-03"
+      ],
+      "fr": [
+        "FR-021"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "permission": "pharmacy.stock.read",
+      "notes": "New operation proposed from workflow/form gap, NOT verbatim PRD v3.0; requires clinical, FE and BE review"
+    },
+    {
+      "operationId": "createPrescriptionDraft",
+      "module": "M11",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M11-01"
+      ],
+      "fr": [
+        "FR-020"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "permission": "prescription.write",
+      "notes": "New draft lifecycle inferred from PRD F-M11-01 and explicit permission review; not baseline PRD endpoint."
+    },
+    {
+      "operationId": "placePrescription",
+      "module": "M11",
+      "source": "v3.1-proposal",
+      "mappingConfidence": "proposed-operation-level",
+      "forms": [
+        "F-M11-01"
+      ],
+      "fr": [
+        "FR-020"
+      ],
+      "us": [
+        "US-MED-04"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "permission": "prescription.place",
+      "notes": "New draft lifecycle inferred from PRD F-M11-01 and explicit permission review; not baseline PRD endpoint."
+    }
+  ]
+}

@@ -1,0 +1,1954 @@
+{
+  "version": "3.1.0-candidate.1",
+  "source": "PRD v3.0, Bab 5-10 plus architecture on-premise",
+  "sourceNature": "new operations are design proposals derived from gaps; not verbatim PRD endpoints",
+  "count": 74,
+  "operations": [
+    {
+      "module": "M01",
+      "method": "GET",
+      "path": "/api/v1/patients/{id}",
+      "operationId": "getPatient",
+      "resource": "Patient",
+      "permission": "patient.read",
+      "forms": [
+        "F-M01-01"
+      ],
+      "fr": [
+        "FR-004"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M01",
+      "method": "PATCH",
+      "path": "/api/v1/patients/{id}",
+      "operationId": "updatePatientDemographics",
+      "resource": "Patient",
+      "permission": "patient.update",
+      "forms": [
+        "F-M01-01"
+      ],
+      "fr": [
+        "FR-004"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "requestFields": "name:string?,birthDate:date?,gender:enum(male,female,other,unknown)?,addresses:object[]?,contactPhones:string[]?,changeReason:string!",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M01",
+      "method": "GET",
+      "path": "/api/v1/patients/{id}/encounters",
+      "operationId": "listPatientEncounters",
+      "resource": "Encounter",
+      "permission": "encounter.read",
+      "forms": [
+        "F-M01-01"
+      ],
+      "fr": [
+        "FR-006"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M01",
+      "method": "GET",
+      "path": "/api/v1/patients/{id}/match-candidates",
+      "operationId": "listPatientMatchCandidates",
+      "resource": "PatientMatchCandidate",
+      "permission": "mpi.read",
+      "forms": [
+        "F-M01-01"
+      ],
+      "fr": [
+        "FR-004"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M01",
+      "method": "GET",
+      "path": "/api/v1/schedules/slots",
+      "operationId": "listScheduleSlots",
+      "resource": "AppointmentSlot",
+      "permission": "appointment.read",
+      "forms": [
+        "F-M01-03"
+      ],
+      "fr": [
+        "FR-005"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M01",
+      "method": "GET",
+      "path": "/api/v1/appointments/{id}",
+      "operationId": "getAppointment",
+      "resource": "Appointment",
+      "permission": "appointment.read",
+      "forms": [
+        "F-M01-03"
+      ],
+      "fr": [
+        "FR-005"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M01",
+      "method": "POST",
+      "path": "/api/v1/appointments/{id}/reschedule",
+      "operationId": "rescheduleAppointment",
+      "resource": "Appointment",
+      "permission": "appointment.write",
+      "forms": [
+        "F-M01-03"
+      ],
+      "fr": [
+        "FR-005"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "requestFields": "targetSlotId:uuid!,reason:string!,expectedVersion:int!",
+      "targetState": "rescheduled",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M01",
+      "method": "POST",
+      "path": "/api/v1/appointments/{id}/cancel",
+      "operationId": "cancelAppointment",
+      "resource": "Appointment",
+      "permission": "appointment.write",
+      "forms": [
+        "F-M01-03"
+      ],
+      "fr": [
+        "FR-005"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "requestFields": "reason:string!,expectedVersion:int!",
+      "targetState": "cancelled",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M01",
+      "method": "POST",
+      "path": "/api/v1/appointments/{id}/check-in",
+      "operationId": "checkInAppointment",
+      "resource": "Registration",
+      "permission": "registration.create",
+      "forms": [
+        "F-M01-02"
+      ],
+      "fr": [
+        "FR-006"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "requestFields": "unitId:uuid!,serviceType:enum(RJ,IGD,RI)!,payer:object!,arrivalAt:datetime!",
+      "targetState": "active",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M01",
+      "method": "GET",
+      "path": "/api/v1/registrations/{id}",
+      "operationId": "getRegistration",
+      "resource": "Registration",
+      "permission": "registration.read",
+      "forms": [
+        "F-M01-02"
+      ],
+      "fr": [
+        "FR-006"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M01",
+      "method": "POST",
+      "path": "/api/v1/registrations/{id}/void",
+      "operationId": "voidRegistration",
+      "resource": "Registration",
+      "permission": "registration.void",
+      "forms": [
+        "F-M01-02"
+      ],
+      "fr": [
+        "FR-006"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "requestFields": "reason:string!,expectedVersion:int!",
+      "targetState": "voided",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M01",
+      "method": "GET",
+      "path": "/api/v1/queues/tickets",
+      "operationId": "listQueueTickets",
+      "resource": "QueueTicket",
+      "permission": "queue.read",
+      "forms": [
+        "F-M01-04"
+      ],
+      "fr": [
+        "FR-007"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M01",
+      "method": "GET",
+      "path": "/api/v1/queues/tickets/{id}",
+      "operationId": "getQueueTicket",
+      "resource": "QueueTicket",
+      "permission": "queue.read",
+      "forms": [
+        "F-M01-04"
+      ],
+      "fr": [
+        "FR-007"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M01",
+      "method": "POST",
+      "path": "/api/v1/queues/tickets/{id}/start",
+      "operationId": "startQueueService",
+      "resource": "QueueTicket",
+      "permission": "queue.serve",
+      "forms": [
+        "F-M01-04"
+      ],
+      "fr": [
+        "FR-007"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "requestFields": "counterId:uuid!,startedAt:datetime!,expectedVersion:int!",
+      "targetState": "in-service",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M01",
+      "method": "POST",
+      "path": "/api/v1/queues/tickets/{id}/complete",
+      "operationId": "completeQueueService",
+      "resource": "QueueTicket",
+      "permission": "queue.serve",
+      "forms": [
+        "F-M01-04"
+      ],
+      "fr": [
+        "FR-007"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "requestFields": "completedAt:datetime!,expectedVersion:int!",
+      "targetState": "done",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M01",
+      "method": "GET",
+      "path": "/api/v1/service-units",
+      "operationId": "listServiceUnits",
+      "resource": "ServiceUnit",
+      "permission": "master.read",
+      "forms": [
+        "F-M01-02"
+      ],
+      "fr": [
+        "FR-003"
+      ],
+      "us": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "workflows": [
+        "WF-01"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M02",
+      "method": "GET",
+      "path": "/api/v1/encounters/{id}/outpatient-summary",
+      "operationId": "getOutpatientSummary",
+      "resource": "OutpatientSummary",
+      "permission": "encounter.read",
+      "forms": [
+        "F-M02-02"
+      ],
+      "fr": [
+        "FR-009"
+      ],
+      "us": [
+        "US-RME-01"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M02",
+      "method": "POST",
+      "path": "/api/v1/encounters/{id}/start",
+      "operationId": "startOutpatientEncounter",
+      "resource": "Encounter",
+      "permission": "encounter.start",
+      "forms": [
+        "F-M02-02"
+      ],
+      "fr": [
+        "FR-006"
+      ],
+      "us": [
+        "US-RME-01"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "requestFields": "startedAt:datetime!,expectedVersion:int!",
+      "targetState": "in-progress",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M02",
+      "method": "GET",
+      "path": "/api/v1/encounters/{id}/completion-checklist",
+      "operationId": "getOutpatientCompletionChecklist",
+      "resource": "CompletionChecklist",
+      "permission": "encounter.read",
+      "forms": [
+        "F-M02-03"
+      ],
+      "fr": [
+        "FR-060"
+      ],
+      "us": [
+        "US-RME-01"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M02",
+      "method": "PATCH",
+      "path": "/api/v1/encounters/{id}/outpatient-assessment",
+      "operationId": "updateOutpatientAssessment",
+      "resource": "OutpatientAssessment",
+      "permission": "clinical.assessment.write",
+      "forms": [
+        "F-M02-02"
+      ],
+      "fr": [
+        "FR-009"
+      ],
+      "us": [
+        "US-RME-01"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "requestFields": "chiefComplaint:string!,history:string?,physicalExam:string?,assessment:string?,managementPlan:string?,expectedVersion:int!",
+      "targetState": "draft",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M02",
+      "method": "POST",
+      "path": "/api/v1/encounters/{id}/education",
+      "operationId": "recordOutpatientEducation",
+      "resource": "PatientEducation",
+      "permission": "clinical.education.write",
+      "forms": [
+        "F-M02-03"
+      ],
+      "fr": [
+        "FR-052"
+      ],
+      "us": [
+        "US-RME-01"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "requestFields": "text:string!,providedAt:datetime!,method:string?",
+      "targetState": "recorded",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M02",
+      "method": "POST",
+      "path": "/api/v1/encounters/{id}/followups",
+      "operationId": "createOutpatientFollowup",
+      "resource": "Followup",
+      "permission": "encounter.followup",
+      "forms": [
+        "F-M02-03"
+      ],
+      "fr": [
+        "FR-060"
+      ],
+      "us": [
+        "US-RME-01"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "requestFields": "followupDate:date!,careUnitId:uuid!,plan:string!",
+      "targetState": "planned",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M02",
+      "method": "GET",
+      "path": "/api/v1/encounters/{id}/followups",
+      "operationId": "listOutpatientFollowups",
+      "resource": "Followup",
+      "permission": "encounter.read",
+      "forms": [
+        "F-M02-03"
+      ],
+      "fr": [
+        "FR-060"
+      ],
+      "us": [
+        "US-RME-01"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M05",
+      "method": "GET",
+      "path": "/api/v1/clinical/notes",
+      "operationId": "listClinicalNotes",
+      "resource": "ClinicalNote",
+      "permission": "clinical.note.read",
+      "forms": [
+        "F-M05-01"
+      ],
+      "fr": [
+        "FR-009"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M05",
+      "method": "GET",
+      "path": "/api/v1/clinical/notes/{id}",
+      "operationId": "getClinicalNote",
+      "resource": "ClinicalNote",
+      "permission": "clinical.note.read",
+      "forms": [
+        "F-M05-01"
+      ],
+      "fr": [
+        "FR-009"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M05",
+      "method": "PATCH",
+      "path": "/api/v1/clinical/notes/{id}",
+      "operationId": "updateClinicalNoteDraft",
+      "resource": "ClinicalNote",
+      "permission": "clinical.note.write",
+      "forms": [
+        "F-M05-01"
+      ],
+      "fr": [
+        "FR-009"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "requestFields": "subjective:string?,objective:string?,assessment:string?,plan:string?,expectedVersion:int!",
+      "targetState": "draft",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M05",
+      "method": "GET",
+      "path": "/api/v1/clinical/notes/{id}/versions",
+      "operationId": "listClinicalNoteVersions",
+      "resource": "ClinicalNoteVersion",
+      "permission": "clinical.note.read",
+      "forms": [
+        "F-M05-07"
+      ],
+      "fr": [
+        "FR-009"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M05",
+      "method": "GET",
+      "path": "/api/v1/clinical/notes/{id}/addenda",
+      "operationId": "listClinicalAddenda",
+      "resource": "ClinicalNoteVersion",
+      "permission": "clinical.note.read",
+      "forms": [
+        "F-M05-07"
+      ],
+      "fr": [
+        "FR-009"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M05",
+      "method": "GET",
+      "path": "/api/v1/encounters/{id}/observations",
+      "operationId": "listEncounterObservations",
+      "resource": "Observation",
+      "permission": "clinical.observation.read",
+      "forms": [
+        "F-M05-02"
+      ],
+      "fr": [
+        "FR-009"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M05",
+      "method": "GET",
+      "path": "/api/v1/encounters/{id}/diagnoses",
+      "operationId": "listEncounterDiagnoses",
+      "resource": "Diagnosis",
+      "permission": "clinical.diagnosis.read",
+      "forms": [
+        "F-M05-03"
+      ],
+      "fr": [
+        "FR-059"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M05",
+      "method": "GET",
+      "path": "/api/v1/orders",
+      "operationId": "listServiceOrders",
+      "resource": "ServiceOrder",
+      "permission": "order.read",
+      "forms": [
+        "F-M05-04"
+      ],
+      "fr": [
+        "FR-016"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M05",
+      "method": "GET",
+      "path": "/api/v1/orders/{id}",
+      "operationId": "getServiceOrder",
+      "resource": "ServiceOrder",
+      "permission": "order.read",
+      "forms": [
+        "F-M05-04"
+      ],
+      "fr": [
+        "FR-016"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M05",
+      "method": "POST",
+      "path": "/api/v1/orders/{id}/accept",
+      "operationId": "acceptServiceOrder",
+      "resource": "ServiceOrder",
+      "permission": "order.accept",
+      "forms": [
+        "F-M05-04"
+      ],
+      "fr": [
+        "FR-016"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "requestFields": "acceptedAt:datetime!,expectedVersion:int!",
+      "targetState": "accepted",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M05",
+      "method": "POST",
+      "path": "/api/v1/orders/{id}/cancel",
+      "operationId": "cancelServiceOrder",
+      "resource": "ServiceOrder",
+      "permission": "order.cancel",
+      "forms": [
+        "F-M05-04"
+      ],
+      "fr": [
+        "FR-016"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "requestFields": "reason:string!,expectedVersion:int!",
+      "targetState": "cancelled",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M05",
+      "method": "GET",
+      "path": "/api/v1/referrals/{id}",
+      "operationId": "getReferral",
+      "resource": "Referral",
+      "permission": "referral.read",
+      "forms": [
+        "F-M05-06"
+      ],
+      "fr": [
+        "FR-014"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-09"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M05",
+      "method": "POST",
+      "path": "/api/v1/referrals/{id}/accept",
+      "operationId": "acceptReferral",
+      "resource": "Referral",
+      "permission": "referral.accept",
+      "forms": [
+        "F-M05-06"
+      ],
+      "fr": [
+        "FR-014"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-09"
+      ],
+      "requestFields": "reason:string?,acceptedAt:datetime!,expectedVersion:int!",
+      "targetState": "accepted",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M05",
+      "method": "POST",
+      "path": "/api/v1/referrals/{id}/reject",
+      "operationId": "rejectReferral",
+      "resource": "Referral",
+      "permission": "referral.reject",
+      "forms": [
+        "F-M05-06"
+      ],
+      "fr": [
+        "FR-014"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-09"
+      ],
+      "requestFields": "reason:string!,expectedVersion:int!",
+      "targetState": "rejected",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M05",
+      "method": "GET",
+      "path": "/api/v1/encounters/{id}/care-plans",
+      "operationId": "getEncounterCarePlans",
+      "resource": "CarePlan",
+      "permission": "careplan.read",
+      "forms": [
+        "F-M05-05"
+      ],
+      "fr": [
+        "FR-012"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M05",
+      "method": "GET",
+      "path": "/api/v1/clinical/documents/{id}",
+      "operationId": "getClinicalDocument",
+      "resource": "ClinicalDocument",
+      "permission": "clinical.document.read",
+      "forms": [
+        "F-M05-07"
+      ],
+      "fr": [
+        "FR-013"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M05",
+      "method": "GET",
+      "path": "/api/v1/clinical/documents/{id}/versions",
+      "operationId": "listClinicalDocumentVersions",
+      "resource": "ClinicalDocumentVersion",
+      "permission": "clinical.document.read",
+      "forms": [
+        "F-M05-07"
+      ],
+      "fr": [
+        "FR-013"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M05",
+      "method": "GET",
+      "path": "/api/v1/encounters/{id}/timeline",
+      "operationId": "getEncounterTimeline",
+      "resource": "EncounterTimelineEvent",
+      "permission": "chart.read",
+      "forms": [
+        "F-M05-01"
+      ],
+      "fr": [
+        "FR-009"
+      ],
+      "us": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11"
+      ],
+      "workflows": [
+        "WF-02"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M09",
+      "method": "GET",
+      "path": "/api/v1/laboratory/orders/{id}",
+      "operationId": "getLabOrder",
+      "resource": "LabOrder",
+      "permission": "laboratory.read",
+      "forms": [
+        "F-M09-01"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M09",
+      "method": "POST",
+      "path": "/api/v1/laboratory/orders/{id}/accept",
+      "operationId": "acceptLabOrder",
+      "resource": "LabOrder",
+      "permission": "laboratory.order.accept",
+      "forms": [
+        "F-M09-01"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "requestFields": "acceptedAt:datetime!,expectedVersion:int!",
+      "targetState": "accepted",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M09",
+      "method": "POST",
+      "path": "/api/v1/laboratory/orders/{id}/cancel",
+      "operationId": "cancelLabOrder",
+      "resource": "LabOrder",
+      "permission": "laboratory.order.cancel",
+      "forms": [
+        "F-M09-01"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "requestFields": "reason:string!,expectedVersion:int!",
+      "targetState": "cancelled",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M09",
+      "method": "GET",
+      "path": "/api/v1/laboratory/orders/{id}/specimens",
+      "operationId": "listLabOrderSpecimens",
+      "resource": "Specimen",
+      "permission": "laboratory.read",
+      "forms": [
+        "F-M09-02"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M09",
+      "method": "POST",
+      "path": "/api/v1/laboratory/orders/{id}/specimens",
+      "operationId": "createLabSpecimen",
+      "resource": "Specimen",
+      "permission": "laboratory.specimen",
+      "forms": [
+        "F-M09-02"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "requestFields": "specimenType:code!,barcode:string!,collectedById:uuid?",
+      "targetState": "ordered",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M09",
+      "method": "GET",
+      "path": "/api/v1/laboratory/specimens/{id}",
+      "operationId": "getLabSpecimen",
+      "resource": "Specimen",
+      "permission": "laboratory.read",
+      "forms": [
+        "F-M09-02"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M09",
+      "method": "POST",
+      "path": "/api/v1/laboratory/specimens/{id}/collect",
+      "operationId": "collectLabSpecimen",
+      "resource": "Specimen",
+      "permission": "laboratory.specimen",
+      "forms": [
+        "F-M09-02"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "requestFields": "barcode:string!,collectedAt:datetime!,collectorId:uuid!,expectedVersion:int!",
+      "targetState": "collected",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M09",
+      "method": "POST",
+      "path": "/api/v1/laboratory/specimens/{id}/reject",
+      "operationId": "rejectLabSpecimen",
+      "resource": "Specimen",
+      "permission": "laboratory.specimen.reject",
+      "forms": [
+        "F-M09-02"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "requestFields": "reasonCode:code!,notes:string?,rejectedAt:datetime!,expectedVersion:int!",
+      "targetState": "rejected",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M09",
+      "method": "POST",
+      "path": "/api/v1/laboratory/specimens/{id}/recollect",
+      "operationId": "recollectLabSpecimen",
+      "resource": "Specimen",
+      "permission": "laboratory.specimen",
+      "forms": [
+        "F-M09-02"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "requestFields": "reason:string!,recollectAt:datetime!,expectedVersion:int!",
+      "targetState": "ordered",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M09",
+      "method": "GET",
+      "path": "/api/v1/laboratory/reports/{id}",
+      "operationId": "getLabReport",
+      "resource": "LabReport",
+      "permission": "laboratory.read",
+      "forms": [
+        "F-M09-03"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M09",
+      "method": "PATCH",
+      "path": "/api/v1/laboratory/reports/{id}/results",
+      "operationId": "updateLabResultDraft",
+      "resource": "LabReport",
+      "permission": "laboratory.result",
+      "forms": [
+        "F-M09-03"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "requestFields": "results:lab-results!,expectedVersion:int!",
+      "targetState": "draft",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M09",
+      "method": "POST",
+      "path": "/api/v1/laboratory/reports/{id}/release",
+      "operationId": "releaseLabReport",
+      "resource": "LabReport",
+      "permission": "laboratory.release",
+      "forms": [
+        "F-M09-03"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "requestFields": "releaseReason:string?,expectedVersion:int!",
+      "targetState": "released",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M09",
+      "method": "POST",
+      "path": "/api/v1/laboratory/reports/{id}/amend",
+      "operationId": "createLabReportAmendment",
+      "resource": "LabReport",
+      "permission": "laboratory.amend",
+      "forms": [
+        "F-M09-03"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "requestFields": "reason:string!,correctedResults:lab-results!,relatedVersion:int!",
+      "targetState": "amended",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M09",
+      "method": "GET",
+      "path": "/api/v1/laboratory/reports/{id}/versions",
+      "operationId": "listLabReportVersions",
+      "resource": "LabReportVersion",
+      "permission": "laboratory.read",
+      "forms": [
+        "F-M09-03"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M09",
+      "method": "GET",
+      "path": "/api/v1/laboratory/reports/{id}/critical-alerts",
+      "operationId": "listLabCriticalAlerts",
+      "resource": "CriticalAlert",
+      "permission": "laboratory.read",
+      "forms": [
+        "F-M09-03"
+      ],
+      "fr": [
+        "FR-051"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M09",
+      "method": "POST",
+      "path": "/api/v1/laboratory/reports/{id}/critical-acknowledgements",
+      "operationId": "acknowledgeCriticalLabResult",
+      "resource": "CriticalAlert",
+      "permission": "laboratory.critical.ack",
+      "forms": [
+        "F-M09-03"
+      ],
+      "fr": [
+        "FR-051"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "requestFields": "alertId:uuid!,acknowledgedAt:datetime!,readBackConfirmed:bool!,expectedVersion:int!",
+      "targetState": "acknowledged",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M09",
+      "method": "GET",
+      "path": "/api/v1/laboratory/test-catalog",
+      "operationId": "getLabTestCatalog",
+      "resource": "LabTest",
+      "permission": "laboratory.catalog.read",
+      "forms": [
+        "F-M09-05"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M09",
+      "method": "GET",
+      "path": "/api/v1/laboratory/test-catalog/{code}/reference-ranges",
+      "operationId": "getLabReferenceRanges",
+      "resource": "LabReferenceRange",
+      "permission": "laboratory.catalog.read",
+      "forms": [
+        "F-M09-05"
+      ],
+      "fr": [
+        "FR-017"
+      ],
+      "us": [
+        "US-MED-01"
+      ],
+      "workflows": [
+        "WF-05"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M11",
+      "method": "GET",
+      "path": "/api/v1/pharmacy/prescriptions",
+      "operationId": "listPrescriptions",
+      "resource": "Prescription",
+      "permission": "prescription.read",
+      "forms": [
+        "F-M11-01"
+      ],
+      "fr": [
+        "FR-020"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M11",
+      "method": "GET",
+      "path": "/api/v1/pharmacy/prescriptions/{id}",
+      "operationId": "getPrescription",
+      "resource": "Prescription",
+      "permission": "prescription.read",
+      "forms": [
+        "F-M11-01"
+      ],
+      "fr": [
+        "FR-020"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M11",
+      "method": "PATCH",
+      "path": "/api/v1/pharmacy/prescriptions/{id}",
+      "operationId": "updatePrescriptionDraft",
+      "resource": "Prescription",
+      "permission": "prescription.write",
+      "forms": [
+        "F-M11-01"
+      ],
+      "fr": [
+        "FR-020"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "requestFields": "items:medication-items!,indication:string?,expectedVersion:int!",
+      "targetState": "draft",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M11",
+      "method": "POST",
+      "path": "/api/v1/pharmacy/prescriptions/{id}/cancel",
+      "operationId": "cancelPrescription",
+      "resource": "Prescription",
+      "permission": "prescription.cancel",
+      "forms": [
+        "F-M11-01"
+      ],
+      "fr": [
+        "FR-020"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "requestFields": "reason:string!,expectedVersion:int!",
+      "targetState": "cancelled",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M11",
+      "method": "GET",
+      "path": "/api/v1/pharmacy/prescriptions/{id}/reviews",
+      "operationId": "listPrescriptionReviews",
+      "resource": "PrescriptionReview",
+      "permission": "pharmacy.review",
+      "forms": [
+        "F-M11-02"
+      ],
+      "fr": [
+        "FR-020"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M11",
+      "method": "GET",
+      "path": "/api/v1/pharmacy/prescriptions/{id}/dispensable-lines",
+      "operationId": "getDispensableLines",
+      "resource": "DispensableLine",
+      "permission": "pharmacy.read",
+      "forms": [
+        "F-M11-03"
+      ],
+      "fr": [
+        "FR-021"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M11",
+      "method": "GET",
+      "path": "/api/v1/pharmacy/dispenses",
+      "operationId": "listDispenses",
+      "resource": "Dispense",
+      "permission": "pharmacy.read",
+      "forms": [
+        "F-M11-03"
+      ],
+      "fr": [
+        "FR-021"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M11",
+      "method": "GET",
+      "path": "/api/v1/pharmacy/dispenses/{id}",
+      "operationId": "getDispense",
+      "resource": "Dispense",
+      "permission": "pharmacy.read",
+      "forms": [
+        "F-M11-03"
+      ],
+      "fr": [
+        "FR-021"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M11",
+      "method": "POST",
+      "path": "/api/v1/pharmacy/dispenses/{id}/returns",
+      "operationId": "createDispenseReturn",
+      "resource": "DispenseReturn",
+      "permission": "pharmacy.return",
+      "forms": [
+        "F-M11-03"
+      ],
+      "fr": [
+        "FR-021"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "requestFields": "lines:return-lines!,reason:string!,expectedVersion:int!",
+      "targetState": "pending-review",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M11",
+      "method": "GET",
+      "path": "/api/v1/medication-administrations",
+      "operationId": "listMedicationAdministrations",
+      "resource": "MedicationAdministration",
+      "permission": "nursing.medadmin.read",
+      "forms": [
+        "F-M11-04"
+      ],
+      "fr": [
+        "FR-021"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M11",
+      "method": "GET",
+      "path": "/api/v1/medication-administrations/{id}",
+      "operationId": "getMedicationAdministration",
+      "resource": "MedicationAdministration",
+      "permission": "nursing.medadmin.read",
+      "forms": [
+        "F-M11-04"
+      ],
+      "fr": [
+        "FR-021"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M11",
+      "method": "POST",
+      "path": "/api/v1/medication-administrations/{id}/not-given",
+      "operationId": "recordMedicationNotGiven",
+      "resource": "MedicationAdministration",
+      "permission": "nursing.medadmin",
+      "forms": [
+        "F-M11-04"
+      ],
+      "fr": [
+        "FR-021"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "requestFields": "reasonCode:code!,recordedAt:datetime!,expectedVersion:int!",
+      "targetState": "not-given",
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M11",
+      "method": "GET",
+      "path": "/api/v1/pharmacy/stock-availability",
+      "operationId": "getPharmacyStockAvailability",
+      "resource": "StockAvailability",
+      "permission": "pharmacy.stock.read",
+      "forms": [
+        "F-M11-03"
+      ],
+      "fr": [
+        "FR-021"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "requestFields": "",
+      "targetState": null,
+      "status": "proposed-v3.1",
+      "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M11",
+      "method": "POST",
+      "path": "/api/v1/pharmacy/prescriptions/drafts",
+      "operationId": "createPrescriptionDraft",
+      "resource": "Prescription",
+      "permission": "prescription.write",
+      "forms": [
+        "F-M11-01"
+      ],
+      "fr": [
+        "FR-020"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "requestFields": "encounterId:uuid!,items:medication-items!,indication:string?",
+      "targetState": "draft",
+      "status": "proposed-v3.1",
+      "rationale": "Optional draft before physician approval; new extension not in original PRD API table."
+    },
+    {
+      "module": "M11",
+      "method": "POST",
+      "path": "/api/v1/pharmacy/prescriptions/{id}/place",
+      "operationId": "placePrescription",
+      "resource": "Prescription",
+      "permission": "prescription.place",
+      "forms": [
+        "F-M11-01"
+      ],
+      "fr": [
+        "FR-020"
+      ],
+      "us": [
+        "US-MED-04"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "requestFields": "expectedVersion:int!,signReason:string?",
+      "targetState": "ordered",
+      "status": "proposed-v3.1",
+      "rationale": "Convert authorized physician draft into ordered prescription with immutable version; sign-off required."
+    }
+  ]
+}

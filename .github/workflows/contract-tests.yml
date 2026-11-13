@@ -16,5 +16,7 @@ jobs:
         run: node --check mock-server.mjs
       - name: Validate OpenAPI coverage
         run: npm run validate:contract
+      - name: Check v3.1 reproducibility and schema contracts
+        run: npm run check:v3.1
       - name: Run mock API tests
         run: npm test
