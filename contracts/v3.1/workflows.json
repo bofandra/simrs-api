@@ -120,6 +120,9 @@
       ],
       "status": "contract-designed",
       "steps": [
+        "createPrescriptionDraft",
+        "updatePrescriptionDraft",
+        "placePrescription",
         "createPrescription",
         "getPrescription",
         "reviewPrescription",
