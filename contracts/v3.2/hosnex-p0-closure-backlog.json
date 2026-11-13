@@ -1,0 +1,381 @@
+{
+  "schemaVersion": 1,
+  "asOf": "2026-11-14",
+  "status": "REVIEW_BACKLOG_NOT_APPROVED",
+  "source": "contracts/hosnex-action-coverage.json",
+  "overlay": "contracts/v3.2/hosnex-p0-overlay.json",
+  "totalP0Actions": 65,
+  "counts": {
+    "existingCandidate": 21,
+    "existingPartial": 13,
+    "coveredByV32Proposal": 16,
+    "missingNoProposal": 15
+  },
+  "baselineCandidateOperations": 180,
+  "proposedAdditions": 19,
+  "composedCandidateOperations": 199,
+  "warning": "Counts are static action mappings, NOT implemented or signed-off API coverage. 19 overlay endpoints do not automatically close 16 proposed mappings.",
+  "proposalBacklinks": [
+    {
+      "action": "grantPortal",
+      "operationIds": [
+        "grantMyPortalProxy"
+      ],
+      "module": "CH01",
+      "priorStatus": "missing"
+    },
+    {
+      "action": "releasePortalDocument",
+      "operationIds": [
+        "setDocumentPortalDisclosure"
+      ],
+      "module": "CH01",
+      "priorStatus": "missing"
+    },
+    {
+      "action": "readPortalDocument",
+      "operationIds": [
+        "listMyDocuments",
+        "getMyDocument"
+      ],
+      "module": "CH01",
+      "priorStatus": "missing"
+    },
+    {
+      "action": "bookPortalAppointment",
+      "operationIds": [
+        "listUnitPractitioners",
+        "listMyAppointments",
+        "bookMyAppointment"
+      ],
+      "module": "CH01",
+      "priorStatus": "partial"
+    },
+    {
+      "action": "cancelPortalAppointment",
+      "operationIds": [
+        "listMyAppointments",
+        "cancelMyAppointment"
+      ],
+      "module": "CH01",
+      "priorStatus": "partial"
+    },
+    {
+      "action": "checkInPortalAppointment",
+      "operationIds": [
+        "listMyAppointments",
+        "checkInMyAppointment"
+      ],
+      "module": "CH01",
+      "priorStatus": "partial"
+    },
+    {
+      "action": "clarifyPrescription",
+      "operationIds": [
+        "requestRxClarification"
+      ],
+      "module": "M11",
+      "priorStatus": "missing"
+    },
+    {
+      "action": "resolvePrescription",
+      "operationIds": [
+        "resolveRxClarification"
+      ],
+      "module": "M11",
+      "priorStatus": "missing"
+    },
+    {
+      "action": "preparePrescription",
+      "operationIds": [
+        "prepareRx"
+      ],
+      "module": "M11",
+      "priorStatus": "missing"
+    },
+    {
+      "action": "checkPreparedItem",
+      "operationIds": [
+        "verifyPreparedRxLine"
+      ],
+      "module": "M11",
+      "priorStatus": "missing"
+    },
+    {
+      "action": "readyPrescription",
+      "operationIds": [
+        "markPreparedRxReady"
+      ],
+      "module": "M11",
+      "priorStatus": "missing"
+    },
+    {
+      "action": "register",
+      "operationIds": [
+        "listUnitPractitioners",
+        "checkBPJSEligibility"
+      ],
+      "module": "M01",
+      "priorStatus": "partial"
+    },
+    {
+      "action": "reserveBed",
+      "operationIds": [
+        "reserveAdmissionBed"
+      ],
+      "module": "M04",
+      "priorStatus": "missing"
+    },
+    {
+      "action": "admit",
+      "operationIds": [
+        "admitReservedPatient"
+      ],
+      "module": "M04",
+      "priorStatus": "missing"
+    },
+    {
+      "action": "setBedStatus",
+      "operationIds": [
+        "changeBedAvailability"
+      ],
+      "module": "M04",
+      "priorStatus": "missing"
+    },
+    {
+      "action": "saveEncounter",
+      "operationIds": [
+        "saveCompositeEncounterDraft"
+      ],
+      "module": "M02",
+      "priorStatus": "partial"
+    }
+  ],
+  "unmappedP0": [
+    {
+      "action": "validateIntegrationJob",
+      "module": "M21",
+      "lane": "M21 / outbox-state",
+      "decision": "propose-command",
+      "endpoint": "POST /api/v1/integrations/jobs/{id}/validate",
+      "mustHave": [
+        "explicit actor and tenant scope",
+        "validated source/expectedVersion",
+        "idempotency and immutable event log",
+        "negative 401/403/409/412/422",
+        "UAT + safety sign-off"
+      ],
+      "status": "NOT_IN_COMPOSED_OPENAPI"
+    },
+    {
+      "action": "sendIntegrationJob",
+      "module": "M21",
+      "lane": "M21 / outbox-state",
+      "decision": "propose-command",
+      "endpoint": "POST /api/v1/integrations/jobs/{id}/send",
+      "mustHave": [
+        "explicit actor and tenant scope",
+        "validated source/expectedVersion",
+        "idempotency and immutable event log",
+        "negative 401/403/409/412/422",
+        "UAT + safety sign-off"
+      ],
+      "status": "NOT_IN_COMPOSED_OPENAPI"
+    },
+    {
+      "action": "resolveIntegrationJob",
+      "module": "M21",
+      "lane": "M21 / outbox-state",
+      "decision": "propose-command",
+      "endpoint": "POST /api/v1/integrations/jobs/{id}/resolve",
+      "mustHave": [
+        "explicit actor and tenant scope",
+        "validated source/expectedVersion",
+        "idempotency and immutable event log",
+        "negative 401/403/409/412/422",
+        "UAT + safety sign-off"
+      ],
+      "status": "NOT_IN_COMPOSED_OPENAPI"
+    },
+    {
+      "action": "reconcileIntegrationJob",
+      "module": "M21",
+      "lane": "M21 / outbox-state",
+      "decision": "propose-command",
+      "endpoint": "POST /api/v1/integrations/jobs/{id}/reconcile",
+      "mustHave": [
+        "explicit actor and tenant scope",
+        "validated source/expectedVersion",
+        "idempotency and immutable event log",
+        "negative 401/403/409/412/422",
+        "UAT + safety sign-off"
+      ],
+      "status": "NOT_IN_COMPOSED_OPENAPI"
+    },
+    {
+      "action": "resetIntegrationJob",
+      "module": "M21",
+      "lane": "M21 / outbox-state",
+      "decision": "propose-command",
+      "endpoint": "POST /api/v1/integrations/jobs/{id}/reset",
+      "mustHave": [
+        "explicit actor and tenant scope",
+        "validated source/expectedVersion",
+        "idempotency and immutable event log",
+        "negative 401/403/409/412/422",
+        "UAT + safety sign-off"
+      ],
+      "status": "NOT_IN_COMPOSED_OPENAPI"
+    },
+    {
+      "action": "cancelIntegrationJob",
+      "module": "M21",
+      "lane": "M21 / outbox-state",
+      "decision": "propose-command",
+      "endpoint": "POST /api/v1/integrations/jobs/{id}/cancel",
+      "mustHave": [
+        "explicit actor and tenant scope",
+        "validated source/expectedVersion",
+        "idempotency and immutable event log",
+        "negative 401/403/409/412/422",
+        "UAT + safety sign-off"
+      ],
+      "status": "NOT_IN_COMPOSED_OPENAPI"
+    },
+    {
+      "action": "signInPortal",
+      "module": "CH01",
+      "lane": "CH01 / OIDC",
+      "decision": "delegate-to-patient-OIDC",
+      "endpoint": null,
+      "mustHave": [
+        "explicit actor and tenant scope",
+        "validated source/expectedVersion",
+        "idempotency and immutable event log",
+        "negative 401/403/409/412/422",
+        "UAT + safety sign-off"
+      ],
+      "status": "NOT_IN_COMPOSED_OPENAPI"
+    },
+    {
+      "action": "signOutPortal",
+      "module": "CH01",
+      "lane": "CH01 / OIDC",
+      "decision": "delegate-to-patient-OIDC",
+      "endpoint": null,
+      "mustHave": [
+        "explicit actor and tenant scope",
+        "validated source/expectedVersion",
+        "idempotency and immutable event log",
+        "negative 401/403/409/412/422",
+        "UAT + safety sign-off"
+      ],
+      "status": "NOT_IN_COMPOSED_OPENAPI"
+    },
+    {
+      "action": "setInventoryMinimum",
+      "module": "M16",
+      "lane": "M16 / safety",
+      "decision": "defer-write-until-SOP-UAT",
+      "endpoint": "PATCH /api/v1/inventory/items/{id}/reorder-policy",
+      "mustHave": [
+        "explicit actor and tenant scope",
+        "validated source/expectedVersion",
+        "idempotency and immutable event log",
+        "negative 401/403/409/412/422",
+        "UAT + safety sign-off"
+      ],
+      "status": "NOT_IN_COMPOSED_OPENAPI"
+    },
+    {
+      "action": "reopenMedicalSummary",
+      "module": "M05",
+      "lane": "M05 / signed-document",
+      "decision": "propose-command",
+      "endpoint": "POST /api/v1/clinical/summaries/{id}/reopen",
+      "mustHave": [
+        "explicit actor and tenant scope",
+        "validated source/expectedVersion",
+        "idempotency and immutable event log",
+        "negative 401/403/409/412/422",
+        "UAT + safety sign-off"
+      ],
+      "status": "NOT_IN_COMPOSED_OPENAPI"
+    },
+    {
+      "action": "saveMorbidityCoding",
+      "module": "M05",
+      "lane": "M05 / coding",
+      "decision": "propose-command",
+      "endpoint": "PUT /api/v1/encounters/{id}/coding",
+      "mustHave": [
+        "explicit actor and tenant scope",
+        "validated source/expectedVersion",
+        "idempotency and immutable event log",
+        "negative 401/403/409/412/422",
+        "UAT + safety sign-off"
+      ],
+      "status": "NOT_IN_COMPOSED_OPENAPI"
+    },
+    {
+      "action": "reopenMorbidityCoding",
+      "module": "M05",
+      "lane": "M05 / coding",
+      "decision": "propose-command",
+      "endpoint": "POST /api/v1/encounters/{id}/coding/reopen",
+      "mustHave": [
+        "explicit actor and tenant scope",
+        "validated source/expectedVersion",
+        "idempotency and immutable event log",
+        "negative 401/403/409/412/422",
+        "UAT + safety sign-off"
+      ],
+      "status": "NOT_IN_COMPOSED_OPENAPI"
+    },
+    {
+      "action": "readyClaim",
+      "module": "M14",
+      "lane": "M14 / BPJS",
+      "decision": "propose-command",
+      "endpoint": "POST /api/v1/claims/{id}/ready",
+      "mustHave": [
+        "explicit actor and tenant scope",
+        "validated source/expectedVersion",
+        "idempotency and immutable event log",
+        "negative 401/403/409/412/422",
+        "UAT + safety sign-off"
+      ],
+      "status": "NOT_IN_COMPOSED_OPENAPI"
+    },
+    {
+      "action": "reopenClaim",
+      "module": "M14",
+      "lane": "M14 / BPJS",
+      "decision": "propose-command",
+      "endpoint": "POST /api/v1/claims/{id}/reopen",
+      "mustHave": [
+        "explicit actor and tenant scope",
+        "validated source/expectedVersion",
+        "idempotency and immutable event log",
+        "negative 401/403/409/412/422",
+        "UAT + safety sign-off"
+      ],
+      "status": "NOT_IN_COMPOSED_OPENAPI"
+    },
+    {
+      "action": "acknowledgeClaim",
+      "module": "M14",
+      "lane": "M14 / external-ack",
+      "decision": "propose-command-no-real-ack",
+      "endpoint": "POST /api/v1/claims/{id}/acknowledgements",
+      "mustHave": [
+        "explicit actor and tenant scope",
+        "validated source/expectedVersion",
+        "idempotency and immutable event log",
+        "negative 401/403/409/412/422",
+        "UAT + safety sign-off"
+      ],
+      "status": "NOT_IN_COMPOSED_OPENAPI"
+    }
+  ]
+}
