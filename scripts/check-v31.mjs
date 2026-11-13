@@ -31,7 +31,7 @@ function validate(s,data,path='$',depth=0){
   if(Array.isArray(s.type)){assert(s.type.some(t=>t==='null'&&data===null||t==='string'&&typeof data==='string'), 'Invalid union at '+path);return}
   if(s.type==='object'){
     assert(data!==null&&typeof data==='object'&&!Array.isArray(data),'Object expected at '+path);
-    for(const k of s.required||[])assert(data[k]!==undefined&&data[k]!==null,'Missing '+path+'.'+k);
+    for(const k of s.required||[])assert(data[k]!==undefined,'Missing '+path+'.'+k);
     for(const [k,v] of Object.entries(s.properties||{}))if(data[k]!==undefined)validate(v,data[k],path+'.'+k,depth+1);
   }else if(s.type==='array'){assert(Array.isArray(data),'Array expected at '+path);for(let i=0;i<data.length;i++)validate(s.items,data[i],path+'['+i+']',depth+1)}
   else if(s.type==='integer')assert(Number.isInteger(data),'Integer expected at '+path);
