@@ -302,6 +302,32 @@ function applyV31(operation, body, output, db, requestPath) {
       return entity(output,{id:r.id,status:'released',labOrderId:r.orderId,encounterId:r.encounterId,
         specimenId:r.specimenId,results:r.results,releasedAt:new Date().toISOString()});
     }
+    case 'createPrescriptionDraft': {
+      const draft={id:randomUUID(),encounterId:body.encounterId,patientId,items:body.items||[],
+        status:'draft',version:1,indication:body.indication||''};
+      db.prescriptions.push(draft);return entity(output,draft);
+    }
+    case 'updatePrescriptionDraft': {
+      const draft=db.prescriptions.find(v=>v.id===id);
+      if(!draft)return error(404,'PRESCRIPTION_NOT_FOUND','Draft resep demo tidak ditemukan');
+      if(draft.status!=='draft')return error(409,'PRESCRIPTION_NOT_DRAFT','Hanya draft resep yang dapat diubah');
+      draft.items=body.items||draft.items;draft.indication=body.indication||draft.indication;
+      draft.version=(draft.version||1)+1;return entity(output,draft);
+    }
+    case 'placePrescription': {
+      const draft=db.prescriptions.find(v=>v.id===id);
+      if(!draft)return error(404,'PRESCRIPTION_NOT_FOUND','Draft resep demo tidak ditemukan');
+      if(draft.status!=='draft')return error(409,'PRESCRIPTION_NOT_DRAFT','Hanya draft yang dapat di-place');
+      if(!draft.items.length)return error(422,'PRESCRIPTION_ITEMS_REQUIRED','Resep demo tidak memiliki item');
+      draft.status='ordered';draft.version=(draft.version||1)+1;
+      return entity(output,draft);
+    }
+    case 'cancelPrescription': {
+      const p=db.prescriptions.find(v=>v.id===id);
+      if(!p)return error(404,'PRESCRIPTION_NOT_FOUND','Resep demo tidak ditemukan');
+      if(!['draft','ordered','reviewed'].includes(p.status))return error(409,'PRESCRIPTION_CANNOT_CANCEL','Resep telah masuk tahap dispensing');
+      p.status='cancelled';return entity(output,p);
+    }
     case 'getPrescription': {
       const p=db.prescriptions.find(v=>v.id===id);
       return p?entity(output,p):null;
