@@ -2,7 +2,7 @@
   "version": "3.1.0-candidate.1",
   "source": "PRD v3.0, Bab 5-10 plus architecture on-premise",
   "sourceNature": "new operations are design proposals derived from gaps; not verbatim PRD endpoints",
-  "count": 72,
+  "count": 74,
   "operations": [
     {
       "module": "M01",
@@ -1900,6 +1900,55 @@
       "targetState": null,
       "status": "proposed-v3.1",
       "rationale": "Mendukung read/detail/draft/transisi dan traceability per form PRD v3.0; membutuhkan review FE-BE dan SOP/UAT."
+    },
+    {
+      "module": "M11",
+      "method": "POST",
+      "path": "/api/v1/pharmacy/prescriptions/drafts",
+      "operationId": "createPrescriptionDraft",
+      "resource": "Prescription",
+      "permission": "prescription.write",
+      "forms": [
+        "F-M11-01"
+      ],
+      "fr": [
+        "FR-020"
+      ],
+      "us": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "requestFields": "encounterId:uuid!,items:medication-items!,indication:string?",
+      "targetState": "draft",
+      "status": "proposed-v3.1",
+      "rationale": "Optional draft before physician approval; new extension not in original PRD API table."
+    },
+    {
+      "module": "M11",
+      "method": "POST",
+      "path": "/api/v1/pharmacy/prescriptions/{id}/place",
+      "operationId": "placePrescription",
+      "resource": "Prescription",
+      "permission": "prescription.place",
+      "forms": [
+        "F-M11-01"
+      ],
+      "fr": [
+        "FR-020"
+      ],
+      "us": [
+        "US-MED-04"
+      ],
+      "workflows": [
+        "WF-07"
+      ],
+      "requestFields": "expectedVersion:int!,signReason:string?",
+      "targetState": "ordered",
+      "status": "proposed-v3.1",
+      "rationale": "Convert authorized physician draft into ordered prescription with immutable version; sign-off required."
     }
   ]
 }
