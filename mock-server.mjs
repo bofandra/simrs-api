@@ -241,8 +241,8 @@ export function createMockServer() {
           !['1', '"1"'].includes(req.headers['if-match']))
         return json(res, 412, problem('STALE_VERSION', 'If-Match demo harus 1 atau "1"', correlationId), correlationId);
       try { body = await readBody(req); }
-      catch (err) return json(res, 400,
-        problem('INVALID_BODY', 'JSON tidak valid atau terlalu besar', correlationId), correlationId);
+      catch (err) { return json(res, 400,
+        problem('INVALID_BODY', 'JSON tidak valid atau terlalu besar', correlationId), correlationId); }
       const dto = operation.detail.requestBody?.content?.['application/json']?.schema;
       const fieldErrors = validate(dto, body);
       if (fieldErrors.length) return json(res, 422,
