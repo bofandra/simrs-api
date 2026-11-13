@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SIMRS API v3.0 • Contract Explorer</title>
+<style>
+:root{font-family:Inter,system-ui,Arial,sans-serif;color:#22364d;background:#f4f7fb}
+*{box-sizing:border-box}body{margin:0}header{padding:26px max(24px,calc((100vw - 1180px)/2));background:linear-gradient(110deg,#112842,#204d70);color:#fff}h1{margin:6px 0;font-size:27px;letter-spacing:-.5px}header p{max-width:880px;color:#d2e3ed;margin-bottom:0}main{max-width:1200px;margin:20px auto;padding:0 20px 60px}.badge{display:inline-block;background:#f6d991;color:#473000;border-radius:6px;font-size:11px;font-weight:800;padding:6px 8px}.layout{display:grid;grid-template-columns:minmax(320px,.9fr) minmax(320px,1.1fr);gap:16px}.card{background:#fff;border:1px solid #dae4ed;border-radius:14px;padding:20px;box-shadow:0 4px 22px #243c5420}h2{font-size:18px;margin:0 0 14px}label{display:block;margin:12px 0 6px;font-size:12px;font-weight:800;color:#41586c}select,textarea,input{width:100%;padding:11px;border:1px solid #cbd9e6;border-radius:8px;background:#fff;color:#233a51;font:inherit}textarea{font:12px/1.5 ui-monospace,Consolas,monospace;min-height:180px;resize:vertical}code,pre{font:12px/1.55 ui-monospace,Consolas,monospace}pre{margin:0;white-space:pre-wrap;word-break:break-word;color:#19354f;background:#f5f8fb;border-radius:9px;border:1px solid #dae6ef;padding:16px;max-height:470px;overflow:auto}button{padding:11px 14px;background:#087f80;border:0;border-radius:8px;color:#fff;font-weight:800;cursor:pointer}button:hover{background:#09666a}.meta{font-size:12px;color:#667b8c;margin:12px 0;min-height:35px}.method{font-weight:850;color:#056979}.small{font-size:12px;color:#61768b}.links{display:flex;gap:14px;flex-wrap:wrap}a{color:#066980}section{margin-bottom:18px}.status{font-weight:800;color:#087f80}.error{color:#b22b3b}.swagger-wrap{display:none}.swagger-wrap.active{display:block}.swagger-link{margin-top:16px}
+@media(max-width:800px){.layout{grid-template-columns:1fr}header{padding:25px}h1{font-size:22px}}
+</style></head>
+<body>
+<header><span class="badge">CONTRACT-FIRST • SEMUA DATA DUMMY • NONPRODUKSI</span><h1>SIMRS API — OpenAPI v3.0</h1><p>106 operasi dari 21 modul + Portal Pasien. Gunakan playground browser untuk menguji contoh respons tanpa backend. Jalankan Node mock-server agar Swagger Try it out dapat mengirim HTTP sungguhan (tetap simulasi).</p></header>
+<main>
+<section class="card"><div class="links"><a href="../openapi.json" target="_blank" rel="noopener">OpenAPI 3.1 JSON</a><a href="https://github.com/bofandra/simrs-api" target="_blank" rel="noopener">Source GitHub</a><a href="https://bofandra.github.io/simrs/" target="_blank" rel="noopener">Mockup FE SIMRS</a></div><p class="small">Perhatian: Playground di halaman statis hanya menyusun <strong>contoh respons lokal</strong>; bukan fetch HTTP, bukan uji otorisasi, dan tidak memproses transaksi. Untuk menguji HTTP, jalankan <code>npm start</code> lalu pilih Swagger UI di <code>http://localhost:4010/docs</code>.</p></section>
+<div class="layout"><section class="card"><h2>API Playground (browser-only)</h2>
+<label for="module">Modul</label><select id="module"></select>
+<label for="operation">Operasi API</label><select id="operation"></select>
+<p class="meta" id="meta" aria-live="polite"></p>
+<label for="request">Query / Body JSON sintetis</label><textarea id="request" spellcheck="false"></textarea>
+<p class="small">Contoh request disusun dari schema. Respons browser hanyalah response example dalam kontrak, tidak membuat perubahan data.</p>
+<button type="button" id="trigger">Trigger dummy response</button></section>
+<section class="card"><h2>Respons Simulasi</h2><p class="small" id="response-label">Pilih operasi kemudian trigger.</p><pre id="response" aria-live="polite">{"demo":true,"message":"Belum ada request"}</pre></section></div>
+<section class="card swagger-link"><h2>Swagger UI — untuk HTTP mock lokal</h2><p class="small">Halaman ini otomatis menampilkan Swagger UI ketika dibuka melalui server Node mock di <code>/docs</code>. Di GitHub Pages tidak ada backend HTTP, sehingga sandbox browser di atas yang digunakan.</p><div id="swagger-ui"></div></section>
+</main>
+<script src="../openapi.json" type="application/json" id="contract-src"></script>
+<script>
+(async function(){
+  const moduleSelect=document.getElementById('module'),opSelect=document.getElementById('operation');
+  const meta=document.getElementById('meta'),input=document.getElementById('request');
+  const output=document.getElementById('response'),status=document.getElementById('response-label');
+  try {
+    const locationSpec=location.pathname.startsWith('/docs')?'/openapi.json':'../openapi.json';
+    const response=await fetch(locationSpec,{cache:'no-store'});
+    if(!response.ok)throw new Error('HTTP '+response.status);
+    const spec=await response.json();
+    const operations=Object.entries(spec.paths).flatMap(([path,verbs])=>Object.entries(verbs)
+      .filter(([method])=>['get','post','put','patch','delete'].includes(method))
+      .map(([method,definition])=>({path,method:method.toUpperCase(),...definition})));
+    const tags=[...new Set(operations.flatMap(o=>o.tags||[]))];
+    for(const tag of tags){let e=document.createElement('option');e.value=tag;e.textContent=tag+' — '+(spec.tags.find(t=>t.name===tag)?.description||'');moduleSelect.appendChild(e)}
+    function resolveSchema(schema){return schema?.$ref?spec.components.schemas[schema.$ref.split('/').pop()]:schema}
+    function buildExample(schema){schema=resolveSchema(schema)||{};if(schema.example!==undefined)return schema.example;if(schema.enum)return schema.enum[0];
+      if(schema.type==='object'){let o={};for(const [k,v] of Object.entries(schema.properties||{}))if((schema.required||[]).includes(k))o[k]=buildExample(v);return o}
+      if(schema.type==='array')return [];if(schema.type==='integer'||schema.type==='number')return 1;if(schema.type==='boolean')return true;return 'DEMO'}
+    function selected(){return operations.find(o=>o.operationId===opSelect.value)}
+    function pickModule(){opSelect.replaceChildren();for(const op of operations.filter(o=>o.tags?.[0]===moduleSelect.value)){
+      const e=document.createElement('option');e.value=op.operationId;e.textContent=op.method+' '+op.path+' • '+op.operationId;opSelect.appendChild(e)}pickOp()}
+    function pickOp(){const op=selected();if(!op)return;
+      meta.innerHTML='<span class="method">'+op.method+' '+op.path+'</span><br>operationId: '+op.operationId+' • permission: '+(op['x-permission']||'-');
+      const body=op.requestBody?.content?.['application/json'];
+      input.value=JSON.stringify(body?.example??(body?buildExample(body.schema):{}),null,2);
+      output.textContent='{"demo":true,"message":"Klik trigger untuk melihat contoh response."}';status.textContent='Belum dikirim';
+    }
+    moduleSelect.onchange=pickModule;opSelect.onchange=pickOp;pickModule();
+    document.getElementById('trigger').onclick=function(){
+      const op=selected();try{
+        JSON.parse(input.value||'{}');const code=Object.keys(op.responses).find(k=>/^2\d\d$/.test(k));
+        const value=op.responses[code]?.content?.['application/json']?.example??{};
+        const displayed=Array.isArray(value)?value:JSON.parse(JSON.stringify(value));
+        output.textContent=JSON.stringify(displayed,null,2);
+        status.className='small status';status.textContent='SIMULASI LOKAL • HTTP '+code+' (contoh, bukan request jaringan)';
+      }catch(e){status.className='small error';status.textContent='JSON request tidak valid';output.textContent=String(e.message)}
+    };
+    if(location.hostname==='localhost'||location.hostname==='127.0.0.1'){
+      const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-bundle.js';
+      const css=document.createElement('link');css.rel='stylesheet';css.href='https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui.css';document.head.appendChild(css);
+      s.onload=()=>{window.SwaggerUIBundle({url:'/openapi.json',dom_id:'#swagger-ui',deepLinking:true,
+        persistAuthorization:false,displayRequestDuration:true});};
+      document.body.appendChild(s);
+    }
+  }catch(e){status.textContent='Gagal memuat kontrak OpenAPI';output.textContent=String(e.message)}
+})();
+</script></body></html>
