@@ -46,3 +46,20 @@ Terdiri dari M01 (practitioner per unit, pengecekan eligibility BPJS sintetik), 
 - Tidak mengaktifkan dispensing, stok, billing, pembayaran, tanda tangan klinis, BPJS/SATUSEHAT sebelum SOP, otorisasi dan UAT.
 
 Rekomendasi: integrasi **read-only terlebih dahulu**, lalu draft klinis, dan baru transisi sensitif dengan approval. Generated client di FE harus memakai DTO backend, bukan tipe store lokal.
+
+
+## Implementasi HTTP terverifikasi — 14 November 2026
+
+Branch `feat/hosnex-api-alignment-20261114` memuat komposisi otomatis spesifikasi **v3.2.0-draft.0** dari 180 operasi v3.1 (dipertahankan byte-for-byte per operasi) + 19 proposal baru. Penelusuran OpenAPI saat mock dijalankan melalui `npm run start:v3.2` (port 4010) atau `/openapi-v3.2.json`.
+
+- `scripts/compose-hosnex-v32.mjs` membangun OpenAPI 3.1 komposit; `npm run check:v3.2` memvalidasi 199 operationId, method, path, permission, schema, dan provenance tanpa mengubah 180 kontrak awal.
+- `tests/workflow-hosnex-v32.test.mjs` menembak Node mock dengan HTTP untuk satu rangkaian pasien → registrasi → chart poli → SOAP/penandatanganan sintetis → order LAB → spesimen → verifikasi dan release → resep → review apoteker → dispensing sintetis → close encounter.
+- Mock v3.2 membuat `patientId`, `registrationId`, `queueTicketId`, `encounterId` dan atribut `queueNumber` konsisten di lintas request. Pencarian pasien menggunakan filter `q`, worklist menampilkan pasien yang benar; chart menampilkan hasil LAB berstatus released.
+- Validasi negatif telah mencakup `UNKNOWN_PATIENT`, versi draft stale (`412`), release LAB prematur (`422`), dispense sebelum review (`422`), dan operation overlay yang belum memiliki simulasi (`501`).
+- Dari 19 operasi overlay, baru **tiga** memiliki perilaku mock eksplisit (`listUnitPractitioners`, `checkBPJSEligibility` sintetis, `saveCompositeEncounterDraft`). Sisanya secara sengaja mengembalikan `501 SCENARIO_NOT_IMPLEMENTED`, bukan success palsu.
+
+**Perhatian:** kata `signed`, `dispensed`, dan `completed` di sini merujuk ke **perubahan state data sintetis di memori** untuk uji kontrak, bukan tanda tangan klinis, pengeluaran stok, transaksi atau pemberian obat sungguhan. Tidak ada persistensi PostgreSQL.
+
+HOSNEX kini menyediakan halaman QA `/api-workflow` yang mengakses HTTP mock lokal dan panel GET read-only pada empat UI modul. Halaman pelayanan utama **masih memakai store fiktif lama**; migrasi action utama, auth per profesi, E2E browser dan UAT lapangan merupakan pekerjaan lanjutan, bukan bagian yang telah dinyatakan selesai.
+
+Status: backend CI `https://github.com/bofandra/simrs-api/actions/runs/43522923317`; frontend cross-repo E2E `https://github.com/bofandra/hosnex/actions/runs/43523790593`. Kedua PR masih draft untuk review dan persetujuan FE/BE/klinisi.
