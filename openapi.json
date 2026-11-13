@@ -1366,8 +1366,9 @@
                 "type": "object",
                 "properties": {
                   "counterId": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "11111111-1111-4111-8111-111111111111"
                   },
                   "callAt": {
                     "type": "string",
@@ -1381,7 +1382,7 @@
                 "additionalProperties": false
               },
               "example": {
-                "counterId": 1,
+                "counterId": "11111111-1111-4111-8111-111111111111",
                 "callAt": "2026-11-13T08:00:00+07:00"
               }
             }
@@ -2307,8 +2308,9 @@
                     "example": "d2f8ba55-b1d0-4fd3-a95e-3bfca006b7f1"
                   },
                   "emergencyEncounterId": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "priority": {
                     "type": "integer",
@@ -2332,7 +2334,7 @@
                 "additionalProperties": false
               },
               "example": {
-                "emergencyEncounterId": 1,
+                "emergencyEncounterId": "11111111-1111-4111-8111-111111111111",
                 "priority": 1,
                 "vitals": "DEMO",
                 "arrivalAt": "2026-11-13T08:00:00+07:00"
@@ -2497,7 +2499,8 @@
                 "type": "object",
                 "properties": {
                   "encounterId": {
-                    "type": "integer",
+                    "type": "string",
+                    "format": "uuid",
                     "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "procedureCode": {
@@ -3509,7 +3512,8 @@
                 "type": "object",
                 "properties": {
                   "encounterId": {
-                    "type": "integer",
+                    "type": "string",
+                    "format": "uuid",
                     "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "fromUnitId": {
@@ -4728,8 +4732,9 @@
                 ],
                 "properties": {
                   "encounterId": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "code": {
                     "type": "object",
@@ -4766,7 +4771,7 @@
                 "additionalProperties": false
               },
               "example": {
-                "encounterId": 1,
+                "encounterId": "11111111-1111-4111-8111-111111111111",
                 "code": {
                   "system": "http://loinc.org",
                   "code": "8480-6"
@@ -4937,7 +4942,8 @@
                 "type": "object",
                 "properties": {
                   "encounterId": {
-                    "type": "integer",
+                    "type": "string",
+                    "format": "uuid",
                     "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "codeSystem": {
@@ -5146,8 +5152,9 @@
                 ],
                 "properties": {
                   "encounterId": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "serviceCode": {
                     "type": "string",
@@ -5179,7 +5186,7 @@
                 "additionalProperties": false
               },
               "example": {
-                "encounterId": 1,
+                "encounterId": "11111111-1111-4111-8111-111111111111",
                 "serviceCode": "DEMO",
                 "urgency": "DEMO",
                 "indication": "DEMO",
@@ -5347,7 +5354,8 @@
                 "type": "object",
                 "properties": {
                   "encounterId": {
-                    "type": "integer",
+                    "type": "string",
+                    "format": "uuid",
                     "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "goals": {
@@ -5543,7 +5551,8 @@
                 "type": "object",
                 "properties": {
                   "encounterId": {
-                    "type": "integer",
+                    "type": "string",
+                    "format": "uuid",
                     "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "target": {
@@ -5740,7 +5749,8 @@
                 "type": "object",
                 "properties": {
                   "encounterId": {
-                    "type": "integer",
+                    "type": "string",
+                    "format": "uuid",
                     "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "templateId": {
@@ -5932,7 +5942,8 @@
                 "type": "object",
                 "properties": {
                   "encounterId": {
-                    "type": "integer",
+                    "type": "string",
+                    "format": "uuid",
                     "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "shiftId": {
@@ -6141,7 +6152,8 @@
                 "type": "object",
                 "properties": {
                   "encounterId": {
-                    "type": "integer",
+                    "type": "string",
+                    "format": "uuid",
                     "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "diagnoses": {
@@ -6336,7 +6348,8 @@
                     "example": "d2f8ba55-b1d0-4fd3-a95e-3bfca006b7f1"
                   },
                   "encounterId": {
-                    "type": "integer",
+                    "type": "string",
+                    "format": "uuid",
                     "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "interventionId": {
@@ -6732,7 +6745,8 @@
                     "example": "d2f8ba55-b1d0-4fd3-a95e-3bfca006b7f1"
                   },
                   "encounterId": {
-                    "type": "integer",
+                    "type": "string",
+                    "format": "uuid",
                     "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "procedure": {
@@ -7524,7 +7538,8 @@
                 "type": "object",
                 "properties": {
                   "encounterId": {
-                    "type": "integer",
+                    "type": "string",
+                    "format": "uuid",
                     "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "prescriptionId": {
@@ -7721,7 +7736,8 @@
                 "type": "object",
                 "properties": {
                   "encounterId": {
-                    "type": "integer",
+                    "type": "string",
+                    "format": "uuid",
                     "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "planId": {
@@ -7929,8 +7945,9 @@
                     "example": "d2f8ba55-b1d0-4fd3-a95e-3bfca006b7f1"
                   },
                   "packageId": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "11111111-1111-4111-8111-111111111111"
                   },
                   "componentOrders": {
                     "type": "string",
@@ -7946,7 +7963,7 @@
               },
               "example": {
                 "patientId": "d2f8ba55-b1d0-4fd3-a95e-3bfca006b7f1",
-                "packageId": 1,
+                "packageId": "11111111-1111-4111-8111-111111111111",
                 "componentOrders": "DEMO"
               }
             }
@@ -8109,7 +8126,8 @@
                 "type": "object",
                 "properties": {
                   "encounterId": {
-                    "type": "integer",
+                    "type": "string",
+                    "format": "uuid",
                     "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "bloodProduct": {
@@ -8520,8 +8538,9 @@
                 "type": "object",
                 "properties": {
                   "motherEncounterId": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "deliveryAt": {
                     "type": "string",
@@ -8546,7 +8565,7 @@
                 "additionalProperties": false
               },
               "example": {
-                "motherEncounterId": 1,
+                "motherEncounterId": "11111111-1111-4111-8111-111111111111",
                 "deliveryAt": "2026-11-13T08:00:00+07:00",
                 "newbornPatientId": "11111111-1111-4111-8111-111111111111",
                 "deliveryDetails": "DEMO"
@@ -10301,7 +10320,8 @@
                     "example": "DEMO"
                   },
                   "encounterId": {
-                    "type": "integer",
+                    "type": "string",
+                    "format": "uuid",
                     "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   }
                 },
@@ -10479,8 +10499,9 @@
                 ],
                 "properties": {
                   "encounterId": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "indication": {
                     "type": "string",
@@ -10521,7 +10542,7 @@
                 "additionalProperties": false
               },
               "example": {
-                "encounterId": 1,
+                "encounterId": "11111111-1111-4111-8111-111111111111",
                 "indication": "DEMO",
                 "items": [
                   {
@@ -11117,7 +11138,8 @@
                 "type": "object",
                 "properties": {
                   "encounterId": {
-                    "type": "integer",
+                    "type": "string",
+                    "format": "uuid",
                     "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "prescriptionItemId": {
@@ -11314,7 +11336,8 @@
                 "type": "object",
                 "properties": {
                   "encounterId": {
-                    "type": "integer",
+                    "type": "string",
+                    "format": "uuid",
                     "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "dietCode": {
@@ -11919,8 +11942,9 @@
                     "example": "11111111-1111-4111-8111-111111111111"
                   },
                   "encounterId": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "serviceId": {
                     "type": "string",
@@ -11939,7 +11963,7 @@
               },
               "example": {
                 "sourceEventId": "11111111-1111-4111-8111-111111111111",
-                "encounterId": 1,
+                "encounterId": "11111111-1111-4111-8111-111111111111",
                 "serviceId": "11111111-1111-4111-8111-111111111111",
                 "tariffId": "11111111-1111-4111-8111-111111111111",
                 "qty": 1
@@ -12130,7 +12154,8 @@
                 "type": "object",
                 "properties": {
                   "encounterId": {
-                    "type": "integer",
+                    "type": "string",
+                    "format": "uuid",
                     "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "chargeIds": {
@@ -12728,7 +12753,8 @@
                     "example": "d2f8ba55-b1d0-4fd3-a95e-3bfca006b7f1"
                   },
                   "encounterId": {
-                    "type": "integer",
+                    "type": "string",
+                    "format": "uuid",
                     "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "payer": {
@@ -12915,7 +12941,8 @@
                 "type": "object",
                 "properties": {
                   "encounterId": {
-                    "type": "integer",
+                    "type": "string",
+                    "format": "uuid",
                     "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "memberNumber": {
@@ -13106,7 +13133,8 @@
                 "type": "object",
                 "properties": {
                   "encounterId": {
-                    "type": "integer",
+                    "type": "string",
+                    "format": "uuid",
                     "example": "85ba4e38-9d86-41ce-9b6e-7f8af4d19768"
                   },
                   "payerId": {
