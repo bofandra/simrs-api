@@ -13,7 +13,7 @@ function compose(base,legacy,exp,domain,trace){
  x.openapi="3.1.0";
  x.info.title="SIMRS Baru — Comprehensive API Contract v3.1 (candidate)";
  x.info.version="3.1.0-candidate.1";
- x.info.description="106 PRD v3.0 candidate operations plus 72 proposed lifecycle operations for M01 M02 M05 M09 M11. For FE-BE review only; NOT production. No real clinical, stock, finance, signature or national partner action.";
+ x.info.description="106 PRD v3.0 candidate operations plus 74 proposed lifecycle operations for M01 M02 M05 M09 M11. For FE-BE review only; NOT production. No real clinical, stock, finance, signature or national partner action.";
  x["x-release-status"]="candidate; clinical/FE/BE sign-off required";
  x["x-architecture"]="on-premise Node.js modular monolith, transactional outbox, PostgreSQL, OIDC, async integration adapters";
  x["x-compatibility-warning"]="Existing list GET operations now use page envelope instead of bare arrays; candidate breaking change.";
@@ -131,7 +131,7 @@ function compose(base,legacy,exp,domain,trace){
   v[method]=op;x.paths[n.path]=v;
  }
  const all=Object.entries(x.paths).flatMap(([path,o])=>Object.entries(o).filter(([m])=>["get","post","patch","put","delete"].includes(m)).map(([m,v])=>({path,method:m,id:v.operationId})));
- if(all.length!==178||new Set(all.map(y=>y.id)).size!==178)throw Error("Expected 178 unique operations, got "+all.length);
+ if(all.length!==180||new Set(all.map(y=>y.id)).size!==180)throw Error("Expected 180 unique operations, got "+all.length);
  x["x-operation-count"]=all.length;
  x["x-operation-breakdown"]=Object.fromEntries(["get","post","patch","put","delete"].map(m=>[m,all.filter(t=>t.method===m).length]));
  x["x-workflow-coverage"]={designed:["WF-01","WF-02","WF-05","WF-07"],pending:["WF-03","WF-04","WF-06","WF-08","WF-09","WF-10","WF-11","WF-12"]};
