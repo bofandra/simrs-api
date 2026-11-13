@@ -41,12 +41,12 @@ function validate(s,data,path='$',depth=0){
 }
 assert.equal(spec.openapi,'3.1.0');
 assert.equal(spec.info.version,'3.1.0-candidate.1');
-assert.equal(ops.length,178);
-assert.equal(new Set(ops.map(o=>o.operationId)).size,178);
+assert.equal(ops.length,180);
+assert.equal(new Set(ops.map(o=>o.operationId)).size,180);
 assert.equal(legacy.length,106);
-assert.equal(added.length,72);
+assert.equal(added.length,74);
 assert.equal(Object.keys(domain).length,47);
-assert.equal(trace.length,178);
+assert.equal(trace.length,180);
 assert.equal(states.length,11);
 assert.equal(work.length,12);
 for(const original of legacy){
@@ -96,5 +96,5 @@ assert.equal(opmap.get('verifyLabReport').responses['200'].content['application/
 assert.equal(opmap.get('createServiceOrder').responses['201'].content['application/json'].example.status,'placed');
 assert.equal(opmap.get('signClinicalNote').responses['200'].content['application/json'].example.status,'signed');
 assert.equal(opmap.get('dispensePrescription').responses['201'].content['application/json'].example.status,'dispensed');
-console.log('PASS: 178 operations (106 original preserved + 72 proposed), 47 typed domain schemas, 11 state machines, 12 traceability workflows.');
+console.log('PASS: 180 operations (106 original preserved + 74 proposed), 47 typed domain schemas, 11 state machines, 12 traceability workflows.');
 console.log('PASS: request/response schema examples, permission/error/pagination contracts, core lifecycle status expectations.');
