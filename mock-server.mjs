@@ -311,6 +311,7 @@ function applyV31(operation, body, output, db, requestPath) {
       const draft=db.prescriptions.find(v=>v.id===id);
       if(!draft)return error(404,'PRESCRIPTION_NOT_FOUND','Draft resep demo tidak ditemukan');
       if(draft.status!=='draft')return error(409,'PRESCRIPTION_NOT_DRAFT','Hanya draft resep yang dapat diubah');
+      if(body.expectedVersion!==draft.version)return error(412,'STALE_VERSION','Versi draft resep demo sudah berubah');
       draft.items=body.items||draft.items;draft.indication=body.indication||draft.indication;
       draft.version=(draft.version||1)+1;return entity(output,draft);
     }
@@ -318,6 +319,7 @@ function applyV31(operation, body, output, db, requestPath) {
       const draft=db.prescriptions.find(v=>v.id===id);
       if(!draft)return error(404,'PRESCRIPTION_NOT_FOUND','Draft resep demo tidak ditemukan');
       if(draft.status!=='draft')return error(409,'PRESCRIPTION_NOT_DRAFT','Hanya draft yang dapat di-place');
+      if(body.expectedVersion!==draft.version)return error(412,'STALE_VERSION','Versi draft resep demo sudah berubah');
       if(!draft.items.length)return error(422,'PRESCRIPTION_ITEMS_REQUIRED','Resep demo tidak memiliki item');
       draft.status='ordered';draft.version=(draft.version||1)+1;
       return entity(output,draft);
@@ -424,11 +426,16 @@ export function createMockServer() {
       if (!key || String(key).length < 8) return json(res, 400,
         problem('IDEMPOTENCY_KEY_REQUIRED', 'Idempotency-Key minimal 8 karakter', correlationId), correlationId);
       if (operation.detail.parameters.some(p => p.$ref?.endsWith('/IfMatch')) &&
-          !['1', '"1"'].includes(req.headers['if-match']))
-        return json(res, 412, problem('STALE_VERSION', 'If-Match demo harus 1 atau "1"', correlationId), correlationId);
+          !/^(?:"?[1-9][0-9]*"?)$/.test(String(req.headers['if-match'] || '')))
+        return json(res, 412, problem('STALE_VERSION', 'If-Match wajib integer positif sebagai demo version', correlationId), correlationId);
       try { body = await readBody(req); }
       catch (err) { return json(res, 400,
         problem('INVALID_BODY', 'JSON tidak valid atau terlalu besar', correlationId), correlationId); }
+      if (body.expectedVersion !== undefined && operation.detail.parameters.some(p => p.$ref?.endsWith('/IfMatch'))) {
+        const version = String(req.headers['if-match']).replaceAll('"','');
+        if (version !== String(body.expectedVersion))
+          return json(res, 412, problem('STALE_VERSION', 'If-Match berbeda dari expectedVersion pada request', correlationId), correlationId);
+      }
       const dto = operation.detail.requestBody?.content?.['application/json']?.schema;
       const fieldErrors = validate(dto, body);
       if (fieldErrors.length) return json(res, 422,
