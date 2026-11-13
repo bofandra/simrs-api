@@ -1,0 +1,83 @@
+{
+  "version": "3.1.0-candidate.1",
+  "architecture": "Adapter and worker separated from Node Core HTTP API; no national partner payloads invented",
+  "adapters": [
+    {
+      "adapter": "SATUSEHAT",
+      "transport": "HTTPS / FHIR R4",
+      "owner": "integration-adapter",
+      "ingress": "outbox event",
+      "outgoing": "FHIR resources via approved mapping",
+      "identity": "separate service credentials; no token in event payload",
+      "ack": "external acknowledgement ledger, async retry/backoff/DLQ",
+      "mock": "never call national endpoint in sandbox",
+      "status": "boundary proposal; official Playbook verification required"
+    },
+    {
+      "adapter": "BPJS",
+      "transport": "HTTPS partner API",
+      "owner": "integration-adapter",
+      "ingress": "partner eligibility/SEP/claim job",
+      "outgoing": "partner-specific request/response",
+      "identity": "service-secret in Vault, egress allowlist",
+      "ack": "separate submission vs accepted/paid state; idempotent callbacks",
+      "mock": "no live SEP, VClaim, claim or remittance",
+      "status": "boundary proposal; national API contract is external"
+    },
+    {
+      "adapter": "RS Online",
+      "transport": "HTTPS Kemenkes",
+      "owner": "integration-adapter",
+      "ingress": "aggregated bed/capacity snapshot",
+      "outgoing": "approved operational payload",
+      "identity": "credential in vault",
+      "ack": "delivery state only, retry backoff",
+      "mock": "no national data sent",
+      "status": "proposal; RL/bed semantics need official verification"
+    },
+    {
+      "adapter": "Laboratory Analyzer",
+      "transport": "ASTM / HL7 v2 through LIS Interface Engine",
+      "owner": "integration-adapter",
+      "ingress": "analyzer result message",
+      "outgoing": "device acknowledgement",
+      "identity": "mTLS per device/VLAN; no direct device to core API",
+      "ack": "message ID dedup, barcode/order/specimen patient match",
+      "mock": "synthetic analyzer messages only",
+      "status": "boundary derived from on-premise architecture"
+    },
+    {
+      "adapter": "PACS / DICOM",
+      "transport": "DICOM/DICOMweb via Orthanc or dcm4chee",
+      "owner": "integration-adapter",
+      "ingress": "Study UID / metadata",
+      "outgoing": "scoped viewer session",
+      "identity": "study/patient/order matching, time-limited token",
+      "ack": "DICOM storage state separate from clinical report status",
+      "mock": "no real DICOM data or study access",
+      "status": "boundary derived from architecture"
+    },
+    {
+      "adapter": "PSrE / TTE",
+      "transport": "HTTPS signed document provider",
+      "owner": "integration-adapter",
+      "ingress": "authorized release request",
+      "outgoing": "signed artifact metadata",
+      "identity": "MFA, signer identity; evidence and hash",
+      "ack": "signed/delivered status separate; immutable versions",
+      "mock": "no legal signature",
+      "status": "design boundary; provider specification not supplied"
+    },
+    {
+      "adapter": "Payment",
+      "transport": "HTTPS gateway/bank",
+      "owner": "integration-adapter",
+      "ingress": "invoice/payment intent",
+      "outgoing": "idempotent payment callbacks",
+      "identity": "payment credential only from Vault, no PAN in logs",
+      "ack": "callback dedup and reconciliation separate from invoice",
+      "mock": "no real money movement",
+      "status": "design boundary; bank/provider protocol not supplied"
+    }
+  ]
+}
