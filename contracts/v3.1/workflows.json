@@ -1,0 +1,313 @@
+{
+  "version": "3.1.0-candidate.1",
+  "workflows": [
+    {
+      "workflowId": "WF-01",
+      "name": "Janji temu → Antrean → Registrasi → Encounter",
+      "modules": [
+        "M01",
+        "M21"
+      ],
+      "status": "contract-designed",
+      "steps": [
+        "searchPatients",
+        "listScheduleSlots",
+        "bookAppointment",
+        "getAppointment",
+        "checkInAppointment",
+        "getRegistration",
+        "listQueueTickets",
+        "callQueue",
+        "startQueueService",
+        "getEncounterChart"
+      ],
+      "negative": [
+        "DUPLICATE_IDENTITY_REVIEW_REQUIRED",
+        "SLOT_FULL",
+        "DUPLICATE_CHECK_IN",
+        "INSURANCE_INACTIVE"
+      ],
+      "evidence": [
+        "registrationId",
+        "encounterId",
+        "queueTicketId",
+        "auditCorrelationId"
+      ]
+    },
+    {
+      "workflowId": "WF-02",
+      "name": "Asesmen Rawat Jalan → Order/Resep → Resume → Close",
+      "modules": [
+        "M02",
+        "M05",
+        "M09",
+        "M11"
+      ],
+      "status": "contract-designed",
+      "steps": [
+        "listOutpatientWorklist",
+        "getEncounterChart",
+        "startOutpatientEncounter",
+        "updateOutpatientAssessment",
+        "recordObservation",
+        "recordDiagnosis",
+        "createClinicalNote",
+        "updateClinicalNoteDraft",
+        "signClinicalNote",
+        "createServiceOrder",
+        "createPrescription",
+        "getOutpatientCompletionChecklist",
+        "completeOutpatientEncounter"
+      ],
+      "negative": [
+        "MISSING_SIGNED_NOTE",
+        "STALE_VERSION",
+        "INVALID_CODE",
+        "PENDING_MANDATORY_TASK"
+      ],
+      "evidence": [
+        "encounterId",
+        "noteVersion",
+        "orderId",
+        "prescriptionId",
+        "completionChecklist"
+      ]
+    },
+    {
+      "workflowId": "WF-05",
+      "name": "CPOE → Laboratorium → Hasil terverifikasi",
+      "modules": [
+        "M05",
+        "M09"
+      ],
+      "status": "contract-designed",
+      "steps": [
+        "createServiceOrder",
+        "acceptServiceOrder",
+        "getLabOrder",
+        "createLabSpecimen",
+        "collectLabSpecimen",
+        "receiveSpecimen",
+        "submitLabResults",
+        "getLabReport",
+        "verifyLabReport",
+        "releaseLabReport",
+        "acknowledgeCriticalLabResult"
+      ],
+      "negative": [
+        "SPECIMEN_REJECTED",
+        "SPECIMEN_PATIENT_MISMATCH",
+        "CRITICAL_ACK_REQUIRED",
+        "LAB_RESULT_INCOMPLETE",
+        "REPORT_IMMUTABLE"
+      ],
+      "evidence": [
+        "serviceOrderId",
+        "specimenId",
+        "barcode",
+        "reportId",
+        "reportVersion",
+        "criticalAlertId"
+      ]
+    },
+    {
+      "workflowId": "WF-07",
+      "name": "Resep → Farmasi → Dispensing → Ledger/MAR",
+      "modules": [
+        "M05",
+        "M11",
+        "M16"
+      ],
+      "status": "contract-designed",
+      "steps": [
+        "createPrescription",
+        "getPrescription",
+        "reviewPrescription",
+        "listPrescriptionReviews",
+        "getDispensableLines",
+        "dispensePrescription",
+        "getDispense",
+        "recordMedicationAdministration",
+        "recordMedicationNotGiven"
+      ],
+      "negative": [
+        "ALLERGY_BLOCKED",
+        "EXPIRED_LOT",
+        "INSUFFICIENT_STOCK",
+        "WRONG_PATIENT_BARCODE",
+        "DUPLICATE_DISPENSE"
+      ],
+      "evidence": [
+        "prescriptionId",
+        "reviewId",
+        "dispenseId",
+        "stockMovementId",
+        "medicationAdministrationId"
+      ]
+    },
+    {
+      "workflowId": "WF-03",
+      "name": "IGD → Stabilisasi → Disposisi",
+      "modules": [
+        "M03",
+        "M04",
+        "M05"
+      ],
+      "status": "legacy-candidate; full v3.1 detail pending",
+      "steps": [
+        "createEmergencyTriage",
+        "recordEmergencyIntervention",
+        "reassessEmergency",
+        "confirmEmergencyDisposition"
+      ],
+      "negative": [
+        "UNKNOWN_PATIENT",
+        "NO_BED",
+        "REFERRAL_REJECTED"
+      ],
+      "evidence": []
+    },
+    {
+      "workflowId": "WF-04",
+      "name": "Rawat Inap: Admisi → Bed → Transfer → Discharge",
+      "modules": [
+        "M04",
+        "M05",
+        "M06"
+      ],
+      "status": "legacy-candidate; full v3.1 detail pending",
+      "steps": [
+        "listBeds",
+        "createAdmission",
+        "transferAdmission",
+        "completeDischarge"
+      ],
+      "negative": [
+        "BED_ALREADY_OCCUPIED",
+        "DISCHARGE_MISSING_SUMMARY"
+      ],
+      "evidence": []
+    },
+    {
+      "workflowId": "WF-06",
+      "name": "CPOE → RIS/PACS → Ekspertise",
+      "modules": [
+        "M05",
+        "M10"
+      ],
+      "status": "legacy-candidate; full v3.1 detail pending",
+      "steps": [
+        "createServiceOrder",
+        "listRadiologyWorklist",
+        "linkDICOMStudy",
+        "signRadiologyReport"
+      ],
+      "negative": [
+        "STUDY_PATIENT_MISMATCH",
+        "DICOM_UNAVAILABLE"
+      ],
+      "evidence": []
+    },
+    {
+      "workflowId": "WF-08",
+      "name": "Charge → Invoice → Payment/Penjamin → Claim",
+      "modules": [
+        "M13",
+        "M14",
+        "M15"
+      ],
+      "status": "legacy-candidate; full v3.1 detail pending",
+      "steps": [
+        "createCharge",
+        "issueInvoice",
+        "allocatePayment",
+        "submitClaim"
+      ],
+      "negative": [
+        "DUPLICATE_CHARGE",
+        "PAYMENT_OVERPAYMENT",
+        "EXTERNAL_ACK_PENDING"
+      ],
+      "evidence": []
+    },
+    {
+      "workflowId": "WF-09",
+      "name": "Rujukan internal dan eksternal",
+      "modules": [
+        "M05",
+        "M14"
+      ],
+      "status": "legacy-candidate; full v3.1 detail pending",
+      "steps": [
+        "createReferral",
+        "getReferral",
+        "acceptReferral",
+        "rejectReferral",
+        "retryIntegrationJob"
+      ],
+      "negative": [
+        "REFERRAL_REJECTED",
+        "PARTNER_DOWN"
+      ],
+      "evidence": []
+    },
+    {
+      "workflowId": "WF-10",
+      "name": "Operasi → Anestesi → Recovery",
+      "modules": [
+        "M07",
+        "M04",
+        "M05"
+      ],
+      "status": "legacy-candidate; full v3.1 detail pending",
+      "steps": [
+        "createSurgeryCase",
+        "completeSurgeryChecklist",
+        "recordAnesthesia",
+        "releasePACU"
+      ],
+      "negative": [
+        "CHECKLIST_INCOMPLETE",
+        "CONSENT_REVOKED"
+      ],
+      "evidence": []
+    },
+    {
+      "workflowId": "WF-11",
+      "name": "Diet order → Dapur → Tray delivery",
+      "modules": [
+        "M12",
+        "M04"
+      ],
+      "status": "legacy-candidate; full v3.1 detail pending",
+      "steps": [
+        "createDietOrder",
+        "createKitchenBatch",
+        "confirmTrayDelivery"
+      ],
+      "negative": [
+        "WRONG_PATIENT_DIET",
+        "PATIENT_FASTING"
+      ],
+      "evidence": []
+    },
+    {
+      "workflowId": "WF-12",
+      "name": "Clinical Pathway → Deviasi → Outcome",
+      "modules": [
+        "M05",
+        "M19"
+      ],
+      "status": "legacy-candidate; full v3.1 detail pending",
+      "steps": [
+        "createCarePlan",
+        "getEncounterCarePlans"
+      ],
+      "negative": [
+        "NO_VARIANCE_REASON",
+        "MISSING_EVIDENCE"
+      ],
+      "evidence": []
+    }
+  ]
+}
