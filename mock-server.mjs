@@ -9,7 +9,8 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const spec = JSON.parse(readFileSync(join(HERE, 'openapi.json'), 'utf8'));
+const V31 = process.argv.includes('--v31') || process.env.SIMRS_CONTRACT_VERSION === '3.1';
+const spec = JSON.parse(readFileSync(join(HERE, V31 ? 'openapi-v3.1.json' : 'openapi.json'), 'utf8'));
 const operations = Object.entries(spec.paths).flatMap(([template, verbs]) =>
   Object.entries(verbs).filter(([verb]) => ['get', 'post', 'put', 'patch', 'delete'].includes(verb))
     .map(([verb, detail]) => ({ template, verb: verb.toUpperCase(), detail,
@@ -22,7 +23,7 @@ const clone = x => JSON.parse(JSON.stringify(x));
 const state = () => ({
   patients: [{ patientId, mrn: 'DEMO-MRN-001', name: 'Pasien Simulasi A',
     fullName: 'Pasien Simulasi A', matchScore: 1, identifiers: [{ system: 'MRN', value: 'DEMO-MRN-001' }] }],
-  registrations: [], notes: [], orders: [], labResults: [], prescriptions: [],
+  registrations: [], notes: [], orders: [], labResults: [], prescriptions: [], specimens: [], dispenses: [],
   charges: [], payments: [], encounters: [{ id: encounterId, patientId, status: 'in-progress', unitId }],
   idempotency: new Map()
 });
@@ -187,6 +188,165 @@ function applyScenario(operationId, body, output, db, requestPath) {
       return output;
   }
 }
+
+/**
+ * CONTRACT-EXAMPLE SIMULATIONS ONLY. No real signature, stock mutation, analyzer,
+ * dispensing, ledger posting, or national system communication. The demo state
+ * covers select WF-01/WF-02/WF-05/WF-07 edges, not production domain execution.
+ */
+function applyV31(operation, body, output, db, requestPath) {
+  if (!V31) return applyScenario(operation.detail.operationId, body, output, db, requestPath);
+  const op = operation.detail.operationId;
+  const id = requestPath.split('/').filter(Boolean).find(s => /^[0-9a-f-]{36}$/i.test(s));
+  const error = (status, code, message) => ({ __error: [status, code, message] });
+  function entity(o, extra) { return { ...(o && typeof o === 'object' && !Array.isArray(o) ? o : {}), ...extra }; }
+  switch (op) {
+    case 'getPatient': {
+      const p = db.patients.find(v => v.patientId === id);
+      if (!p) return null;
+      return entity(output, {id:p.patientId,mrn:p.mrn,fullName:p.fullName,identifiers:p.identifiers,status:'active'});
+    }
+    case 'getRegistration': {
+      const r = db.registrations.find(v => v.registrationId === id);
+      return r ? entity(output,{id:r.registrationId,patientId:r.patientId||patientId,
+        encounterId:r.encounterId,queueTicketId:r.queueTicketId,status:'active'}) : null;
+    }
+    case 'getClinicalNote': {
+      const n = db.notes.find(v => v.id === id);
+      return n ? entity(output,n) : null;
+    }
+    case 'listClinicalNotes':
+      return db.notes.map(n => entity(output?.items?.[0],n));
+    case 'getServiceOrder': {
+      const o=db.orders.find(v=>v.id===id);
+      return o ? entity(output,o) : null;
+    }
+    case 'listServiceOrders':
+      return db.orders.map(o=>entity(output?.items?.[0],o));
+    case 'acceptLabOrder': {
+      const o=db.orders.find(v=>v.id===id);
+      if (!o) return error(404,'LAB_ORDER_NOT_FOUND','Order demo tidak ditemukan');
+      if (o.category!=='LAB') return error(422,'NOT_LAB_ORDER','Order bukan pemeriksaan laboratorium');
+      if (o.status!=='placed') return error(409,'ORDER_STATE_CONFLICT','Order demo tidak dalam status placed');
+      o.status='accepted';return entity(output,{id:o.id,serviceOrderId:o.id,encounterId:o.encounterId,status:'accepted'});
+    }
+    case 'getLabOrder': {
+      const o=db.orders.find(v=>v.id===id&&v.category==='LAB');
+      return o ? entity(output,{id:o.id,serviceOrderId:o.id,encounterId:o.encounterId,status:o.status}) : null;
+    }
+    case 'createLabSpecimen': {
+      const o=db.orders.find(v=>v.id===id&&v.category==='LAB');
+      if (!o) return error(404,'LAB_ORDER_NOT_FOUND','Order demo tidak ditemukan');
+      if (o.status!=='accepted')return error(422,'LAB_ORDER_NOT_ACCEPTED','Order lab harus accepted sebelum specimen dibuat');
+      const found=db.specimens.find(x=>x.barcode===body.barcode);
+      if (found)return error(409,'DUPLICATE_SPECIMEN_BARCODE','Barcode spesimen tidak boleh sama');
+      const s={id:randomUUID(),labOrderId:id,patientId,barcode:body.barcode,
+        specimenType:body.specimenType,status:'ordered',version:1};
+      db.specimens.push(s);return entity(output,s);
+    }
+    case 'getLabSpecimen': {
+      const s=db.specimens.find(v=>v.id===id);
+      return s?entity(output,s):null;
+    }
+    case 'listLabOrderSpecimens':
+      return db.specimens.filter(s=>s.labOrderId===id).map(s=>entity(output?.items?.[0],s));
+    case 'collectLabSpecimen': {
+      const s=db.specimens.find(v=>v.id===id);
+      if(!s)return error(404,'SPECIMEN_NOT_FOUND','Spesimen demo tidak ditemukan');
+      if(s.status!=='ordered')return error(409,'SPECIMEN_STATE_CONFLICT','Spesimen tidak dalam status ordered');
+      if(s.barcode!==body.barcode)return error(422,'SPECIMEN_BARCODE_MISMATCH','Barcode salah untuk specimen/order demo');
+      s.status='collected';s.collectedAt=body.collectedAt;
+      return entity(output,s);
+    }
+    case 'rejectLabSpecimen': {
+      const s=db.specimens.find(v=>v.id===id);
+      if(!s)return error(404,'SPECIMEN_NOT_FOUND','Spesimen demo tidak ditemukan');
+      if(!['collected','received'].includes(s.status))return error(409,'SPECIMEN_STATE_CONFLICT','Penolakan spesimen hanya dari collected atau received');
+      s.status='rejected';s.rejectionReasonCode=body.reasonCode;
+      return entity(output,s);
+    }
+    case 'receiveSpecimen': {
+      const s=db.specimens.find(v=>v.id===id);
+      if(!s)return error(404,'SPECIMEN_NOT_FOUND','Spesimen demo tidak ditemukan');
+      if(s.status!=='collected')return error(422,'SPECIMEN_NOT_COLLECTED','Spesimen belum collected atau sudah rejected');
+      if(s.barcode!==body.barcode)return error(422,'SPECIMEN_BARCODE_MISMATCH','Barcode spesimen tidak cocok');
+      s.status='received';s.receivedAt=body.receivedAt;return {id,status:'received'};
+    }
+    case 'submitLabResults': {
+      const orderId=id;
+      const specimen=db.specimens.find(s=>s.labOrderId===orderId&&s.status==='received');
+      if(!specimen)return error(422,'VALID_SPECIMEN_REQUIRED','Hasil hanya bisa dicatat setelah specimen received');
+      const existing=db.labResults.find(v=>v.orderId===orderId);
+      if(existing)return error(409,'RESULT_ALREADY_CREATED','Draft hasil sudah dibuat');
+      const result={id:randomUUID(),orderId,encounterId:db.orders.find(o=>o.id===orderId)?.encounterId,
+        specimenId:specimen.id,results:body.observations||[],status:'draft'};
+      db.labResults.push(result);return {id:result.id,status:'draft'};
+    }
+    case 'getLabReport': {
+      const r=db.labResults.find(v=>v.id===id);
+      return r?entity(output,{id:r.id,labOrderId:r.orderId,encounterId:r.encounterId,
+        specimenId:r.specimenId,status:r.status,results:r.results}):null;
+    }
+    case 'verifyLabReport': {
+      const r=db.labResults.find(v=>v.id===id);
+      if(!r)return error(404,'REPORT_NOT_FOUND','Laporan lab demo tidak ditemukan');
+      if(r.status!=='draft')return error(409,'REPORT_STATE_CONFLICT','Laporan tidak dapat diverifikasi ulang');
+      if(db.specimens.find(s=>s.id===r.specimenId)?.status==='rejected')return error(422,'SPECIMEN_REJECTED','Specimen rejected tidak boleh diverifikasi');
+      r.status='verified';return {id:r.id,status:'verified'};
+    }
+    case 'releaseLabReport': {
+      const r=db.labResults.find(v=>v.id===id);
+      if(!r)return error(404,'REPORT_NOT_FOUND','Laporan lab demo tidak ditemukan');
+      if(r.status!=='verified')return error(422,'REPORT_NOT_VERIFIED','Laporan harus verified sebelum release');
+      r.status='released';
+      return entity(output,{id:r.id,status:'released',labOrderId:r.orderId,encounterId:r.encounterId,
+        specimenId:r.specimenId,results:r.results,releasedAt:new Date().toISOString()});
+    }
+    case 'getPrescription': {
+      const p=db.prescriptions.find(v=>v.id===id);
+      return p?entity(output,p):null;
+    }
+    case 'listPrescriptions':
+      return db.prescriptions.map(p=>entity(output?.items?.[0],p));
+    case 'reviewPrescription': {
+      const p=db.prescriptions.find(v=>v.id===id);
+      if(!p)return error(404,'PRESCRIPTION_NOT_FOUND','Resep demo tidak ditemukan');
+      if(p.status!=='ordered')return error(409,'PRESCRIPTION_STATE_CONFLICT','Resep demo sudah direview atau ditutup');
+      if(!['approved','approve','accepted'].includes(String(body.decision).toLowerCase()))
+        return error(422,'PHARMACIST_REVIEW_NOT_APPROVED','Keputusan review bukan approve');
+      p.status='reviewed';return {id:p.id,status:'reviewed'};
+    }
+    case 'dispensePrescription': {
+      const p=db.prescriptions.find(v=>v.id===body.prescriptionId);
+      if(!p)return error(404,'PRESCRIPTION_NOT_FOUND','Resep demo tidak ditemukan');
+      if(p.status!=='reviewed')return error(422,'PRESCRIPTION_REVIEW_REQUIRED','Tidak dapat dispensing sebelum review apoteker');
+      p.status='dispensed';
+      const row={id:randomUUID(),prescriptionId:p.id,status:'dispensed',lines:body.items||[]};
+      db.dispenses.push(row);
+      return {id:row.id,status:'dispensed',stockMovementIds:[]}; // synthetic; NO real ledger writes
+    }
+    case 'getDispense': {
+      const d=db.dispenses.find(v=>v.id===id);
+      return d?entity(output,d):null;
+    }
+    case 'listDispenses':
+      return db.dispenses.map(d=>entity(output?.items?.[0],d));
+    case 'createDispenseReturn': {
+      const disp=db.dispenses.find(v=>v.id===id);
+      if(!disp)return error(404,'DISPENSE_NOT_FOUND','Catatan dispensing demo tidak ditemukan');
+      return entity(output,{id:randomUUID(),dispenseId:id,reason:body.reason,lines:body.lines,status:'pending-review',postedMovementIds:[]});
+    }
+    default: return applyScenario(op,body,output,db,requestPath);
+  }
+}
+function normalizeV31Response(operation, value, status) {
+  if (!V31 || value===null || value?.__error)return value;
+  const schema=operation.detail.responses[String(status)]?.content?.['application/json']?.schema;
+  if(schema?.properties?.items && Array.isArray(value))return {
+    items:value,pageInfo:{nextCursor:null,pageSize:20,hasMore:false}};
+  return value;
+}
+
 function readBody(req) {
   return new Promise((resolve, reject) => {
     let data = '';
@@ -208,15 +368,15 @@ export function createMockServer() {
     if (req.method === 'OPTIONS') {
       res.writeHead(204, { 'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization, Idempotency-Key, If-Match, X-Correlation-ID, X-Organization-Id, X-Demo-Scenario',
-        'Access-Control-Allow-Methods': 'GET,POST,OPTIONS', 'X-SIMRS-Mock': 'true' });
+        'Access-Control-Allow-Methods': 'GET,POST,PATCH,OPTIONS', 'X-SIMRS-Mock': 'true' });
       res.end(); return;
     }
     if (url.pathname === '/healthz') {
       return json(res, 200, { service: 'simrs-api', mode: 'synthetic-mock',
         operations: operations.length, status: 'ok' }, correlationId);
     }
-    if (url.pathname === '/openapi.json' || url.pathname === '/contracts/operations.json') {
-      return json(res, 200, url.pathname === '/openapi.json' ? spec :
+    if (url.pathname === '/openapi.json' || url.pathname === '/openapi-v3.1.json' || url.pathname === '/contracts/operations.json') {
+      return json(res, 200, url.pathname === '/openapi.json' ? spec : url.pathname === '/openapi-v3.1.json' ? JSON.parse(readFileSync(join(HERE,'openapi-v3.1.json'),'utf8')) :
         JSON.parse(readFileSync(join(HERE, 'contracts/operations.json'), 'utf8')), correlationId);
     }
     if (url.pathname === '/' || url.pathname === '/docs' || url.pathname === '/docs/') {
@@ -256,7 +416,7 @@ export function createMockServer() {
         return json(res, previous.status, previous.result, correlationId, { 'X-Idempotent-Replay': 'true' });
       }
       const { status, sample } = successResponse(operation.detail);
-      let result = applyScenario(operation.detail.operationId, body, sample, db, url.pathname);
+      let result = applyV31(operation, body, sample, db, url.pathname);
       if (result?.__error) {
         const [code, errorCode, message] = result.__error;
         return json(res, code, problem(errorCode, message, correlationId), correlationId);
@@ -264,11 +424,12 @@ export function createMockServer() {
       if (result && typeof result === 'object' && !Array.isArray(result)) {
         if ('correlationId' in (sample || {})) result.correlationId = correlationId;
       }
+      result = normalizeV31Response(operation,result,status);
       db.idempotency.set(dedupeKey, { payload: JSON.stringify(body), status, result });
       return json(res, status, result, correlationId);
     }
     const { status, sample } = successResponse(operation.detail);
-    const result = applyScenario(operation.detail.operationId, {}, sample, db, url.pathname);
+    const result = normalizeV31Response(operation,applyV31(operation, {}, sample, db, url.pathname),status);
     if (result === null) return json(res, 404,
       problem('NOT_FOUND', 'Objek demo tidak ada dalam scope', correlationId), correlationId);
     return json(res, status, result, correlationId);
@@ -277,5 +438,5 @@ export function createMockServer() {
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const port = Number(process.env.PORT || 4010);
   createMockServer().listen(port, '127.0.0.1', () =>
-    console.log('SIMRS synthetic API mock: http://127.0.0.1:' + port + '/docs (106 operations)'));
+    console.log('SIMRS synthetic API mock: http://127.0.0.1:' + port + '/docs (' + operations.length + ' operations; '+(V31?'v3.1':'v3.0')+')'));
 }
