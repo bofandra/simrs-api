@@ -4717,19 +4717,69 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ObservationCreateRequest"
+                "type": "object",
+                "required": [
+                  "encounterId",
+                  "code",
+                  "value",
+                  "unit",
+                  "observedAt",
+                  "performerId"
+                ],
+                "properties": {
+                  "encounterId": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "code": {
+                    "type": "object",
+                    "required": [
+                      "system",
+                      "code"
+                    ],
+                    "properties": {
+                      "system": {
+                        "type": "string"
+                      },
+                      "code": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "value": {
+                    "type": "string",
+                    "example": "DEMO"
+                  },
+                  "unit": {
+                    "type": "string",
+                    "example": "DEMO"
+                  },
+                  "observedAt": {
+                    "type": "string",
+                    "example": "DEMO"
+                  },
+                  "performerId": {
+                    "type": "string",
+                    "example": "11111111-1111-4111-8111-111111111111"
+                  }
+                },
+                "additionalProperties": false
               },
               "example": {
-                "encounterId": "DEMO",
+                "encounterId": 1,
                 "code": {
-                  "system": "DEMO",
-                  "code": "DEMO"
+                  "system": "http://loinc.org",
+                  "code": "8480-6"
                 },
-                "effectiveDateTime": "DEMO"
+                "value": "DEMO",
+                "unit": "DEMO",
+                "observedAt": "DEMO",
+                "performerId": "11111111-1111-4111-8111-111111111111"
               }
             }
           }
-        }
+        },
+        "x-normative-dto-reference": "#/components/schemas/ObservationCreateRequest"
       }
     },
     "/api/v1/clinical/diagnoses": {
@@ -5086,18 +5136,60 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/OrderCreateRequest"
+                "type": "object",
+                "required": [
+                  "encounterId",
+                  "serviceCode",
+                  "urgency",
+                  "indication",
+                  "targetUnitId"
+                ],
+                "properties": {
+                  "encounterId": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "serviceCode": {
+                    "type": "string",
+                    "example": "DEMO"
+                  },
+                  "urgency": {
+                    "type": "string",
+                    "example": "DEMO"
+                  },
+                  "indication": {
+                    "type": "string",
+                    "example": "DEMO"
+                  },
+                  "targetUnitId": {
+                    "type": "string",
+                    "example": "11111111-1111-4111-8111-111111111111"
+                  },
+                  "category": {
+                    "type": "string",
+                    "enum": [
+                      "LAB",
+                      "RAD",
+                      "PROCEDURE",
+                      "CONSULT"
+                    ],
+                    "description": "Optional mock routing only"
+                  }
+                },
+                "additionalProperties": false
               },
               "example": {
-                "encounterId": "DEMO",
+                "encounterId": 1,
                 "serviceCode": "DEMO",
-                "category": "LAB",
-                "urgency": "routine",
-                "indication": "DEMO"
+                "urgency": "DEMO",
+                "indication": "DEMO",
+                "targetUnitId": "11111111-1111-4111-8111-111111111111",
+                "category": "LAB"
               }
             }
           }
-        }
+        },
+        "x-normative-dto-reference": "#/components/schemas/OrderCreateRequest"
       }
     },
     "/api/v1/clinical/care-plans": {
@@ -9015,22 +9107,62 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LabResultCreateRequest"
+                "type": "object",
+                "required": [
+                  "observations",
+                  "method",
+                  "analyzerId"
+                ],
+                "properties": {
+                  "observations": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "analyteCode",
+                        "value",
+                        "unit"
+                      ],
+                      "properties": {
+                        "analyteCode": {
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "method": {
+                    "type": "string",
+                    "example": "DEMO"
+                  },
+                  "analyzerId": {
+                    "type": "string",
+                    "example": "11111111-1111-4111-8111-111111111111"
+                  }
+                },
+                "additionalProperties": false
               },
               "example": {
-                "orderId": "DEMO",
-                "specimenId": "DEMO",
-                "results": [
+                "observations": [
                   {
-                    "analyteCode": "DEMO",
-                    "value": 1,
-                    "unit": "DEMO"
+                    "analyteCode": "718-7",
+                    "value": 13.4,
+                    "unit": "g/dL"
                   }
-                ]
+                ],
+                "method": "DEMO",
+                "analyzerId": "11111111-1111-4111-8111-111111111111"
               }
             }
           }
-        }
+        },
+        "x-normative-dto-reference": "#/components/schemas/LabResultCreateRequest"
       }
     },
     "/api/v1/laboratory/reports/{id}/verify": {
@@ -10340,24 +10472,71 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PrescriptionCreateRequest"
+                "type": "object",
+                "required": [
+                  "encounterId",
+                  "indication"
+                ],
+                "properties": {
+                  "encounterId": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "indication": {
+                    "type": "string",
+                    "example": "DEMO"
+                  },
+                  "items": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "drugId",
+                        "dose",
+                        "route",
+                        "frequency",
+                        "duration"
+                      ],
+                      "properties": {
+                        "drugId": {
+                          "type": "string"
+                        },
+                        "dose": {
+                          "type": "string"
+                        },
+                        "route": {
+                          "type": "string"
+                        },
+                        "frequency": {
+                          "type": "string"
+                        },
+                        "duration": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "additionalProperties": false
               },
               "example": {
-                "encounterId": "DEMO",
+                "encounterId": 1,
+                "indication": "DEMO",
                 "items": [
                   {
-                    "medicationCode": "DEMO",
-                    "dose": "DEMO",
-                    "route": "DEMO",
-                    "frequency": "DEMO",
-                    "duration": "DEMO",
-                    "quantity": 1
+                    "drugId": "DEMO-DRUG",
+                    "dose": "1 tablet",
+                    "route": "PO",
+                    "frequency": "1x sehari",
+                    "duration": "3 hari"
                   }
                 ]
               }
             }
           }
-        }
+        },
+        "x-normative-dto-reference": "#/components/schemas/PrescriptionCreateRequest"
       }
     },
     "/api/v1/pharmacy/prescriptions/{id}/review": {
@@ -10725,21 +10904,62 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/DispenseCreateRequest"
+                "type": "object",
+                "required": [
+                  "prescriptionId",
+                  "receiver"
+                ],
+                "properties": {
+                  "prescriptionId": {
+                    "type": "string",
+                    "example": "11111111-1111-4111-8111-111111111111"
+                  },
+                  "receiver": {
+                    "type": "string",
+                    "example": "DEMO"
+                  },
+                  "items": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "lotId",
+                        "qty"
+                      ],
+                      "properties": {
+                        "lotId": {
+                          "type": "string"
+                        },
+                        "qty": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "expiry": {
+                          "type": "string",
+                          "format": "date"
+                        }
+                      }
+                    }
+                  }
+                },
+                "additionalProperties": false
               },
               "example": {
-                "prescriptionId": "DEMO",
-                "lines": [
+                "prescriptionId": "11111111-1111-4111-8111-111111111111",
+                "receiver": "DEMO",
+                "items": [
                   {
-                    "prescriptionItemId": "DEMO",
-                    "lotId": "DEMO",
-                    "quantity": 1
+                    "lotId": "DEMO-LOT",
+                    "qty": 1,
+                    "expiry": "2027-12-31"
                   }
                 ]
               }
             }
           }
-        }
+        },
+        "x-normative-dto-reference": "#/components/schemas/DispenseCreateRequest"
       }
     },
     "/api/v1/medication-administrations": {
@@ -11685,18 +11905,49 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ChargeCreateRequest"
+                "type": "object",
+                "required": [
+                  "sourceEventId",
+                  "encounterId",
+                  "serviceId",
+                  "tariffId",
+                  "qty"
+                ],
+                "properties": {
+                  "sourceEventId": {
+                    "type": "string",
+                    "example": "11111111-1111-4111-8111-111111111111"
+                  },
+                  "encounterId": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "serviceId": {
+                    "type": "string",
+                    "example": "11111111-1111-4111-8111-111111111111"
+                  },
+                  "tariffId": {
+                    "type": "string",
+                    "example": "11111111-1111-4111-8111-111111111111"
+                  },
+                  "qty": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  }
+                },
+                "additionalProperties": false
               },
               "example": {
-                "encounterId": "DEMO",
-                "sourceEventId": "DEMO",
-                "serviceCode": "DEMO",
-                "tariffVersionId": "DEMO",
-                "quantity": 1
+                "sourceEventId": "11111111-1111-4111-8111-111111111111",
+                "encounterId": 1,
+                "serviceId": "11111111-1111-4111-8111-111111111111",
+                "tariffId": "11111111-1111-4111-8111-111111111111",
+                "qty": 1
               }
             }
           }
-        }
+        },
+        "x-normative-dto-reference": "#/components/schemas/ChargeCreateRequest"
       }
     },
     "/api/v1/billing/invoices": {
@@ -12079,16 +12330,45 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PaymentCreateRequest"
+                "type": "object",
+                "required": [
+                  "invoiceId",
+                  "method",
+                  "amount",
+                  "transactionRef"
+                ],
+                "properties": {
+                  "invoiceId": {
+                    "type": "string",
+                    "example": "11111111-1111-4111-8111-111111111111"
+                  },
+                  "method": {
+                    "type": "string",
+                    "example": "DEMO"
+                  },
+                  "amount": {
+                    "type": "integer",
+                    "format": "int64",
+                    "minimum": 1,
+                    "description": "Minor units; to be frozen during finance contract review"
+                  },
+                  "transactionRef": {
+                    "type": "string",
+                    "example": "DEMO"
+                  }
+                },
+                "additionalProperties": false
               },
               "example": {
-                "invoiceId": "DEMO",
-                "amountMinorUnits": 1,
-                "method": "DEMO"
+                "invoiceId": "11111111-1111-4111-8111-111111111111",
+                "method": "DEMO",
+                "amount": 10000,
+                "transactionRef": "DEMO"
               }
             }
           }
-        }
+        },
+        "x-normative-dto-reference": "#/components/schemas/PaymentCreateRequest"
       }
     },
     "/api/v1/billing/refunds": {
@@ -13044,19 +13324,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ClaimSubmitRequest"
+                "type": "object",
+                "required": [
+                  "version",
+                  "submissionType"
+                ],
+                "properties": {
+                  "version": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "submissionType": {
+                    "type": "string",
+                    "example": "DEMO"
+                  }
+                },
+                "additionalProperties": false
               },
               "example": {
-                "claimId": "DEMO",
-                "dossierVersion": 1,
-                "payerId": "DEMO",
-                "documentIds": [
-                  "DEMO"
-                ]
+                "version": 1,
+                "submissionType": "DEMO"
               }
             }
           }
-        }
+        },
+        "x-normative-dto-reference": "#/components/schemas/ClaimSubmitRequest"
       }
     },
     "/api/v1/claims/remittances/reconcile": {
@@ -14913,26 +15205,49 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StockMovementCreateRequest"
+                "type": "object",
+                "required": [
+                  "sourceId",
+                  "movementType",
+                  "fromLocation",
+                  "toLocation",
+                  "lines"
+                ],
+                "properties": {
+                  "sourceId": {
+                    "type": "string",
+                    "example": "11111111-1111-4111-8111-111111111111"
+                  },
+                  "movementType": {
+                    "type": "string",
+                    "example": "DEMO"
+                  },
+                  "fromLocation": {
+                    "type": "string",
+                    "example": "DEMO"
+                  },
+                  "toLocation": {
+                    "type": "string",
+                    "example": "DEMO"
+                  },
+                  "lines": {
+                    "type": "string",
+                    "example": "DEMO"
+                  }
+                },
+                "additionalProperties": false
               },
               "example": {
-                "sourceDocument": {
-                  "type": "DEMO",
-                  "id": "DEMO"
-                },
+                "sourceId": "11111111-1111-4111-8111-111111111111",
                 "movementType": "DEMO",
-                "lines": [
-                  {
-                    "itemId": "DEMO",
-                    "lotId": "DEMO",
-                    "quantity": 1,
-                    "UOM": "DEMO"
-                  }
-                ]
+                "fromLocation": "DEMO",
+                "toLocation": "DEMO",
+                "lines": "DEMO"
               }
             }
           }
-        }
+        },
+        "x-normative-dto-reference": "#/components/schemas/StockMovementCreateRequest"
       }
     },
     "/api/v1/inventory/stock-counts/{id}/approve": {

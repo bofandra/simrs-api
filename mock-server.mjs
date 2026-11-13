@@ -145,13 +145,13 @@ function applyScenario(operationId, body, output, db, requestPath) {
       return db.orders.filter(o => o.category === 'LAB').map(o => ({ id: o.id,
         orderId: o.id, encounterId: o.encounterId, status: o.status, serviceCode: o.serviceCode }));
     case 'submitLabResults': {
-      const result = { id, orderId: requestPath.split('/')[4], status: 'draft',
+      const result = { id, orderId: requestPath.split('/')[5], status: 'draft',
         observations: body.observations || [] };
       db.labResults.push(result);
       return { id, status: 'draft' };
     }
     case 'verifyLabReport': {
-      const reportId = requestPath.split('/')[4];
+      const reportId = requestPath.split('/')[5];
       const result = db.labResults.find(r => r.id === reportId);
       if (!result) return { __error: [404, 'REPORT_NOT_FOUND', 'Hasil demo tidak ditemukan'] };
       if (result.status === 'verified') return { __error: [409, 'REPORT_ALREADY_VERIFIED', 'Sudah diverifikasi dalam demo'] };

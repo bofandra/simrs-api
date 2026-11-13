@@ -39,7 +39,7 @@ test('tenant scope, If-Match and critical transitions are controlled in mock',as
 }));
 test('lab results are visible after creating an order',async()=>withServer(async(base)=>{
   const body=JSON.stringify({encounterId:'85ba4e38-9d86-41ce-9b6e-7f8af4d19768',
-    serviceCode:'HB',category:'LAB',urgency:'routine',indication:'Simulated follow-up'});
+    serviceCode:'HB',category:'LAB',urgency:'routine',indication:'Simulated follow-up',targetUnitId:'25d6f4b1-f3ad-48c6-919f-409fb68e0d0c'});
   let r=await fetch(base+'/api/v1/orders',{method:'POST',headers:hdr,body});
   assert.equal(r.status,201);const id=(await r.json()).id;
   r=await fetch(base+'/api/v1/laboratory/orders');
