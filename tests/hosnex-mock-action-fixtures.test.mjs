@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { once } from 'node:events';
-import { createMockServer } from '../mock-server.mjs';
+process.env.SIMRS_CONTRACT_VERSION='3.2';
+const { createMockServer } = await import('../mock-server.mjs');
 import {actionCatalog,mockActionCoverage,simulateHosnexAction} from '../mock-hosnex-actions.mjs';
 
 const withServer=async(run)=>{
