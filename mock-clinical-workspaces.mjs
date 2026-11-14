@@ -35,7 +35,8 @@ export function createClinicalWorkspaceStore(){
       location:module==='M03'?'IGD Triase':module==='M04'?'Bangsal Demo A':'Nurse Station Demo A',
       status:stage.status,version:stage.version,
       context:definition.label,actions:definition.steps.filter(step=>step[0]===stage.status).map(step=>step[1]),
-      history:stage.history.map(x=>({...x}))
+      history:stage.history.map(x=>({...x})),
+      ...(module==='M03'&&stage.triageDetails?{triageDetails:structuredClone(stage.triageDetails)}:{})
     };
   };
   const flags=(module)=>({mock:true,simulated:true,persisted:false,realWorldEffect:false,
@@ -64,6 +65,27 @@ export function createClinicalWorkspaceStore(){
     const step=definitions[module].steps.find(row=>row[1]===action);
     if(!step)return {status:422,code:'UNKNOWN_DEMO_ACTION',message:'Transisi tidak dikenal untuk modul'};
     if(stage.status!==step[0])return {status:409,code:'INVALID_TRANSITION',message:'Tindakan tidak sesuai status sekarang'};
+    // Optional v3.5 HOSNEX DTO: validated without coupling the legacy mock
+    // triage workflow to real patients, FHIR or a production triage endpoint.
+    if(module==='M03'&&action==='triage'&&body.triage!==undefined){
+      const t=body.triage;
+      if(!t || typeof t!=='object' || Array.isArray(t) ||
+         t.encounterId!==encounterId || t.patientId!==patientId)
+        return {status:422,code:'TRIAGE_IDENTITY_MISMATCH',message:'Encounter dan pasien harus berasal dari detail IGD sintetis'};
+      if(typeof t.complaint!=='string'||!t.complaint.trim()||
+         !Number.isInteger(t.atsLevel)||t.atsLevel<1||t.atsLevel>5)
+        return {status:422,code:'TRIAGE_REQUIRED_FIELDS',message:'Keluhan dan tingkat ATS 1–5 wajib'};
+      if(t.overrideReason!==undefined&&(typeof t.overrideReason!=='string'||t.overrideReason.trim().length<3))
+        return {status:422,code:'TRIAGE_OVERRIDE_REASON_INVALID',message:'Alasan override ATS harus jelas'};
+      if(!t.vitals||typeof t.vitals!=='object'||Array.isArray(t.vitals)||
+         Object.values(t.vitals).some(v=>typeof v!=='number'||!Number.isFinite(v)))
+        return {status:422,code:'TRIAGE_VITALS_INVALID',message:'Tanda vital hanya angka finit pada mock'};
+      stage.triageDetails={
+        complaint:t.complaint.trim(),atsLevel:t.atsLevel,
+        ...(t.overrideReason?{overrideReason:t.overrideReason.trim()}:{}),
+        vitals:structuredClone(t.vitals)
+      };
+    }
     stage.status=step[2];stage.version++;
     stage.history.push({action,status:stage.status,version:stage.version,at:now,actor:'DEMO-STAFF'});
     const data={...flags(module),record:toRecord(module),transition:action,idempotentReplay:false};
