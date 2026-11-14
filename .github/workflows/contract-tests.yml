@@ -31,6 +31,8 @@ jobs:
         run: npm run check:v3.4
       - name: Check HOSNEX v3.5 29 partial action endpoint alignments
         run: npm run check:v3.5
+      - name: Check PRD 4.0 acceptance inventory and operation traceability
+        run: npm run check:v4
       - name: Run mock API tests
         run: npm test
 
