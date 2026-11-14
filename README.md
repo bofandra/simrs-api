@@ -33,6 +33,16 @@ ssh -N -L 4010:127.0.0.1:4010 ubuntu@VPS_HOST
 
 Untuk memasang deployment pada VPS Ubuntu x86_64, salin direktori `deploy/vps` dan public key Ed25519 khusus GitHub Actions, lalu jalankan `sudo bash deploy/vps/install.sh /path/to/deploy_key.pub` pada VPS. Installer menyiapkan Node.js 22 khusus layanan ini, unit systemd, dan akun SSH `simrs-api-deploy` dengan perintah deploy yang dibatasi. Jalankan ulang installer sebagai admin saat mengubah konfigurasi di `deploy/vps`.
 
+Hosnex mengakses API sintetis lewat [HTTPS VPS](https://bmdigitallabs.com/simrs-api/healthz). Pada VPS bersama, `simrs-api-ingress.socket` menjembatani jaringan Docker Caddy (`10.0.1.1:14010`) ke port internal Node. Untuk memasang ulang jembatan ini:
+
+```sh
+sudo install -m 0644 deploy/vps/simrs-api-ingress.{socket,service} /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now simrs-api-ingress.socket
+```
+
+Caddy memakai rute `/simrs-api/*` dari [konfigurasi ingress bersama](https://github.com/bofandra/BMDigitals/blob/main/Caddyfile). State demo dibagikan oleh pengguna API dan hanya tersimpan dalam RAM VPS. Gunakan data fiktif.
+
 Di GitHub **Settings → Environments → vps**, batasi deployment ke branch `main` dan isi environment secrets `VPS_HOST` (alamat VPS), `VPS_KNOWN_HOSTS` (baris host key Ed25519 yang sudah diverifikasi), dan `VPS_SSH_KEY` (private key pasangan deploy). Untuk memeriksa kegagalan di VPS, jalankan `sudo journalctl -u simrs-api.service -n 50 --no-pager`.
 
 ---

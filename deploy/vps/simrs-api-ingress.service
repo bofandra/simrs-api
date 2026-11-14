@@ -1,0 +1,12 @@
+[Unit]
+Description=Forward shared Caddy requests to the SIMRS mock API
+Wants=simrs-api.service
+After=simrs-api.service
+
+[Service]
+ExecStart=/lib/systemd/systemd-socket-proxyd --exit-idle-time=60s 127.0.0.1:4010
+DynamicUser=yes
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectHome=yes
+ProtectSystem=strict
