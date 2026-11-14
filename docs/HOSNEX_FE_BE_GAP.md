@@ -100,3 +100,14 @@ Terakhir: [Gap & rencana FE](https://github.com/bofandra/hosnex/blob/feat/hosnex
 HOSNEX M10 kini memakai rute tooling-only `/__demo/radiology/orders` pada Node mock v3.2: GET list/detail, PATCH jadwal, PATCH catatan akuisisi, PATCH draf laporan, POST review QA. `createRadiologyDemoStore` berisi dua seeded fictional orders terpisah dan menyimpan status hanya di RAM; transaksi diuji dengan optimistic version, Idempotency-Key, 403/404/409/412/422/500, serta `viewer` 501 dan `sign/study/publish` 405. Tidak ada CPOE order nyata, DICOM/PACS, StudyInstanceUID atau legal sign. Status hanya tahap QA, bukan pelaporan radiologi final. **200 kontrak OpenAPI tetap kandidat, bukan endpoint operasional baru.**
 
 Cakupan HOSNEX sekarang 21 modul HTTP surfaces, 9 modul aksi demo parsial (M01,M02,M03,M04,M05,M06,M09,M10,M11) dan 12 modul GET-only (M07,M08,M12,M13,M14,M15,M16,M17,M18,M19,M20,M21). F-M10-03 (PACS viewer) dan WF-06 belum terpenuhi dan perlu kontrak riil terpisah sebelum production design. Detail acceptance di [M10 form parity](https://github.com/bofandra/hosnex/blob/feat/hosnex-api-alignment-20261114/docs/M10_RIS_PACS_MOCK_PARITY.md).
+
+
+## Tahap 13 — M02 RAD CPOE sintetis dibaca RIS M10
+
+Node v3.2 menjaga satu sumber order proses di `db.orders`. Operasi `createServiceOrder` dengan `category=RAD` dan `serviceCode=THX/CTH/USG` (setelah note `signed` secara sintetis) menjadi record M10 secara *read-through* lewat `createRadiologyDemoStore`. Tidak dibuat order duplikat atau study DICOM. ID sumber `order.id` digunakan langsung sebagai M10 `id` dan `orderId`, `episodeId` sama dengan encounter, sedangkan `patientId` berasal dari encounter server. Sebanyak 2 seeded orders lama tetap disediakan untuk QA tanpa order.
+
+Aksi RAD CPOE dibatasi ke `X-Demo-Staff-Id:doctor/emergency/admin`. M10 GET dapat diakses `radiographer/radiology/doctor/emergency/admin`; penjadwalan dan catatan teknik untuk `radiographer/admin`; draf laporan dan review QA untuk `radiology/admin`. Semua ini hanya *role simulation* berbasis header spoofable (bukan IAM produksi). Tenant demo lain = 403; unsupported RAD exam = 422; ketidaksesuaian persona = 403. Keamanan pasien sungguhan **belum** diuji/dijamin.
+
+Tidak ada perubahan jumlah kandidat OpenAPI v3.2: tetap 200; M10 `/__demo` tooling-only dan mutasi hanya RAM. Batas `signed:false`, `published:false`, `pacsAvailable:false`, `dicomAcquired:false`, `legalSignature:false`, `persisted:false`, `realWorldEffect:false` tetap berlaku.
+
+Acceptance sekarang mencakup integrasi order M02→M10 yang sebelumnya belum ada, tetapi WF-06 dan FR-018 belum penuh: belum ada pembatalan dan amendment, DICOM modality, viewer berizin, verifikasi radiolog/legal-sign, integrasi PACS dan workflow klinis produksi. Pengujian backend: `tests/radiology-cpoe-link.test.mjs`; FE: `scripts/check-hosnex-http-e2e.ts` dan `src/components/simrs/ApiRadiologyCpoeAction.test.tsx`.
