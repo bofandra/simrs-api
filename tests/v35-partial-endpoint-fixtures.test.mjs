@@ -25,9 +25,14 @@ test('v3.5 21 distinct HOSNEX partial action contracts have nonpersistent HTTP m
    const body={};for(const key of op.requestSchema.required)body[key]=validField(op.requestSchema.properties[key],key);
    const path=op.path.replace('{id}',placeholder).replace('{stage}','signIn');
    let res=await fetch(origin+path,{method:op.method,headers:{'Content-Type':'application/json','X-Organization-Id':'DEMO-RS-001','Idempotency-Key':'v35-'+op.operationId},body:JSON.stringify(body)});
-   assert.equal(res.status,op.successStatus,op.operationId);
-   assert.equal(res.headers.get('x-simrs-state-persisted'),'false',op.operationId);
-   let dto=await res.json();assert.equal(dto.operationId,op.operationId);assert.equal(dto.mock,true);assert.equal(dto.persisted,false);assert.equal(dto.realWorldEffect,false);
+   // setQueue now requires a real synthetic queue ticket created by M01, so arbitrary ID yields 404.
+   // Other v3.5 operations remain review-only contract previews.
+   assert.equal(res.status,op.operationId==='setQueue'?404:op.successStatus,op.operationId);
+   if(op.operationId!=='setQueue'){
+     assert.equal(res.headers.get('x-simrs-state-persisted'),'false',op.operationId);
+     let dto=await res.json();assert.equal(dto.operationId,op.operationId);
+     assert.equal(dto.mock,true);assert.equal(dto.persisted,false);assert.equal(dto.realWorldEffect,false);
+   }
    let sample=await fetch(origin+'/__mock/contract/operations/'+op.operationId,{method:'POST',headers:{'X-Organization-Id':'DEMO-RS-001','Content-Type':'application/json'},body:'{}'});
    assert.equal(sample.status,200);assert.equal((await sample.json()).persisted,false);
   }
