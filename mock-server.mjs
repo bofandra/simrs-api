@@ -11,6 +11,7 @@ import { buildHosnexV32Spec } from './scripts/compose-hosnex-v32.mjs';
 import { getMockActionCatalog, simulateHosnexAction, mockActionCoverage } from './mock-hosnex-actions.mjs';
 import { createClinicalWorkspaceStore } from './mock-clinical-workspaces.mjs';
 import { createP0ReadModels } from './mock-p0-read-models.mjs';
+import { createMedicalDraftStore } from './mock-medical-drafts.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const V32 = process.argv.includes('--v32') || process.env.SIMRS_CONTRACT_VERSION === '3.2';
@@ -498,7 +499,8 @@ function readBody(req) {
 export function createMockServer() {
   const db = state();
   const clinicalWorkspaces = createClinicalWorkspaceStore();
-  const p0Reads = createP0ReadModels(clinicalWorkspaces);
+  const medicalDrafts = createMedicalDraftStore(clinicalWorkspaces);
+  const p0Reads = createP0ReadModels(clinicalWorkspaces,medicalDrafts);
   return createServer(async (req, res) => {
     const correlationId = /^[a-zA-Z0-9-]{8,128}$/.test(String(req.headers['x-correlation-id'] || ''))
       ? req.headers['x-correlation-id'] : randomUUID();
@@ -521,6 +523,39 @@ export function createMockServer() {
       const html = readFileSync(join(HERE, 'docs/index.html'), 'utf8');
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });
       res.end(html.replace('src="../openapi.json"', 'src="/openapi.json"')); return;
+    }
+    // M05 draft-only summary/coding/review in synthetic Node process memory.
+    if(url.pathname==='/__demo/medical-records/episodes'||
+       url.pathname.startsWith('/__demo/medical-records/episodes/')){
+      const headers={'X-SIMRS-Demo-State':'process-memory','X-SIMRS-State-Persisted':'false'};
+      if(!V32)return json(res,404,problem('NOT_FOUND','Only available on mock v3.2',correlationId),correlationId,headers);
+      if(req.headers['x-organization-id']!=='DEMO-RS-001')
+        return json(res,403,problem('DEMO_TENANT_REQUIRED','Tenant fiktif tidak cocok',correlationId),correlationId,headers);
+      const forced={forbidden:403,conflict:409,invalid:422,error:500}[req.headers['x-demo-scenario']];
+      if(forced)return json(res,forced,problem('MOCK_'+String(req.headers['x-demo-scenario']).toUpperCase(),
+        'Skenario negatif M05 fiktif',correlationId),correlationId,headers);
+      const parts=url.pathname.split('/').filter(Boolean);
+      if(parts.length===3&&req.method==='GET')
+        return json(res,200,medicalDrafts.catalog(),correlationId,headers);
+      if(parts.length===4&&req.method==='GET'){
+        if(parts[3]!==medicalDrafts.episodeId)return json(res,404,
+          problem('DEMO_EPISODE_NOT_FOUND','Episode tidak ditemukan',correlationId),correlationId,headers);
+        return json(res,200,medicalDrafts.snapshot(),correlationId,headers);
+      }
+      if(parts.length===5&&parts[3]===medicalDrafts.episodeId&&
+        ['summary','coding','review'].includes(parts[4])&&
+        req.method===(parts[4]==='review'?'POST':'PATCH')){
+        let body;
+        try{body=await readBody(req);}catch{
+          return json(res,400,problem('INVALID_BODY','JSON draf tidak valid',correlationId),correlationId,headers);
+        }
+        const result=medicalDrafts.save(parts[3],parts[4],body,String(req.headers['idempotency-key']||''));
+        return result.data?json(res,result.status,result.data,correlationId,headers):
+          json(res,result.status,problem(result.code,result.message,correlationId,result.details||[]),
+            correlationId,headers);
+      }
+      return json(res,405,problem('MEDICAL_DEMO_ROUTE_READONLY',
+        'Hanya draft resume, coding dan review QA yang tersedia',correlationId),correlationId,headers);
     }
     // Additional HOSNEX P0 context: strictly read-only; never accept stock/payment/
     // claims submissions or national interoperability dispatch from this namespace.

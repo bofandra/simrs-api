@@ -23,7 +23,7 @@ const flags=module=>({
   module,organizationId:'DEMO-RS-001',mock:true,simulated:true,
   persisted:false,realWorldEffect:false,readOnly:true,stateScope:'process-memory'
 });
-function snapshot(clinical){
+function snapshot(clinical,medicalDrafts){
   const ed=clinical.list('M03').items[0];
   const ward=clinical.list('M04').items[0];
   const nurse=clinical.list('M06').items[0];
@@ -50,6 +50,15 @@ function snapshot(clinical){
         check('Serah terima SBAR disimulasikan',nursingDone)]
     }
   ];
+  const clinicalDraft=medicalDrafts?.snapshot?.();
+  if(clinicalDraft){
+    notes[0].status=clinicalDraft.reviewedDemo?'reviewed-demo':
+      clinicalDraft.summarySaved?'summary-draft-saved':notes[0].status;
+    notes[0].checklist.push(check('Draf resume M05 sudah disimpan',clinicalDraft.summarySaved));
+    notes[0].checklist.push(check('Draf ICD-10 sudah disimpan',clinicalDraft.codingSaved));
+    notes[0].checklist.push(check('Review QA (bukan tanda tangan legal)',clinicalDraft.reviewedDemo));
+    notes[0].fields.push(field('Versi draf M05',clinicalDraft.version));
+  }
   const readyForReview=triaged&&admitted&&nursingDone;
   const billing=[{
     id:'ae140111-999a-46c1-b6ce-129031090001',
@@ -111,16 +120,16 @@ function snapshot(clinical){
     }))
   ]));
 }
-export function createP0ReadModels(clinical){
+export function createP0ReadModels(clinical,medicalDrafts){
   const validModule=module=>P0_READ_MODULES.includes(module);
   const list=module=>{
-    const items=snapshot(clinical)[module];
+    const items=snapshot(clinical,medicalDrafts)[module];
     return {...flags(module),title:labels[module],
       total:items.length,items:items.map(({id,title,subtitle,status,module,encounterId,readOnly})=>
         ({id,title,subtitle,status,module,encounterId,readOnly}))};
   };
   const detail=(module,id)=>{
-    const record=snapshot(clinical)[module].find(x=>x.id===id);
+    const record=snapshot(clinical,medicalDrafts)[module].find(x=>x.id===id);
     return record?{...flags(module),record}:null;
   };
   return {validModule,list,detail,modules:P0_READ_MODULES};
