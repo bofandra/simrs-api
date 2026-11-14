@@ -1,3 +1,12 @@
+## Tahap lanjutan — Semua 21 modul memiliki HTTP read workspace sintetis (14 November 2026)
+
+- Menambahkan **9 modul**: M07 Operasi, M08 Pelayanan Khusus (6 subsistem: HD, rehabilitasi, MCU, Bank Darah, KIA/perinatologi, imunisasi), M10 Radiologi, M12 Gizi, M15 Akuntansi, M17 Sarpras, M18 SDM, M19 Mutu, M20 Analitik.
+- Melalui namespace existing `GET /__demo/p0-read-models/{module}[/{id}]`, seluruh 9 modul baru menawarkan **daftar/detail hanya-baca** berisi field dan checklist khusus domain (minimal 2 record per modul); M08 punya enam contoh subsistem, M20 punya tiga tampilan analitik.
+- Read model M19 dan M20 membaca tahap episode M03/M04/M06 (triase, admisi, handover), sehingga data contoh berubah sesuai workflow demo di RAM Node; bukan warehouse, RL, SIRS atau analytics rumah sakit yang valid.
+- **Tidak ada aksi mutasi** untuk 9 modul ini; semua metode selain GET ke namespace ditolak 405. Tidak ada operasi kamar, pemberian obat, hasil radiologi, pelepasan darah, posting jurnal, perubahan jadwal SDM, servis alat atau pelaporan insiden yang nyata.
+- Total backend mock **200 kandidat OpenAPI tidak berubah**; endpoint `__demo` hanya tooling internal, bukan klaim implementasi 200 operasi stateful.
+- **21/21 berarti cakupan permukaan HTTP untuk navigasi modul**, bukan kesetaraan 21 modul dengan PRD, 97 form, 12 workflow atau implementasi SIMRS produksi.
+
 ## Wave P0 read-only — M05, M13, M14, M16, M21 (14 November 2026)
 
 - HTTP **GET only**, namespace `/__demo/p0-read-models` berisi katalog/list/detail untuk 5 modul; total modul dengan workspace HTTP parsial menjadi **12/21**.

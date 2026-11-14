@@ -3,7 +3,8 @@
  * No real PHI, billing, insurer, inventory, SATUSEHAT or database operations.
  * Read-only snapshots are assembled from the shared synthetic clinical episode.
  */
-export const P0_READ_MODULES = Object.freeze(['M05','M13','M14','M16','M21']);
+import {buildExtendedReadModels,EXTRA_READ_MODULES,EXTRA_TITLES} from './mock-extended-read-models.mjs';
+export const P0_READ_MODULES = Object.freeze(['M05','M13','M14','M16','M21',...EXTRA_READ_MODULES]);
 const EPISODE='d091ae84-9548-4a24-8191-4106bc504111';
 const PATIENT='af7b7648-1a67-4589-96d0-a970c983b111';
 const INVENTORY_A='8f8e0111-cbee-44f7-b929-217cf9410601';
@@ -13,7 +14,8 @@ const labels={
   M13:'Billing — simulasi tagihan',
   M14:'Penjamin dan Klaim — kesiapan berkas',
   M16:'Inventori — stok contoh',
-  M21:'SATUSEHAT — pratinjau FHIR'
+  M21:'SATUSEHAT — pratinjau FHIR',
+  ...EXTRA_TITLES
 };
 const check=(label,done)=>({label,done:Boolean(done)});
 const field=(label,value)=>({label,value:String(value)});
@@ -98,11 +100,13 @@ function snapshot(clinical){
       check('Mapping FHIR terverifikasi terhadap profil SATUSEHAT',false),
       check('Transmisi SATUSEHAT nyata',false)]
   }];
-  const data={M05:notes,M13:billing,M14:claims,M16:inventory,M21:interoperability};
+  const data={M05:notes,M13:billing,M14:claims,M16:inventory,M21:interoperability,
+    ...buildExtendedReadModels(clinical)};
   return Object.fromEntries(Object.entries(data).map(([module,records])=>[module,
     records.map(record=>({
       ...record,module,readOnly:true,
-      encounterId:module==='M16'?null:EPISODE,patientId:module==='M16'?null:PATIENT,
+      encounterId:Object.hasOwn(record,'encounterId')?record.encounterId:(module==='M16'?null:EPISODE),
+      patientId:Object.hasOwn(record,'patientId')?record.patientId:(module==='M16'?null:PATIENT),
       checklist:record.checklist.map(x=>({...x})),fields:record.fields.map(x=>({...x}))
     }))
   ]));
