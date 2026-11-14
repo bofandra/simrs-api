@@ -75,3 +75,41 @@ test('mock-only endpoint provides catalog, fixtures and negative scenarios witho
     method:'POST',headers:{'Content-Type':'application/json','X-Organization-Id':'DEMO-RS-001'},body:'{}'});
   assert.equal(unknown.status,404);
 }));
+
+test('all 200 candidate operationIds provide explicit stateless OpenAPI fixtures',()=>withServer(async base=>{
+  const r=await fetch(base+'/__mock/contract/operations');
+  assert.equal(r.status,200);
+  assert.equal(r.headers.get('x-simrs-state-persisted'),'false');
+  const catalog=await r.json();
+  assert.equal(catalog.total,200);
+  assert.equal(catalog.items.length,200);
+  assert.equal(new Set(catalog.items.map(x=>x.operationId)).size,200);
+  const lab=await fetch(base+'/__mock/contract/operations?module=M09');
+  const labData=await lab.json();
+  assert(labData.items.length>0);
+  assert(labData.items.every(x=>x.module==='M09'));
+  const before=await fetch(base+'/api/v1/patients');
+  const patientCount=(await before.json()).items.length;
+  for(const op of catalog.items){
+    const response=await fetch(base+'/__mock/contract/operations/'+encodeURIComponent(op.operationId),{
+      method:'POST',headers:{'Content-Type':'application/json','X-Organization-Id':'DEMO-RS-001'},
+      body:'{"fixture":true}'
+    });
+    assert.equal(response.status,200,op.operationId);
+    assert.equal(response.headers.get('x-simrs-state-persisted'),'false');
+    const result=await response.json();
+    assert.equal(result.operationId,op.operationId);
+    assert.equal(result.mock,true);
+    assert.equal(result.persisted,false);
+    assert.equal(result.realWorldEffect,false);
+    assert(result.fixture!==undefined,'Missing sample fixture '+op.operationId);
+  }
+  const after=await fetch(base+'/api/v1/patients');
+  assert.equal((await after.json()).items.length,patientCount,
+    '200 mock contract calls must never modify synthetic patient store');
+  const bad=await fetch(base+'/__mock/contract/operations/createPatient',{
+    method:'POST',headers:{'Content-Type':'application/json','X-Organization-Id':'DEMO-RS-001',
+      'X-Demo-Scenario':'invalid'},body:'{}'});
+  assert.equal(bad.status,422);
+  assert.equal((await bad.json()).code,'MOCK_INVALID');
+}));
