@@ -40,7 +40,7 @@ function json(res, status, value, correlationId, extra = {}) {
     'Cache-Control': 'no-store', 'X-SIMRS-Mock': 'true',
     'X-Correlation-ID': correlationId,
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Expose-Headers': 'X-SIMRS-Mock, X-Correlation-ID',
+    'Access-Control-Expose-Headers': 'X-SIMRS-Mock, X-Correlation-ID, X-SIMRS-Demo-State, X-SIMRS-State-Persisted, X-SIMRS-Scenario',
     ...extra
   });
   res.end(JSON.stringify(value, null, 2));
