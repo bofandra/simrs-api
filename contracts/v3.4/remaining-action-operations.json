@@ -1,0 +1,3693 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "HOSNEX P1-P3 34 missing action contracts",
+    "version": "3.4.0-draft.0",
+    "description": "Mock-only review candidates, not production permissions or clinical actions"
+  },
+  "status": "PROPOSAL_ONLY",
+  "source": {
+    "frontend": "bofandra/hosnex",
+    "backend": "bofandra/simrs-api",
+    "date": "2026-11-14",
+    "baseline": "v3.3=213 ops"
+  },
+  "deferredExternal": [
+    {
+      "frontendAction": "signInPortal",
+      "module": "CH01",
+      "integrationBoundary": "Patient OIDC/OAuth",
+      "status": "EXTERNAL_AUTH_BOUNDARY",
+      "reason": "Do not fabricate a local production login endpoint; fixture stays browser-side until auth design"
+    },
+    {
+      "frontendAction": "signOutPortal",
+      "module": "CH01",
+      "integrationBoundary": "Patient OIDC/OAuth",
+      "status": "EXTERNAL_AUTH_BOUNDARY",
+      "reason": "Requires real session provider design; not a hospital resource endpoint"
+    }
+  ],
+  "operations": [
+    {
+      "operationId": "reviewSafetyIncident",
+      "module": "M19",
+      "method": "POST",
+      "path": "/api/v1/quality/incidents/{id}/review",
+      "frontendActions": [
+        "reviewSafetyIncident"
+      ],
+      "permission": "quality.incidents.review",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "reviewDecision",
+          "reviewNote"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "reviewDecision": {
+            "type": "string",
+            "enum": [
+              "ACCEPT",
+              "REQUEST_CHANGES"
+            ]
+          },
+          "reviewNote": {
+            "type": "string",
+            "minLength": 3
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "reviewSafetyIncident"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "review-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "reviewSafetyIncident",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "review-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "addSafetyAction",
+      "module": "M19",
+      "method": "POST",
+      "path": "/api/v1/quality/incidents/{id}/corrective-actions",
+      "frontendActions": [
+        "addSafetyAction"
+      ],
+      "permission": "quality.actions.create",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "ownerId",
+          "dueDate",
+          "actionDescription"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "ownerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "actionDescription": {
+            "type": "string",
+            "minLength": 3
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "addSafetyAction"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "corrective-action-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "addSafetyAction",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "corrective-action-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "completeSafetyAction",
+      "module": "M19",
+      "method": "POST",
+      "path": "/api/v1/quality/actions/{id}/complete",
+      "frontendActions": [
+        "completeSafetyAction"
+      ],
+      "permission": "quality.actions.complete",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "completionNote"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "completionNote": {
+            "type": "string",
+            "minLength": 3
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "completeSafetyAction"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "action-completion-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "completeSafetyAction",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "action-completion-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "closeSafetyIncident",
+      "module": "M19",
+      "method": "POST",
+      "path": "/api/v1/quality/incidents/{id}/close",
+      "frontendActions": [
+        "closeSafetyIncident"
+      ],
+      "permission": "quality.incidents.close",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "closeSafetyIncident"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "incident-closure-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "closeSafetyIncident",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "incident-closure-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "reopenSafetyIncident",
+      "module": "M19",
+      "method": "POST",
+      "path": "/api/v1/quality/incidents/{id}/reopen",
+      "frontendActions": [
+        "reopenSafetyIncident"
+      ],
+      "permission": "quality.incidents.reopen",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "reopenSafetyIncident"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "incident-reopen-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "reopenSafetyIncident",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "incident-reopen-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "publishSafetyMeasure",
+      "module": "M19",
+      "method": "POST",
+      "path": "/api/v1/quality/indicators/{id}/publish",
+      "frontendActions": [
+        "publishSafetyMeasure"
+      ],
+      "permission": "quality.indicators.publish",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "reportingPeriod",
+          "numerator",
+          "denominator"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "reportingPeriod": {
+            "type": "string",
+            "minLength": 3
+          },
+          "numerator": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "denominator": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "publishSafetyMeasure"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "indicator-publication-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "publishSafetyMeasure",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "indicator-publication-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "updateStaffProfile",
+      "module": "M18",
+      "method": "PATCH",
+      "path": "/api/v1/staff/{id}/profile",
+      "frontendActions": [
+        "updateStaffProfile"
+      ],
+      "permission": "staff.profile.edit",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "changes"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "changes": {
+            "type": "object",
+            "minProperties": 1,
+            "properties": {
+              "displayName": {
+                "type": "string",
+                "minLength": 1
+              },
+              "phone": {
+                "type": "string",
+                "minLength": 5
+              },
+              "unitId": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "updateStaffProfile"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "staff-profile-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "updateStaffProfile",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "staff-profile-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 200,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "deactivateStaff",
+      "module": "M18",
+      "method": "POST",
+      "path": "/api/v1/staff/{id}/deactivate",
+      "frontendActions": [
+        "deactivateStaff"
+      ],
+      "permission": "staff.deactivate",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "effectiveDate"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "effectiveDate": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "deactivateStaff"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "deactivation-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "deactivateStaff",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "deactivation-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "reviewStaffCredential",
+      "module": "M18",
+      "method": "POST",
+      "path": "/api/v1/staff/credentials/{id}/review",
+      "frontendActions": [
+        "reviewStaffCredential"
+      ],
+      "permission": "staff.credentials.review",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "decision"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "APPROVE",
+              "RETURN_FOR_REVISION",
+              "REJECT"
+            ]
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "reviewStaffCredential"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "credential-review-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "reviewStaffCredential",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "credential-review-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "revokeStaffCredential",
+      "module": "M18",
+      "method": "POST",
+      "path": "/api/v1/staff/credentials/{id}/revoke",
+      "frontendActions": [
+        "revokeStaffCredential"
+      ],
+      "permission": "staff.credentials.revoke",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "effectiveDate"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "effectiveDate": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "revokeStaffCredential"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "credential-revocation-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "revokeStaffCredential",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "credential-revocation-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "assessStaffCredentials",
+      "module": "M18",
+      "method": "POST",
+      "path": "/api/v1/staff/{id}/credential-assessments",
+      "frontendActions": [
+        "assessStaffCredentials"
+      ],
+      "permission": "staff.credentials.assess",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "credentialType",
+          "evidenceNote"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "credentialType": {
+            "type": "string",
+            "minLength": 2
+          },
+          "evidenceNote": {
+            "type": "string",
+            "minLength": 3
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "assessStaffCredentials"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "credential-assessment-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "assessStaffCredentials",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "credential-assessment-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "createAsset",
+      "module": "M17",
+      "method": "POST",
+      "path": "/api/v1/assets",
+      "frontendActions": [
+        "createAsset"
+      ],
+      "permission": "assets.create",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "assetTag",
+          "assetName",
+          "assetCategory",
+          "locationId"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "assetTag": {
+            "type": "string",
+            "minLength": 2
+          },
+          "assetName": {
+            "type": "string",
+            "minLength": 2
+          },
+          "assetCategory": {
+            "type": "string",
+            "minLength": 2
+          },
+          "locationId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "createAsset"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "asset-creation-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "createAsset",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "asset-creation-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "updateAssetDetails",
+      "module": "M17",
+      "method": "PATCH",
+      "path": "/api/v1/assets/{id}",
+      "frontendActions": [
+        "updateAssetDetails"
+      ],
+      "permission": "assets.edit",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "changes"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "changes": {
+            "type": "object",
+            "minProperties": 1,
+            "properties": {
+              "assetName": {
+                "type": "string",
+                "minLength": 2
+              },
+              "locationId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "status": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "updateAssetDetails"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "asset-update-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "updateAssetDetails",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "asset-update-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 200,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "reportAssetCondition",
+      "module": "M17",
+      "method": "POST",
+      "path": "/api/v1/assets/{id}/condition-reports",
+      "frontendActions": [
+        "reportAssetCondition"
+      ],
+      "permission": "assets.condition.report",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "conditionCode",
+          "observedAt"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "conditionCode": {
+            "type": "string",
+            "enum": [
+              "GOOD",
+              "NEEDS_REPAIR",
+              "OUT_OF_SERVICE"
+            ]
+          },
+          "observedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "reportAssetCondition"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "asset-condition-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "reportAssetCondition",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "asset-condition-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "scheduleAssetWork",
+      "module": "M17",
+      "method": "POST",
+      "path": "/api/v1/assets/{id}/work-orders",
+      "frontendActions": [
+        "scheduleAssetWork"
+      ],
+      "permission": "assets.work.schedule",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "plannedAt",
+          "workType"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "plannedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "workType": {
+            "type": "string",
+            "enum": [
+              "MAINTENANCE",
+              "CALIBRATION",
+              "REPAIR"
+            ]
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "scheduleAssetWork"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "work-order-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "scheduleAssetWork",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "work-order-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "startAssetWork",
+      "module": "M17",
+      "method": "POST",
+      "path": "/api/v1/asset-work-orders/{id}/start",
+      "frontendActions": [
+        "startAssetWork"
+      ],
+      "permission": "assets.work.start",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "startedAt"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "startedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "startAssetWork"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "work-start-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "startAssetWork",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "work-start-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "cancelAssetWork",
+      "module": "M17",
+      "method": "POST",
+      "path": "/api/v1/asset-work-orders/{id}/cancel",
+      "frontendActions": [
+        "cancelAssetWork"
+      ],
+      "permission": "assets.work.cancel",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "cancelAssetWork"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "work-cancel-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "cancelAssetWork",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "work-cancel-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "saveNutritionMenu",
+      "module": "M12",
+      "method": "PATCH",
+      "path": "/api/v1/nutrition/menus/{id}",
+      "frontendActions": [
+        "saveNutritionMenu"
+      ],
+      "permission": "nutrition.menu.edit",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "mealType",
+          "menuItems"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "mealType": {
+            "type": "string",
+            "enum": [
+              "BREAKFAST",
+              "LUNCH",
+              "DINNER"
+            ]
+          },
+          "menuItems": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 2
+            }
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "saveNutritionMenu"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "menu-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "saveNutritionMenu",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "menu-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 200,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "transitionMeal",
+      "module": "M12",
+      "method": "POST",
+      "path": "/api/v1/nutrition/meals/{id}/transitions",
+      "frontendActions": [
+        "transitionMeal"
+      ],
+      "permission": "nutrition.meal.transition",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "targetState"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "targetState": {
+            "type": "string",
+            "enum": [
+              "PREPARED",
+              "DISTRIBUTED",
+              "SERVED"
+            ]
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "transitionMeal"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "meal-transition-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "transitionMeal",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "meal-transition-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "relabelMeal",
+      "module": "M12",
+      "method": "POST",
+      "path": "/api/v1/nutrition/meals/{id}/labels",
+      "frontendActions": [
+        "relabelMeal"
+      ],
+      "permission": "nutrition.meal.relabel",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "labelCode"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "labelCode": {
+            "type": "string",
+            "minLength": 2
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "relabelMeal"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "meal-label-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "relabelMeal",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "meal-label-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "rejectMeal",
+      "module": "M12",
+      "method": "POST",
+      "path": "/api/v1/nutrition/meals/{id}/reject",
+      "frontendActions": [
+        "rejectMeal"
+      ],
+      "permission": "nutrition.meal.reject",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "rejectionCode"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "rejectionCode": {
+            "type": "string",
+            "minLength": 2
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "rejectMeal"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "meal-rejection-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "rejectMeal",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "meal-rejection-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "receiveBloodUnit",
+      "module": "M08",
+      "method": "POST",
+      "path": "/api/v1/blood-bank/units/{id}/receive",
+      "frontendActions": [
+        "receiveBloodUnit"
+      ],
+      "permission": "blood.unit.receive",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "unitCode",
+          "bloodType",
+          "expiresAt"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "unitCode": {
+            "type": "string",
+            "minLength": 3
+          },
+          "bloodType": {
+            "type": "string",
+            "enum": [
+              "A+",
+              "A-",
+              "B+",
+              "B-",
+              "AB+",
+              "AB-",
+              "O+",
+              "O-"
+            ]
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "receiveBloodUnit"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "blood-receipt-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "receiveBloodUnit",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "blood-receipt-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "crossmatchBlood",
+      "module": "M08",
+      "method": "POST",
+      "path": "/api/v1/blood-bank/units/{id}/crossmatches",
+      "frontendActions": [
+        "crossmatchBlood"
+      ],
+      "permission": "blood.crossmatch",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "patientId",
+          "requestId",
+          "result"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "patientId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "result": {
+            "type": "string",
+            "enum": [
+              "COMPATIBLE",
+              "INCOMPATIBLE",
+              "PENDING"
+            ]
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "crossmatchBlood"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "crossmatch-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "crossmatchBlood",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "crossmatch-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "issueBlood",
+      "module": "M08",
+      "method": "POST",
+      "path": "/api/v1/blood-bank/units/{id}/issue",
+      "frontendActions": [
+        "issueBlood"
+      ],
+      "permission": "blood.issue",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "patientId",
+          "requestId",
+          "issuedUnits"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "patientId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "issuedUnits": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "issueBlood"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "blood-issue-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "issueBlood",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "blood-issue-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "monitorBlood",
+      "module": "M08",
+      "method": "POST",
+      "path": "/api/v1/blood-bank/transfusions/{id}/monitoring",
+      "frontendActions": [
+        "monitorBlood"
+      ],
+      "permission": "blood.monitor",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "observedAt",
+          "vitalSigns"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "observedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "vitalSigns": {
+            "type": "object",
+            "required": [
+              "temperatureC",
+              "pulseBpm"
+            ],
+            "properties": {
+              "temperatureC": {
+                "type": "number"
+              },
+              "pulseBpm": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "monitorBlood"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "transfusion-monitor-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "monitorBlood",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "transfusion-monitor-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "cancelBlood",
+      "module": "M08",
+      "method": "POST",
+      "path": "/api/v1/blood-bank/requests/{id}/cancel",
+      "frontendActions": [
+        "cancelBlood"
+      ],
+      "permission": "blood.cancel",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "cancelBlood"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "blood-cancellation-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "cancelBlood",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "blood-cancellation-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "rescheduleSurgery",
+      "module": "M07",
+      "method": "POST",
+      "path": "/api/v1/surgeries/{id}/reschedule",
+      "frontendActions": [
+        "rescheduleSurgery"
+      ],
+      "permission": "surgery.schedule.update",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "scheduledAt"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "scheduledAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "rescheduleSurgery"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "surgery-reschedule-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "rescheduleSurgery",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "surgery-reschedule-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "readySurgery",
+      "module": "M07",
+      "method": "POST",
+      "path": "/api/v1/surgeries/{id}/ready",
+      "frontendActions": [
+        "readySurgery"
+      ],
+      "permission": "surgery.ready",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "checklistComplete"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "checklistComplete": {
+            "type": "boolean",
+            "const": true
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "readySurgery"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "surgery-readiness-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "readySurgery",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "surgery-readiness-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "saveSurgeryNote",
+      "module": "M07",
+      "method": "PATCH",
+      "path": "/api/v1/surgeries/{id}/operative-notes",
+      "frontendActions": [
+        "saveSurgeryNote"
+      ],
+      "permission": "surgery.note.draft",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "operativeNote"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "operativeNote": {
+            "type": "string",
+            "minLength": 5
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "saveSurgeryNote"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "operative-note-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "saveSurgeryNote",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "operative-note-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 200,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "cancelSurgery",
+      "module": "M07",
+      "method": "POST",
+      "path": "/api/v1/surgeries/{id}/cancel",
+      "frontendActions": [
+        "cancelSurgery"
+      ],
+      "permission": "surgery.cancel",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "cancelSurgery"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "surgery-cancellation-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "cancelSurgery",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "surgery-cancellation-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "saveRadiologyResults",
+      "module": "M10",
+      "method": "PATCH",
+      "path": "/api/v1/radiology/orders/{id}/results",
+      "frontendActions": [
+        "saveRadiologyResults"
+      ],
+      "permission": "radiology.report.draft",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "findings",
+          "impression"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "findings": {
+            "type": "string",
+            "minLength": 5
+          },
+          "impression": {
+            "type": "string",
+            "minLength": 5
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "saveRadiologyResults"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "radiology-result-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "saveRadiologyResults",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "radiology-result-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 200,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "publishRadiology",
+      "module": "M10",
+      "method": "POST",
+      "path": "/api/v1/radiology/reports/{id}/publish",
+      "frontendActions": [
+        "publishRadiology"
+      ],
+      "permission": "radiology.report.publish",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "reviewerId"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "reviewerId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "publishRadiology"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "radiology-publication-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "publishRadiology",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "radiology-publication-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "reviseRadiology",
+      "module": "M10",
+      "method": "POST",
+      "path": "/api/v1/radiology/reports/{id}/revisions",
+      "frontendActions": [
+        "reviseRadiology"
+      ],
+      "permission": "radiology.report.revise",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "revisionReason",
+          "revisedText"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "revisionReason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "revisedText": {
+            "type": "string",
+            "minLength": 5
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "reviseRadiology"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "radiology-revision-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "reviseRadiology",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "radiology-revision-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    },
+    {
+      "operationId": "cancelRadiology",
+      "module": "M10",
+      "method": "POST",
+      "path": "/api/v1/radiology/orders/{id}/cancel",
+      "frontendActions": [
+        "cancelRadiology"
+      ],
+      "permission": "radiology.cancel",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "cancelRadiology"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "radiology-cancellation-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "cancelRadiology",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "radiology-cancellation-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Review-only HOSNEX response fixture; no real operation, patient records, staff credentials, blood products, radiology reports, legal signatures, asset movement, clinical state or database persistence."
+    }
+  ],
+  "nonGoals": [
+    "No deployment or browser-to-host connectivity",
+    "No production clinical, inventory, financial, claims, blood or external effects"
+  ]
+}
