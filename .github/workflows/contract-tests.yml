@@ -1,17 +1,22 @@
-name: Contract and Mock HTTP Tests
+name: Contract Tests and VPS Deploy
 on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
 jobs:
   contract:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '22.23.5'
       - name: Syntax check
         run: node --check mock-server.mjs
       - name: Validate OpenAPI coverage
@@ -28,3 +33,35 @@ jobs:
         run: npm run check:v3.5
       - name: Run mock API tests
         run: npm test
+
+  deploy:
+    needs: contract
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: vps
+    concurrency:
+      group: simrs-api-vps
+      cancel-in-progress: false
+    steps:
+      - name: Deploy tested commit over SSH
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+        run: |
+          : "${VPS_HOST:?VPS_HOST is required}"
+          : "${VPS_KNOWN_HOSTS:?VPS_KNOWN_HOSTS is required}"
+          : "${VPS_SSH_KEY:?VPS_SSH_KEY is required}"
+
+          umask 077
+          ssh_dir=$(mktemp -d)
+          trap 'rm -rf -- "$ssh_dir"' EXIT
+          printf '%s\n' "$VPS_KNOWN_HOSTS" > "$ssh_dir/known_hosts"
+          printf '%s\n' "$VPS_SSH_KEY" > "$ssh_dir/deploy_key"
+
+          ssh -T -i "$ssh_dir/deploy_key" \
+            -o BatchMode=yes -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$ssh_dir/known_hosts" \
+            -o ConnectTimeout=15 -o ServerAliveInterval=15 -o ServerAliveCountMax=3 \
+            "simrs-api-deploy@$VPS_HOST" "$GITHUB_SHA"

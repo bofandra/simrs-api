@@ -1,0 +1,20 @@
+[Unit]
+Description=SIMRS synthetic API mock
+After=network.target
+
+[Service]
+Type=exec
+User=simrs-api
+Group=simrs-api
+WorkingDirectory=/opt/simrs-api/app/current
+Environment=PORT=4010
+ExecStart=/opt/simrs-api/node ./mock-server.mjs --v35
+Restart=on-failure
+RestartSec=2
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+
+[Install]
+WantedBy=multi-user.target

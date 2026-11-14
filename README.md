@@ -19,6 +19,22 @@ HOSNEX `/api-sandbox` dapat menampilkan 268 kandidat; mode `Mock Lokal` tetap de
 
 Dokumen kontrak bertahap: [v3.3](docs/HOSNEX_ENDPOINT_COMPLETION.md) · [v3.4](docs/HOSNEX_ENDPOINT_COMPLETION_V34.md) · [v3.5](docs/HOSNEX_PARTIAL_PARITY_V35.md). Versi v3.1 di bawah tetap terdokumentasi sebagai baseline historis, bukan versi terbaru.
 
+## Deploy mock API v3.5 ke VPS
+
+[Contract Tests and VPS Deploy](https://github.com/bofandra/simrs-api/actions/workflows/contract-tests.yml) menjalankan validasi dan tes pada pull request dan push ke `main`. Setelah tes lulus, push ke `main` atau **Run workflow** dari `main` akan men-deploy commit yang diuji. VPS mengambil rilis berdasarkan commit SHA, me-restart `simrs-api.service`, dan mengecek `/healthz`. Jika rilis baru gagal, VPS mencoba mengaktifkan kembali rilis sebelumnya.
+
+API demo mendengarkan di `127.0.0.1:4010` pada VPS. Gunakan SSH dengan akun admin VPS untuk verifikasi dan akses Swagger:
+
+```bash
+ssh ubuntu@VPS_HOST 'curl -fsS http://127.0.0.1:4010/healthz'
+ssh -N -L 4010:127.0.0.1:4010 ubuntu@VPS_HOST
+# Buka http://127.0.0.1:4010/docs setelah tunnel aktif.
+```
+
+Untuk memasang deployment pada VPS Ubuntu x86_64, salin direktori `deploy/vps` dan public key Ed25519 khusus GitHub Actions, lalu jalankan `sudo bash deploy/vps/install.sh /path/to/deploy_key.pub` pada VPS. Installer menyiapkan Node.js 22 khusus layanan ini, unit systemd, dan akun SSH `simrs-api-deploy` dengan perintah deploy yang dibatasi. Jalankan ulang installer sebagai admin saat mengubah konfigurasi di `deploy/vps`.
+
+Di GitHub **Settings → Environments → vps**, batasi deployment ke branch `main` dan isi environment secrets `VPS_HOST` (alamat VPS), `VPS_KNOWN_HOSTS` (baris host key Ed25519 yang sudah diverifikasi), dan `VPS_SSH_KEY` (private key pasangan deploy). Untuk memeriksa kegagalan di VPS, jalankan `sudo journalctl -u simrs-api.service -n 50 --no-pager`.
+
 ---
 
 ## Contract v3.1 (candidate) — latest specification
