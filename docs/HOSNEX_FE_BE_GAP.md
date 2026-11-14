@@ -1,3 +1,11 @@
+## Tahap 11 — Form resume dan koding draf M05 (14 Nov 2026)
+
+- Modul P0 M05 menambah GET katalog/episode serta PATCH draf resume (5 bidang), PATCH draf koding ICD-10 (diagnosis utama/sekunder, bukti, coder), dan POST review QA. API tetap synthethic process-memory dan tidak pernah mengesahkan dokumen.
+- Review QA membutuhkan draf resume dan koding sudah disimpan serta triase sintetis M03 berjalan. Respons memuat signed:false, codingVerified:false, legalSignature:false, persisted:false, realWorldEffect:false.
+- Write mewajibkan optimistic version + Idempotency-Key, memiliki 409/412/422/403 dan injected 500. Tidak ada endpoint tanda tangan legal atau export RME.
+- GET-only read model M05 menampilkan checklist dinamis status draf, tetapi seluruh POST/PATCH pada namespace read-only tetap 405.
+- **Cakupan berubah menjadi 8 modul aksi parsial dan 13 read-only**, seluruhnya tetap synthetic mock. Form dan acceptance M05 selain dua draf tersebut tetap gap PRD.
+
 ## Tahap lanjutan — Semua 21 modul memiliki HTTP read workspace sintetis (14 November 2026)
 
 - Menambahkan **9 modul**: M07 Operasi, M08 Pelayanan Khusus (6 subsistem: HD, rehabilitasi, MCU, Bank Darah, KIA/perinatologi, imunisasi), M10 Radiologi, M12 Gizi, M15 Akuntansi, M17 Sarpras, M18 SDM, M19 Mutu, M20 Analitik.
