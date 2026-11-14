@@ -11,7 +11,8 @@ async function withServer(fn){
   finally{server.close();await once(server,'close');}
 }
 async function request(base,path,init={}){
-  const response=await fetch(base+path,{headers:{...headers,...init.headers},...init});
+  const {headers:extraHeaders,...rest}=init;
+  const response=await fetch(base+path,{...rest,headers:{...headers,...extraHeaders}});
   return {status:response.status,body:await response.json(),headers:response.headers};
 }
 test('five P0 module read models serve list/detail, synthetic flags and no real operations',()=>withServer(async base=>{
