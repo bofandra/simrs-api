@@ -20,5 +20,7 @@ jobs:
         run: npm run check:v3.1
       - name: Check HOSNEX v3.2 composed OpenAPI and 200 operation coverage
         run: npm run check:v3.2
+      - name: Check HOSNEX v3.3 13 P0 endpoint proposals and 200 v3.2 backward compatibility
+        run: npm run check:v3.3
       - name: Run mock API tests
         run: npm test
