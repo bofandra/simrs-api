@@ -154,6 +154,8 @@ function applyScenario(operationId, body, output, db, requestPath, search = new 
     case 'createServiceOrder': {
       if(!db.encounters.some(e=>e.id===body.encounterId))
         return {__error:[422,'UNKNOWN_ENCOUNTER','Encounter demo tidak ditemukan']};
+      if(V32 && !db.notes.some(n=>n.encounterId===body.encounterId && n.status==='signed'))
+        return {__error:[422,'SIGNED_NOTE_REQUIRED','Order demo hanya bisa terbit setelah catatan SOAP signed (simulasi)']};
       const order = { id, encounterId: body.encounterId,
         category: body.category || 'LAB', serviceCode: body.serviceCode, status: 'placed' };
       db.orders.push(order);
@@ -179,6 +181,8 @@ function applyScenario(operationId, body, output, db, requestPath, search = new 
     case 'createPrescription': {
       if(!db.encounters.some(e=>e.id===body.encounterId))
         return {__error:[422,'UNKNOWN_ENCOUNTER','Encounter demo tidak ditemukan']};
+      if(V32 && !db.notes.some(n=>n.encounterId===body.encounterId && n.status==='signed'))
+        return {__error:[422,'SIGNED_NOTE_REQUIRED','Resep demo memerlukan catatan SOAP signed (simulasi)']};
       db.prescriptions.push({ id, encounterId: body.encounterId, status: 'ordered',
         items: body.items || [] });
       return { id, status: 'ordered' };

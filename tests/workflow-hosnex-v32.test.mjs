@@ -72,6 +72,15 @@ test('same patient and encounter propagate across HTTP registration, clinical, l
   const stale=await send(base,'/api/v1/encounters/'+encounterId+'/drafts/clinical',
     {expectedVersion:1,clinicalNote:{subjective:'Stale'},observations:[],proposedOrders:[],proposedPrescriptions:[]},'PATCH');
   assert.equal(stale.status,412);
+  // Contract guard: saving a composite draft is NOT approval to place orders.
+  const unsignedOrder=await send(base,'/api/v1/orders',{
+    encounterId,serviceCode:'HB',category:'LAB',urgency:'routine',indication:'Demo',targetUnitId:unitId});
+  assert.equal(unsignedOrder.status,422);
+  assert.equal(unsignedOrder.data.code,'SIGNED_NOTE_REQUIRED');
+  const unsignedRx=await send(base,'/api/v1/pharmacy/prescriptions',{
+    encounterId,indication:'Demo',items:[{drugId:'DEMO',dose:'1 tablet',route:'PO',frequency:'1x/day',duration:'3d'}]});
+  assert.equal(unsignedRx.status,422);
+  assert.equal(unsignedRx.data.code,'SIGNED_NOTE_REQUIRED');
   // Saving a draft must NOT create lab orders or pharmacy prescriptions.
   assert.equal((await get(base,'/api/v1/laboratory/orders')).data.items.length,0);
   assert.equal((await get(base,'/api/v1/pharmacy/prescriptions')).data.items.length,0);
