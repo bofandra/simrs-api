@@ -8,6 +8,7 @@ import { randomUUID } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { buildHosnexV32Spec } from './scripts/compose-hosnex-v32.mjs';
+import { getMockActionCatalog, simulateHosnexAction, mockActionCoverage } from './mock-hosnex-actions.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const V32 = process.argv.includes('--v32') || process.env.SIMRS_CONTRACT_VERSION === '3.2';
@@ -471,6 +472,35 @@ export function createMockServer() {
       const html = readFileSync(join(HERE, 'docs/index.html'), 'utf8');
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });
       res.end(html.replace('src="../openapi.json"', 'src="/openapi.json"')); return;
+    }
+    // Tooling-only mock response gateway: every audited FE action has a sample.
+    // This namespace is deliberately OUTSIDE OpenAPI. No actual business state is written.
+    if(url.pathname==='/__mock/hosnex/actions' && req.method==='GET'){
+      const module=url.searchParams.get('module') || '';
+      return json(res,200,{mode:'fixtures-only',mock:true,persisted:false,
+        coverage:mockActionCoverage,actions:getMockActionCatalog(module)},correlationId,
+        {'X-SIMRS-Scenario':'fixture','X-SIMRS-State-Persisted':'false'});
+    }
+    if(url.pathname.startsWith('/__mock/hosnex/actions/') && req.method==='POST'){
+      if(!V32)return json(res,404,problem('NOT_FOUND','Only available in v3.2 demo',correlationId),correlationId);
+      if(req.headers['x-organization-id']!=='DEMO-RS-001')
+        return json(res,403,problem('DEMO_TENANT_REQUIRED','Gunakan organisasi fiktif DEMO-RS-001',correlationId),correlationId);
+      const action=decodeURIComponent(url.pathname.slice('/__mock/hosnex/actions/'.length));
+      const mock=simulateHosnexAction(action);
+      if(!mock)return json(res,404,problem('UNKNOWN_HOSNEX_ACTION','Aksi tidak tercatat di audit HOSNEX',correlationId),correlationId);
+      const scenario=String(req.headers['x-demo-scenario']||'success');
+      if(['forbidden','conflict','invalid','error'].includes(scenario)){
+        const status={forbidden:403,conflict:409,invalid:422,error:500}[scenario];
+        return json(res,status,problem('MOCK_'+scenario.toUpperCase(),
+          'Skenario negatif fiktif untuk '+action,correlationId),correlationId,
+          {'X-SIMRS-Scenario':scenario,'X-SIMRS-State-Persisted':'false'});
+      }
+      if(scenario!=='success')return json(res,400,problem('UNKNOWN_SCENARIO',
+        'Skenario demo harus success/forbidden/conflict/invalid/error',correlationId),correlationId);
+      try {await readBody(req);}catch{return json(res,400,
+        problem('INVALID_BODY','Payload JSON tidak valid',correlationId),correlationId);}
+      return json(res,200,mock,correlationId,
+        {'X-SIMRS-Scenario':'fixture','X-SIMRS-State-Persisted':'false'});
     }
     const operation = operations.find(o => o.verb === req.method && o.pattern.test(url.pathname));
     if (!operation) return json(res, 404, problem('NOT_FOUND', 'Endpoint demo tidak ditemukan', correlationId), correlationId);
