@@ -13,7 +13,7 @@ export function buildHosnexV32Spec(base, overlay) {
     const {operationId,method,path,module,permission,requestSchema,responseSchema,responseExample,successStatus,frontendActions}=candidate;
     if(existingIds.has(operationId)||overlayIds.has(operationId))throw new Error('Duplicate operationId: '+operationId);
     overlayIds.add(operationId);
-    if (!['GET','POST','PATCH'].includes(method) || !path.startsWith('/api/v1/')) throw new Error('Unsupported operation '+operationId);
+    if (!['GET','POST','PATCH','PUT'].includes(method) || !path.startsWith('/api/v1/')) throw new Error('Unsupported operation '+operationId);
     const key=method.toLowerCase();
     if(spec.paths[path]?.[key])throw new Error('Route conflict: '+method+' '+path);
     const params=[...path.matchAll(/\{([^}]+)\}/g)].map(([,name])=>({name,in:'path',required:true,schema:{type:'string'},description:'Path parameter for synthetic contract review'}));
