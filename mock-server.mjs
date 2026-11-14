@@ -91,6 +91,51 @@ function successResponse(detail) {
   const schema = detail.responses[code]?.content?.['application/json'];
   return { status: Number(code), sample: clone(schema?.example ?? {}) };
 }
+/**
+ * Pure OpenAPI fixture synthesis. It never invokes stateful applyScenario/applyV31/applyV32.
+ * Used ONLY by /__mock/contract/*, never normal /api/v1 paths.
+ */
+function mockValue(schema, label='id', depth=0) {
+  if(depth>5)return null;
+  schema=resolveSchema(schema);
+  if(schema.enum?.length)return schema.enum[0];
+  if(schema.example!==undefined)return clone(schema.example);
+  if(schema.type==='array')return schema.minItems>=1?[mockValue(schema.items,label,depth+1)]:[];
+  if(schema.type==='object'||schema.properties){
+    const out={};
+    for(const [key,value] of Object.entries(schema.properties||{})){
+      if((schema.required||[]).includes(key)||depth<2)out[key]=mockValue(value,key,depth+1);
+    }
+    return out;
+  }
+  if(schema.type==='integer'||schema.type==='number')return schema.minimum??0;
+  if(schema.type==='boolean')return false;
+  if(schema.type==='string'){
+    if(schema.format==='uuid'||/Id$|ID$/i.test(label))return '11111111-1111-4111-8111-111111111111';
+    if(schema.format==='date-time')return '2026-11-14T08:00:00+07:00';
+    if(schema.format==='date')return '2026-11-14';
+    if(schema.format==='email')return 'demo@example.invalid';
+    if(schema.format==='uri'||schema.format==='url')return 'https://example.invalid/mock';
+    return label==='name'||label==='fullName'?'Pasien Sintetis':('DEMO-'+label.toUpperCase());
+  }
+  return null;
+}
+function contractFixture(operation) {
+  const detail=operation.detail;
+  const {status,sample}=successResponse(detail);
+  const code=Object.keys(detail.responses).find(x=>/^2\d\d$/.test(x));
+  const schema=detail.responses[code]?.content?.['application/json']?.schema;
+  const payload=sample && typeof sample==='object'&&Object.keys(sample).length
+    ?sample:mockValue(schema,'response');
+  return {
+    mock:true,simulated:true,persisted:false,realWorldEffect:false,
+    responseKind:'OPENAPI_CONTRACT_FIXTURE',operationId:detail.operationId,
+    method:operation.verb,path:operation.template,module:detail.tags?.[0]??'SHARED',
+    contractStatus:detail['x-contract-status']??'candidate',
+    suggestedHttpStatus:status,fixture:payload??{},
+    warnings:['Respons sintetis dari schema/example OpenAPI, bukan eksekusi operasi bisnis.']
+  };
+}
 function applyScenario(operationId, body, output, db, requestPath, search = new URLSearchParams()) {
   const id = randomUUID();
   switch (operationId) {
@@ -500,6 +545,37 @@ export function createMockServer() {
       try {await readBody(req);}catch{return json(res,400,
         problem('INVALID_BODY','Payload JSON tidak valid',correlationId),correlationId);}
       return json(res,200,mock,correlationId,
+        {'X-SIMRS-Scenario':'fixture','X-SIMRS-State-Persisted':'false'});
+    }
+    if(url.pathname==='/__mock/contract/operations' && req.method==='GET'){
+      if(!V32)return json(res,404,problem('NOT_FOUND','Contract fixtures require v3.2',correlationId),correlationId);
+      const module=url.searchParams.get('module');
+      const list=operations.filter(o=>!module||o.detail.tags?.includes(module));
+      return json(res,200,{mock:true,persisted:false,total:operations.length,
+        items:list.map(o=>({operationId:o.detail.operationId,method:o.verb,
+          path:o.template,module:o.detail.tags?.[0]??'SHARED',
+          contractStatus:o.detail['x-contract-status']??'candidate'}))},correlationId,
+        {'X-SIMRS-Scenario':'fixture','X-SIMRS-State-Persisted':'false'});
+    }
+    if(url.pathname.startsWith('/__mock/contract/operations/') && req.method==='POST'){
+      if(!V32)return json(res,404,problem('NOT_FOUND','Contract fixtures require v3.2',correlationId),correlationId);
+      if(req.headers['x-organization-id']!=='DEMO-RS-001')
+        return json(res,403,problem('DEMO_TENANT_REQUIRED','Gunakan organisasi dummy',correlationId),correlationId);
+      const id=decodeURIComponent(url.pathname.slice('/__mock/contract/operations/'.length));
+      const op=operations.find(o=>o.detail.operationId===id);
+      if(!op)return json(res,404,problem('UNKNOWN_OPERATION_ID','OperationId tidak ditemukan pada kontrak',correlationId),correlationId);
+      const scenario=String(req.headers['x-demo-scenario']||'success');
+      if(['forbidden','conflict','invalid','error'].includes(scenario)){
+        const status={forbidden:403,conflict:409,invalid:422,error:500}[scenario];
+        return json(res,status,problem('MOCK_'+scenario.toUpperCase(),
+          'Skenario gagal sintetis untuk '+id,correlationId),correlationId,
+          {'X-SIMRS-Scenario':scenario,'X-SIMRS-State-Persisted':'false'});
+      }
+      if(scenario!=='success')return json(res,400,
+        problem('UNKNOWN_SCENARIO','Skenario tidak didukung',correlationId),correlationId);
+      try{await readBody(req);}catch{return json(res,400,
+        problem('INVALID_BODY','Payload JSON mock tidak valid',correlationId),correlationId);}
+      return json(res,200,contractFixture(op),correlationId,
         {'X-SIMRS-Scenario':'fixture','X-SIMRS-State-Persisted':'false'});
     }
     const operation = operations.find(o => o.verb === req.method && o.pattern.test(url.pathname));
