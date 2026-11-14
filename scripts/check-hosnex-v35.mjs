@@ -34,7 +34,7 @@ for(const c of partial){
    assert(op['x-hosnex-frontend-actions'].includes(c.frontendAction));
    const body=op.requestBody.content['application/json'].schema;
    assert(body.required.includes('expectedVersion'));
-   for(const name of ['simulated','persisted','realWorldEffect'])assert(op.responses[Object.keys(op.responses).find(k=>/^2\\d\\d$/.test(k))].content['application/json'].schema.required.includes(name));
+   for(const name of ['simulated','persisted','realWorldEffect'])assert(op.responses[Object.keys(op.responses).find(k=>k.length===3 && k[0]==='2' && Number.isInteger(Number(k)))].content['application/json'].schema.required.includes(name));
  } else assert(alignment.mappingNote.length>=20);
 }
 console.log('PASS: 247 unchanged + 21 v3.5 = 268 candidate operations; all 29 partial actions mapped to 21 distinct semantic proposals or 8 explicit adapter reviews.');
