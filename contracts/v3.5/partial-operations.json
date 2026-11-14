@@ -1,0 +1,2564 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "HOSNEX Partial-Action Contract Alignment v3.5",
+    "version": "3.5.0-draft.0",
+    "description": "21 additive mock-only candidate operations, 8 reuse adapter plans; not production"
+  },
+  "status": "PROPOSAL_ONLY",
+  "source": {
+    "frontendRepository": "bofandra/hosnex",
+    "frontendBranch": "main",
+    "backendRepository": "bofandra/simrs-api",
+    "backendBranch": "feat/hosnex-endpoint-completion-remaining-20261114",
+    "date": "2026-11-14",
+    "baseline": "v3.4 247 operations"
+  },
+  "operations": [
+    {
+      "operationId": "verifySafetyAction",
+      "module": "M19",
+      "method": "POST",
+      "path": "/api/v1/quality/actions/{id}/verification",
+      "frontendActions": [
+        "verifySafetyAction"
+      ],
+      "permission": "quality.actions.verify",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedVersion",
+          "reason",
+          "incidentId",
+          "verifier",
+          "verification",
+          "checked"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "incidentId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "verifier": {
+            "type": "string",
+            "minLength": 1
+          },
+          "verification": {
+            "type": "string",
+            "minLength": 1
+          },
+          "checked": {
+            "type": "boolean",
+            "const": true
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "verifySafetyAction"
+            ]
+          },
+          "targetId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "verification-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "verifySafetyAction",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "verification-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX partial-semantic gap. Mock contract preview only; future FE adapter and domain workflow acceptance required."
+    },
+    {
+      "operationId": "createSafetyMeasure",
+      "module": "M19",
+      "method": "POST",
+      "path": "/api/v1/quality/indicator-reports",
+      "frontendActions": [
+        "createSafetyMeasure"
+      ],
+      "permission": "quality.indicators.create",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedVersion",
+          "reason",
+          "measureId",
+          "period",
+          "numerator",
+          "denominator",
+          "evidence",
+          "actor"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "measureId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "period": {
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{2}$"
+          },
+          "numerator": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "denominator": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "actor": {
+            "type": "string",
+            "minLength": 1
+          },
+          "supersedes": {
+            "type": "string"
+          },
+          "revisionReason": {
+            "type": "string"
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "createSafetyMeasure"
+            ]
+          },
+          "targetId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "indicator-draft-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "createSafetyMeasure",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "indicator-draft-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX partial-semantic gap. Mock contract preview only; future FE adapter and domain workflow acceptance required."
+    },
+    {
+      "operationId": "addStaffCredential",
+      "module": "M18",
+      "method": "POST",
+      "path": "/api/v1/staff/{id}/credentials",
+      "frontendActions": [
+        "addStaffCredential"
+      ],
+      "permission": "staff.credentials.submit",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedVersion",
+          "reason",
+          "credential",
+          "recordedBy"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "credential": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "number",
+              "issuer",
+              "issued",
+              "expires",
+              "lifetime",
+              "unit",
+              "evidence"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "minLength": 1
+              },
+              "number": {
+                "type": "string",
+                "minLength": 1
+              },
+              "issuer": {
+                "type": "string",
+                "minLength": 1
+              },
+              "issued": {
+                "type": "string",
+                "format": "date"
+              },
+              "expires": {
+                "type": "string",
+                "format": "date"
+              },
+              "lifetime": {
+                "type": "boolean"
+              },
+              "unit": {
+                "type": "string"
+              },
+              "evidence": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "supersedesId": {
+            "type": "string"
+          },
+          "recordedBy": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "addStaffCredential"
+            ]
+          },
+          "targetId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "credential-draft-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "addStaffCredential",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "credential-draft-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX partial-semantic gap. Mock contract preview only; future FE adapter and domain workflow acceptance required."
+    },
+    {
+      "operationId": "saveIntegrationMapping",
+      "module": "M21",
+      "method": "PUT",
+      "path": "/api/v1/integrations/fhir/mapping-draft",
+      "frontendActions": [
+        "saveIntegrationMapping"
+      ],
+      "permission": "integration.mapping.edit",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedVersion",
+          "reason",
+          "mapping"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "mapping": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "organization",
+              "patients",
+              "practitioners",
+              "locations",
+              "consents"
+            ],
+            "properties": {
+              "organization": {
+                "type": "string",
+                "minLength": 1
+              },
+              "patients": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "practitioners": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "locations": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "consents": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "saveIntegrationMapping"
+            ]
+          },
+          "targetId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "mapping-draft-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "saveIntegrationMapping",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "mapping-draft-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 200,
+      "reviewRequired": true,
+      "notes": "HOSNEX partial-semantic gap. Mock contract preview only; future FE adapter and domain workflow acceptance required."
+    },
+    {
+      "operationId": "collectIntegrationJobs",
+      "module": "M21",
+      "method": "POST",
+      "path": "/api/v1/integrations/jobs/collect-preview",
+      "frontendActions": [
+        "collectIntegrationJobs"
+      ],
+      "permission": "integration.jobs.collect",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedVersion",
+          "reason",
+          "source"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "source": {
+            "type": "string",
+            "const": "SIGNED_ENCOUNTERS"
+          },
+          "maxEpisodes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "collectIntegrationJobs"
+            ]
+          },
+          "targetId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "outbox-collect-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "collectIntegrationJobs",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "outbox-collect-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX partial-semantic gap. Mock contract preview only; future FE adapter and domain workflow acceptance required."
+    },
+    {
+      "operationId": "consentPortal",
+      "module": "CH01",
+      "method": "PATCH",
+      "path": "/api/v1/portal/me/consent",
+      "frontendActions": [
+        "consentPortal"
+      ],
+      "permission": "portal.consent.self",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedVersion",
+          "reason",
+          "enabled"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "consentPortal"
+            ]
+          },
+          "targetId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "portal-consent-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "consentPortal",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "portal-consent-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 200,
+      "reviewRequired": true,
+      "notes": "HOSNEX partial-semantic gap. Mock contract preview only; future FE adapter and domain workflow acceptance required. Patient audience boundary required; no staff token substitution."
+    },
+    {
+      "operationId": "signDiet",
+      "module": "M12",
+      "method": "POST",
+      "path": "/api/v1/nutrition/admissions/{id}/diet-orders/preview",
+      "frontendActions": [
+        "signDiet"
+      ],
+      "permission": "nutrition.diet.draft",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedVersion",
+          "reason",
+          "assessment",
+          "diet",
+          "texture",
+          "allergies",
+          "allergyReviewed",
+          "kcal",
+          "protein",
+          "start",
+          "end",
+          "fasting",
+          "instruction",
+          "signer"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "assessment": {
+            "type": "string",
+            "minLength": 1
+          },
+          "diet": {
+            "type": "string",
+            "minLength": 1
+          },
+          "texture": {
+            "type": "string",
+            "minLength": 1
+          },
+          "allergies": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "allergyReviewed": {
+            "type": "boolean"
+          },
+          "kcal": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "protein": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "start": {
+            "type": "string",
+            "format": "date"
+          },
+          "end": {
+            "type": "string",
+            "format": "date"
+          },
+          "fasting": {
+            "type": "boolean"
+          },
+          "instruction": {
+            "type": "string"
+          },
+          "signer": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "signDiet"
+            ]
+          },
+          "targetId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "diet-approval-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "signDiet",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "diet-approval-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX partial-semantic gap. Mock contract preview only; future FE adapter and domain workflow acceptance required."
+    },
+    {
+      "operationId": "planMeal",
+      "module": "M12",
+      "method": "POST",
+      "path": "/api/v1/nutrition/admissions/{id}/trays/plan-preview",
+      "frontendActions": [
+        "planMeal"
+      ],
+      "permission": "nutrition.trays.plan",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedVersion",
+          "reason",
+          "menuId",
+          "date",
+          "meal",
+          "dietVersion"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "menuId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "meal": {
+            "type": "string",
+            "minLength": 1
+          },
+          "dietVersion": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "planMeal"
+            ]
+          },
+          "targetId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "tray-plan-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "planMeal",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "tray-plan-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX partial-semantic gap. Mock contract preview only; future FE adapter and domain workflow acceptance required."
+    },
+    {
+      "operationId": "startBlood",
+      "module": "M08",
+      "method": "POST",
+      "path": "/api/v1/blood-bank/requests/{id}/start-preview",
+      "frontendActions": [
+        "startBlood"
+      ],
+      "permission": "blood.transfusion.start",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedVersion",
+          "reason",
+          "mrn",
+          "unitId",
+          "identityConfirmed",
+          "verifier",
+          "witness",
+          "observation"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "mrn": {
+            "type": "string",
+            "minLength": 1
+          },
+          "unitId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "identityConfirmed": {
+            "type": "boolean",
+            "const": true
+          },
+          "verifier": {
+            "type": "string",
+            "minLength": 1
+          },
+          "witness": {
+            "type": "string",
+            "minLength": 1
+          },
+          "observation": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "sbp",
+              "dbp",
+              "hr",
+              "temp",
+              "spo2",
+              "note",
+              "actor"
+            ],
+            "properties": {
+              "sbp": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "dbp": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "hr": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "temp": {
+                "type": "number"
+              },
+              "spo2": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "note": {
+                "type": "string"
+              },
+              "actor": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "startBlood"
+            ]
+          },
+          "targetId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "transfusion-start-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "startBlood",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "transfusion-start-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX partial-semantic gap. Mock contract preview only; future FE adapter and domain workflow acceptance required."
+    },
+    {
+      "operationId": "saveClinicalNote",
+      "module": "M05",
+      "method": "PUT",
+      "path": "/api/v1/medical-records/{id}/notes/draft-preview",
+      "frontendActions": [
+        "saveClinicalNote"
+      ],
+      "permission": "clinical.cppt.edit",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedVersion",
+          "reason",
+          "s",
+          "o",
+          "a",
+          "p",
+          "author",
+          "profession",
+          "requestSign"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "noteId": {
+            "type": "string"
+          },
+          "s": {
+            "type": "string"
+          },
+          "o": {
+            "type": "string"
+          },
+          "a": {
+            "type": "string"
+          },
+          "p": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string",
+            "minLength": 1
+          },
+          "profession": {
+            "type": "string",
+            "enum": [
+              "Dokter",
+              "Perawat"
+            ]
+          },
+          "requestSign": {
+            "type": "boolean"
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "saveClinicalNote"
+            ]
+          },
+          "targetId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "cppt-draft-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "saveClinicalNote",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "cppt-draft-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 200,
+      "reviewRequired": true,
+      "notes": "HOSNEX partial-semantic gap. Mock contract preview only; future FE adapter and domain workflow acceptance required."
+    },
+    {
+      "operationId": "saveMedicalSummary",
+      "module": "M05",
+      "method": "PATCH",
+      "path": "/api/v1/medical-records/{id}/summaries/draft-preview",
+      "frontendActions": [
+        "saveMedicalSummary"
+      ],
+      "permission": "clinical.summary.edit",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedVersion",
+          "reason",
+          "course",
+          "diagnosis",
+          "treatment",
+          "condition",
+          "followUp",
+          "requestSign",
+          "reviewed"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "course": {
+            "type": "string"
+          },
+          "diagnosis": {
+            "type": "string"
+          },
+          "treatment": {
+            "type": "string"
+          },
+          "condition": {
+            "type": "string"
+          },
+          "followUp": {
+            "type": "string"
+          },
+          "requestSign": {
+            "type": "boolean"
+          },
+          "signer": {
+            "type": "string"
+          },
+          "reviewed": {
+            "type": "boolean"
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "saveMedicalSummary"
+            ]
+          },
+          "targetId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "medical-summary-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "saveMedicalSummary",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "medical-summary-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 200,
+      "reviewRequired": true,
+      "notes": "HOSNEX partial-semantic gap. Mock contract preview only; future FE adapter and domain workflow acceptance required."
+    },
+    {
+      "operationId": "surgeryGate",
+      "module": "M07",
+      "method": "POST",
+      "path": "/api/v1/surgeries/{id}/safety-gates/{stage}/preview",
+      "frontendActions": [
+        "surgeryGate"
+      ],
+      "permission": "surgery.safety.gate",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedVersion",
+          "reason",
+          "stage",
+          "checks",
+          "mrn"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "stage": {
+            "type": "string",
+            "enum": [
+              "signIn",
+              "timeOut",
+              "signOut"
+            ]
+          },
+          "checks": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "boolean",
+              "const": true
+            }
+          },
+          "mrn": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "surgeryGate"
+            ]
+          },
+          "targetId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "surgery-gate-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "surgeryGate",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "surgery-gate-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX partial-semantic gap. Mock contract preview only; future FE adapter and domain workflow acceptance required."
+    },
+    {
+      "operationId": "closeSurgery",
+      "module": "M07",
+      "method": "POST",
+      "path": "/api/v1/surgeries/{id}/recovery/handover-preview",
+      "frontendActions": [
+        "closeSurgery"
+      ],
+      "permission": "surgery.pacu.handover",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedVersion",
+          "reason",
+          "assessment",
+          "receiver",
+          "destination",
+          "cleared"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "assessment": {
+            "type": "string",
+            "minLength": 1
+          },
+          "receiver": {
+            "type": "string",
+            "minLength": 1
+          },
+          "destination": {
+            "type": "string",
+            "minLength": 1
+          },
+          "cleared": {
+            "type": "boolean",
+            "const": true
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "closeSurgery"
+            ]
+          },
+          "targetId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "surgery-handover-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "closeSurgery",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "surgery-handover-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX partial-semantic gap. Mock contract preview only; future FE adapter and domain workflow acceptance required."
+    },
+    {
+      "operationId": "scheduleRadiology",
+      "module": "M10",
+      "method": "POST",
+      "path": "/api/v1/radiology/orders/{id}/schedule-preview",
+      "frontendActions": [
+        "scheduleRadiology"
+      ],
+      "permission": "radiology.order.schedule",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedVersion",
+          "reason",
+          "serviceCode",
+          "scheduledAt",
+          "indicationsReviewed"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "serviceCode": {
+            "type": "string",
+            "minLength": 1
+          },
+          "scheduledAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "indicationsReviewed": {
+            "type": "boolean",
+            "const": true
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "scheduleRadiology"
+            ]
+          },
+          "targetId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "radiology-schedule-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "scheduleRadiology",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "radiology-schedule-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX partial-semantic gap. Mock contract preview only; future FE adapter and domain workflow acceptance required."
+    },
+    {
+      "operationId": "performRadiology",
+      "module": "M10",
+      "method": "POST",
+      "path": "/api/v1/radiology/orders/{id}/acquisition-preview",
+      "frontendActions": [
+        "performRadiology"
+      ],
+      "permission": "radiology.acquisition.draft",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedVersion",
+          "reason",
+          "serviceCode",
+          "mrn",
+          "identityConfirmed",
+          "studyUid",
+          "operator"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "serviceCode": {
+            "type": "string",
+            "minLength": 1
+          },
+          "mrn": {
+            "type": "string",
+            "minLength": 1
+          },
+          "identityConfirmed": {
+            "type": "boolean",
+            "const": true
+          },
+          "studyUid": {
+            "type": "string",
+            "minLength": 1
+          },
+          "operator": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "performRadiology"
+            ]
+          },
+          "targetId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "radiology-acquisition-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "performRadiology",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "radiology-acquisition-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX partial-semantic gap. Mock contract preview only; future FE adapter and domain workflow acceptance required."
+    },
+    {
+      "operationId": "verifyRadiology",
+      "module": "M10",
+      "method": "POST",
+      "path": "/api/v1/radiology/reports/{id}/review-preview",
+      "frontendActions": [
+        "verifyRadiology"
+      ],
+      "permission": "radiology.report.review",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedVersion",
+          "reason",
+          "serviceCode",
+          "reportVersion",
+          "signer",
+          "reviewed"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "serviceCode": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reportVersion": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "signer": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reviewed": {
+            "type": "boolean",
+            "const": true
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "verifyRadiology"
+            ]
+          },
+          "targetId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "radiology-review-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "verifyRadiology",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "radiology-review-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX partial-semantic gap. Mock contract preview only; future FE adapter and domain workflow acceptance required."
+    },
+    {
+      "operationId": "payInvoice",
+      "module": "M13",
+      "method": "POST",
+      "path": "/api/v1/billing/invoices/{id}/payment-previews",
+      "frontendActions": [
+        "payInvoice"
+      ],
+      "permission": "billing.payment.record",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedVersion",
+          "reason",
+          "amountIDR",
+          "method",
+          "reference"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "amountIDR": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "method": {
+            "type": "string",
+            "enum": [
+              "Tunai",
+              "Transfer",
+              "EDC"
+            ]
+          },
+          "reference": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "payInvoice"
+            ]
+          },
+          "targetId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "payment-allocation-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "payInvoice",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "payment-allocation-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX partial-semantic gap. Mock contract preview only; future FE adapter and domain workflow acceptance required."
+    },
+    {
+      "operationId": "saveClaim",
+      "module": "M14",
+      "method": "PATCH",
+      "path": "/api/v1/claims/{id}/dossier-draft",
+      "frontendActions": [
+        "saveClaim"
+      ],
+      "permission": "claims.dossier.edit",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedVersion",
+          "reason",
+          "participant",
+          "sep",
+          "coverage",
+          "validUntil",
+          "cls",
+          "documents",
+          "procedure",
+          "group",
+          "amountIDR",
+          "groupReviewed"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "participant": {
+            "type": "string"
+          },
+          "sep": {
+            "type": "string"
+          },
+          "coverage": {
+            "type": "boolean"
+          },
+          "validUntil": {
+            "type": "string",
+            "format": "date"
+          },
+          "cls": {
+            "type": "string"
+          },
+          "documents": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "boolean"
+            }
+          },
+          "procedure": {
+            "type": "string"
+          },
+          "group": {
+            "type": "string"
+          },
+          "amountIDR": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "groupReviewed": {
+            "type": "boolean"
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "saveClaim"
+            ]
+          },
+          "targetId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "claim-draft-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "saveClaim",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "claim-draft-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 200,
+      "reviewRequired": true,
+      "notes": "HOSNEX partial-semantic gap. Mock contract preview only; future FE adapter and domain workflow acceptance required."
+    },
+    {
+      "operationId": "saveLabResults",
+      "module": "M09",
+      "method": "PATCH",
+      "path": "/api/v1/laboratory/orders/{id}/result-drafts",
+      "frontendActions": [
+        "saveLabResults"
+      ],
+      "permission": "laboratory.results.draft",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedVersion",
+          "reason",
+          "serviceCode",
+          "values",
+          "note"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "serviceCode": {
+            "type": "string",
+            "minLength": 1
+          },
+          "values": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "saveLabResults"
+            ]
+          },
+          "targetId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "lab-results-draft-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "saveLabResults",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "lab-results-draft-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 200,
+      "reviewRequired": true,
+      "notes": "HOSNEX partial-semantic gap. Mock contract preview only; future FE adapter and domain workflow acceptance required."
+    },
+    {
+      "operationId": "setQueue",
+      "module": "M01",
+      "method": "POST",
+      "path": "/api/v1/queue/tickets/{id}/transitions/preview",
+      "frontendActions": [
+        "setQueue"
+      ],
+      "permission": "queue.ticket.transition",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedVersion",
+          "reason",
+          "queueStatus"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "queueStatus": {
+            "type": "string",
+            "enum": [
+              "waiting",
+              "called",
+              "in-service",
+              "done"
+            ]
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "setQueue"
+            ]
+          },
+          "targetId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "queue-transition-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "setQueue",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "queue-transition-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX partial-semantic gap. Mock contract preview only; future FE adapter and domain workflow acceptance required."
+    },
+    {
+      "operationId": "updateTriage",
+      "module": "M03",
+      "method": "PATCH",
+      "path": "/api/v1/emergency/triage/{id}/draft",
+      "frontendActions": [
+        "updateTriage"
+      ],
+      "permission": "emergency.triage.edit",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedVersion",
+          "reason",
+          "patch"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "patch": {
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": false,
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "triase",
+                  "penanganan",
+                  "observasi",
+                  "disposisi"
+                ]
+              },
+              "complaint": {
+                "type": "string"
+              },
+              "level": {
+                "type": "string"
+              },
+              "overrideReason": {
+                "type": "string"
+              },
+              "disposition": {
+                "type": "string"
+              },
+              "bed": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "updateTriage"
+            ]
+          },
+          "targetId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "triage-draft-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "updateTriage",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "triage-draft-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 200,
+      "reviewRequired": true,
+      "notes": "HOSNEX partial-semantic gap. Mock contract preview only; future FE adapter and domain workflow acceptance required."
+    }
+  ],
+  "nonGoals": [
+    "Deployment",
+    "Real external connectivity",
+    "Clinical signing, blood issue, insurance dispatch, stock mutation or actual payment",
+    "Claim of 97-form acceptance"
+  ]
+}

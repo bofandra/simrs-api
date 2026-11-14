@@ -18,6 +18,8 @@
     "start:v3.3": "node mock-server.mjs --v33",
     "check:v3.3": "node scripts/check-hosnex-v33.mjs",
     "start:v3.4": "node mock-server.mjs --v34",
-    "check:v3.4": "node scripts/check-hosnex-v34.mjs"
+    "check:v3.4": "node scripts/check-hosnex-v34.mjs",
+    "start:v3.5": "node mock-server.mjs --v35",
+    "check:v3.5": "node scripts/check-hosnex-v35.mjs"
   }
 }
