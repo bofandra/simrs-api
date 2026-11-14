@@ -1,5 +1,26 @@
 # SIMRS Baru — API contract v3.0 dan sandbox
 
+## Status kontrak HOSNEX terkini — mock API v3.5 (14 November 2026)
+
+**268 operationId kandidat** sudah tersedia di `main` setelah PR #3–#5:
+106 v3.0 + 74 v3.1 + 20 v3.2 + 13 v3.3 + 34 v3.4 + 21 v3.5.
+
+`simrs-api` adalah **MOCK RESPONSE SERVER** untuk HOSNEX, bukan backend rumah sakit operasional. Semua 268 kandidat punya contoh response OpenAPI yang dapat dipicu lewat `/__mock/contract/operations/{operationId}`; angka itu **bukan** 268 stateful REST endpoint atau pemenuhan seluruh form/FR/US/PRD. Untuk mendemokan kontrak terbaru:
+
+```sh
+npm run check:v3.5
+npm test
+npm run start:v3.5
+# Swagger: http://127.0.0.1:4010/docs
+# GET list metadata: http://127.0.0.1:4010/__mock/contract/operations
+```
+
+HOSNEX `/api-sandbox` dapat menampilkan 268 kandidat; mode `Mock Lokal` tetap default. 8 adapter HOSNEX v3.5 masih review-only, dan operasi baru perlu implementasi state/typed adapter dan acceptance workflow. Tidak ada database, BPJS/SATUSEHAT sungguhan, sign klinis legal, posting akuntansi, pembayaran atau mutasi stok.
+
+Dokumen kontrak bertahap: [v3.3](docs/HOSNEX_ENDPOINT_COMPLETION.md) · [v3.4](docs/HOSNEX_ENDPOINT_COMPLETION_V34.md) · [v3.5](docs/HOSNEX_PARTIAL_PARITY_V35.md). Versi v3.1 di bawah tetap terdokumentasi sebagai baseline historis, bukan versi terbaru.
+
+---
+
 ## Contract v3.1 (candidate) — latest specification
 
 **Current design work:** [OpenAPI v3.1 (180 operations)](openapi-v3.1.json) and [full contract guide](contracts/v3.1/README.md). This extends the original 106 PRD v3.0 operation IDs with **74 new lifecycle proposals** in M01, M02, M05, M09, M11. It does **not** mean 180 production endpoints are implemented or approved. Original [OpenAPI v3.0](openapi.json) remains unchanged for comparison.
