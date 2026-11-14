@@ -1,0 +1,503 @@
+{
+  "schemaVersion": 1,
+  "frontendSource": "bofandra/hosnex/main/src/lib/simrs/store.ts",
+  "snapshotDate": "2026-11-14",
+  "alignedActions": 29,
+  "proposedNewOperations": 21,
+  "reuseViaAdapters": 8,
+  "alignments": [
+    {
+      "action": "verifySafetyAction",
+      "module": "M19",
+      "priority": "P1-P3",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 299,
+      "sourceSignature": "verifySafetyAction(id:string,version:number,actionId:string,verifier:string,verification:string,checked:boolean)",
+      "originalRelatedOperationIds": [
+        "verifyRiskMitigation"
+      ],
+      "resolution": "new-proposed-operation",
+      "operationId": "verifySafetyAction",
+      "method": "POST",
+      "path": "/api/v1/quality/actions/{id}/verification",
+      "mappingNote": "New distinct semantic operation; typed request fields derived from current HOSNEX action. Does not guarantee parity until UI adapter and state rules are tested.",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "createSafetyMeasure",
+      "module": "M19",
+      "priority": "P1-P3",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 309,
+      "sourceSignature": "createSafetyMeasure(input:MeasureInput,supersedes:string,reason:string)",
+      "originalRelatedOperationIds": [
+        "calculateQualityIndicator"
+      ],
+      "resolution": "new-proposed-operation",
+      "operationId": "createSafetyMeasure",
+      "method": "POST",
+      "path": "/api/v1/quality/indicator-reports",
+      "mappingNote": "New distinct semantic operation; typed request fields derived from current HOSNEX action. Does not guarantee parity until UI adapter and state rules are tested.",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "addStaffCredential",
+      "module": "M18",
+      "priority": "P1-P3",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 335,
+      "sourceSignature": "addStaffCredential(id:string,version:number,input:CredentialInput,supersedes:string,actor:string)",
+      "originalRelatedOperationIds": [
+        "updatePractitionerCredential"
+      ],
+      "resolution": "new-proposed-operation",
+      "operationId": "addStaffCredential",
+      "method": "POST",
+      "path": "/api/v1/staff/{id}/credentials",
+      "mappingNote": "New distinct semantic operation; typed request fields derived from current HOSNEX action. Does not guarantee parity until UI adapter and state rules are tested.",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "saveIntegrationMapping",
+      "module": "M21",
+      "priority": "P0",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 399,
+      "sourceSignature": "saveIntegrationMapping(mapping:IntegrationMapping,version:number)",
+      "originalRelatedOperationIds": [
+        "reviewTerminologyMapping"
+      ],
+      "resolution": "new-proposed-operation",
+      "operationId": "saveIntegrationMapping",
+      "method": "PUT",
+      "path": "/api/v1/integrations/fhir/mapping-draft",
+      "mappingNote": "New distinct semantic operation; typed request fields derived from current HOSNEX action. Does not guarantee parity until UI adapter and state rules are tested.",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "collectIntegrationJobs",
+      "module": "M21",
+      "priority": "P0",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 406,
+      "sourceSignature": "collectIntegrationJobs()",
+      "originalRelatedOperationIds": [
+        "listIntegrationJobs"
+      ],
+      "resolution": "new-proposed-operation",
+      "operationId": "collectIntegrationJobs",
+      "method": "POST",
+      "path": "/api/v1/integrations/jobs/collect-preview",
+      "mappingNote": "New distinct semantic operation; typed request fields derived from current HOSNEX action. Does not guarantee parity until UI adapter and state rules are tested.",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "consentPortal",
+      "module": "CH01",
+      "priority": "P0",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 462,
+      "sourceSignature": "consentPortal(enabled:boolean,version:number)",
+      "originalRelatedOperationIds": [
+        "updateConsent"
+      ],
+      "resolution": "new-proposed-operation",
+      "operationId": "consentPortal",
+      "method": "PATCH",
+      "path": "/api/v1/portal/me/consent",
+      "mappingNote": "New distinct semantic operation; typed request fields derived from current HOSNEX action. Does not guarantee parity until UI adapter and state rules are tested.",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "bookPortalAppointment",
+      "module": "CH01",
+      "priority": "P0",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 487,
+      "sourceSignature": "bookPortalAppointment(input:Omit<PortalAppointment,'id'|'status'|'version'|'regId'|'reason'>,version:number)",
+      "originalRelatedOperationIds": [
+        "bookAppointment"
+      ],
+      "resolution": "reuse-with-explicit-adapter",
+      "operationId": "bookMyAppointment",
+      "method": null,
+      "path": null,
+      "mappingNote": "portal patient-audience must resolve doctor display name to practitionerId and slot; do not send staff token",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "cancelPortalAppointment",
+      "module": "CH01",
+      "priority": "P0",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 497,
+      "sourceSignature": "cancelPortalAppointment(id:string,reason:string,version:number)",
+      "originalRelatedOperationIds": [
+        "cancelAppointment"
+      ],
+      "resolution": "reuse-with-explicit-adapter",
+      "operationId": "cancelMyAppointment",
+      "method": null,
+      "path": null,
+      "mappingNote": "patient-owned appointment scope and version guard",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "checkInPortalAppointment",
+      "module": "CH01",
+      "priority": "P0",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 502,
+      "sourceSignature": "checkInPortalAppointment(id:string,version:number)",
+      "originalRelatedOperationIds": [
+        "checkInAppointment"
+      ],
+      "resolution": "reuse-with-explicit-adapter",
+      "operationId": "checkInMyAppointment",
+      "method": null,
+      "path": null,
+      "mappingNote": "patient-owned appointment scope; check-in + registration/queue must be atomically simulated before acceptance",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "signDiet",
+      "module": "M12",
+      "priority": "P1-P3",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 518,
+      "sourceSignature": "signDiet(input:DietInput,version:number,reason:string)",
+      "originalRelatedOperationIds": [
+        "createDietOrder"
+      ],
+      "resolution": "new-proposed-operation",
+      "operationId": "signDiet",
+      "method": "POST",
+      "path": "/api/v1/nutrition/admissions/{id}/diet-orders/preview",
+      "mappingNote": "New distinct semantic operation; typed request fields derived from current HOSNEX action. Does not guarantee parity until UI adapter and state rules are tested.",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "planMeal",
+      "module": "M12",
+      "priority": "P1-P3",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 528,
+      "sourceSignature": "planMeal(admissionId:string,menuId:string,date:string,meal:string,version:number)",
+      "originalRelatedOperationIds": [
+        "createKitchenBatch"
+      ],
+      "resolution": "new-proposed-operation",
+      "operationId": "planMeal",
+      "method": "POST",
+      "path": "/api/v1/nutrition/admissions/{id}/trays/plan-preview",
+      "mappingNote": "New distinct semantic operation; typed request fields derived from current HOSNEX action. Does not guarantee parity until UI adapter and state rules are tested.",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "startBlood",
+      "module": "M08",
+      "priority": "P1-P3",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 595,
+      "sourceSignature": "startBlood(id: string, version: number, mrn: string, unitId: string, identity: boolean, verifier: string, witness: string, observation: Omit<TransfusionObservation,\"at\" | \"stage\">)",
+      "originalRelatedOperationIds": [
+        "confirmTransfusionAdministration"
+      ],
+      "resolution": "new-proposed-operation",
+      "operationId": "startBlood",
+      "method": "POST",
+      "path": "/api/v1/blood-bank/requests/{id}/start-preview",
+      "mappingNote": "New distinct semantic operation; typed request fields derived from current HOSNEX action. Does not guarantee parity until UI adapter and state rules are tested.",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "saveClinicalNote",
+      "module": "M05",
+      "priority": "P0",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 654,
+      "sourceSignature": "saveClinicalNote(id: string, version: number, noteId: string, input: ClinicalText &",
+      "originalRelatedOperationIds": [
+        "createClinicalNote"
+      ],
+      "resolution": "new-proposed-operation",
+      "operationId": "saveClinicalNote",
+      "method": "PUT",
+      "path": "/api/v1/medical-records/{id}/notes/draft-preview",
+      "mappingNote": "New distinct semantic operation; typed request fields derived from current HOSNEX action. Does not guarantee parity until UI adapter and state rules are tested.",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "saveMedicalSummary",
+      "module": "M05",
+      "priority": "P0",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 675,
+      "sourceSignature": "saveMedicalSummary(id: string, version: number, summary: SummaryDraft, sign: boolean, signer: string, reviewed: boolean)",
+      "originalRelatedOperationIds": [
+        "getOutpatientSummary"
+      ],
+      "resolution": "new-proposed-operation",
+      "operationId": "saveMedicalSummary",
+      "method": "PATCH",
+      "path": "/api/v1/medical-records/{id}/summaries/draft-preview",
+      "mappingNote": "New distinct semantic operation; typed request fields derived from current HOSNEX action. Does not guarantee parity until UI adapter and state rules are tested.",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "surgeryGate",
+      "module": "M07",
+      "priority": "P1-P3",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 725,
+      "sourceSignature": "surgeryGate(id: string, version: number, stage: \"signIn\" | \"timeOut\" | \"signOut\", checks: boolean[], mrn: string)",
+      "originalRelatedOperationIds": [
+        "completeSurgeryChecklist"
+      ],
+      "resolution": "new-proposed-operation",
+      "operationId": "surgeryGate",
+      "method": "POST",
+      "path": "/api/v1/surgeries/{id}/safety-gates/{stage}/preview",
+      "mappingNote": "New distinct semantic operation; typed request fields derived from current HOSNEX action. Does not guarantee parity until UI adapter and state rules are tested.",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "closeSurgery",
+      "module": "M07",
+      "priority": "P1-P3",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 748,
+      "sourceSignature": "closeSurgery(id: string, version: number, assessment: string, receiver: string, destination: string, cleared: boolean)",
+      "originalRelatedOperationIds": [
+        "releasePACU"
+      ],
+      "resolution": "new-proposed-operation",
+      "operationId": "closeSurgery",
+      "method": "POST",
+      "path": "/api/v1/surgeries/{id}/recovery/handover-preview",
+      "mappingNote": "New distinct semantic operation; typed request fields derived from current HOSNEX action. Does not guarantee parity until UI adapter and state rules are tested.",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "scheduleRadiology",
+      "module": "M10",
+      "priority": "P1-P3",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 760,
+      "sourceSignature": "scheduleRadiology(id: string, code: string, scheduledAt: string, checked: boolean)",
+      "originalRelatedOperationIds": [
+        "createServiceOrder"
+      ],
+      "resolution": "new-proposed-operation",
+      "operationId": "scheduleRadiology",
+      "method": "POST",
+      "path": "/api/v1/radiology/orders/{id}/schedule-preview",
+      "mappingNote": "New distinct semantic operation; typed request fields derived from current HOSNEX action. Does not guarantee parity until UI adapter and state rules are tested.",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "performRadiology",
+      "module": "M10",
+      "priority": "P1-P3",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 766,
+      "sourceSignature": "performRadiology(id: string, code: string, mrn: string, identity: boolean, studyUid: string, operator: string)",
+      "originalRelatedOperationIds": [
+        "linkDICOMStudy"
+      ],
+      "resolution": "new-proposed-operation",
+      "operationId": "performRadiology",
+      "method": "POST",
+      "path": "/api/v1/radiology/orders/{id}/acquisition-preview",
+      "mappingNote": "New distinct semantic operation; typed request fields derived from current HOSNEX action. Does not guarantee parity until UI adapter and state rules are tested.",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "verifyRadiology",
+      "module": "M10",
+      "priority": "P1-P3",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 781,
+      "sourceSignature": "verifyRadiology(id: string, code: string, version: number, signer: string, reviewed: boolean)",
+      "originalRelatedOperationIds": [
+        "signRadiologyReport"
+      ],
+      "resolution": "new-proposed-operation",
+      "operationId": "verifyRadiology",
+      "method": "POST",
+      "path": "/api/v1/radiology/reports/{id}/review-preview",
+      "mappingNote": "New distinct semantic operation; typed request fields derived from current HOSNEX action. Does not guarantee parity until UI adapter and state rules are tested.",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "issueInvoice",
+      "module": "M13",
+      "priority": "P0",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 804,
+      "sourceSignature": "issueInvoice(id: string, discount: number, payerDue: number, reason: string, approver: string, approval: boolean)",
+      "originalRelatedOperationIds": [
+        "issueInvoice"
+      ],
+      "resolution": "reuse-with-explicit-adapter",
+      "operationId": "issueInvoice",
+      "method": null,
+      "path": null,
+      "mappingNote": "gross/discount/payerDue are integer IDR, require explicit allocation and approver; no real ledger effects",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "payInvoice",
+      "module": "M13",
+      "priority": "P0",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 816,
+      "sourceSignature": "payInvoice(id: string, invoiceId: string, amount: number, method: Payment[\"method\"], reference: string)",
+      "originalRelatedOperationIds": [
+        "allocatePayment"
+      ],
+      "resolution": "new-proposed-operation",
+      "operationId": "payInvoice",
+      "method": "POST",
+      "path": "/api/v1/billing/invoices/{id}/payment-previews",
+      "mappingNote": "New distinct semantic operation; typed request fields derived from current HOSNEX action. Does not guarantee parity until UI adapter and state rules are tested.",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "saveClaim",
+      "module": "M14",
+      "priority": "P0",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 836,
+      "sourceSignature": "saveClaim(id: string, input: Pick<Claim, \"participant\" | \"sep\" | \"coverage\" | \"validUntil\" | \"cls\" | \"documents\" | \"procedure\" | \"group\" | \"amount\" | \"groupReviewed\">)",
+      "originalRelatedOperationIds": [
+        "createClaimDossier"
+      ],
+      "resolution": "new-proposed-operation",
+      "operationId": "saveClaim",
+      "method": "PATCH",
+      "path": "/api/v1/claims/{id}/dossier-draft",
+      "mappingNote": "New distinct semantic operation; typed request fields derived from current HOSNEX action. Does not guarantee parity until UI adapter and state rules are tested.",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "saveLabResults",
+      "module": "M09",
+      "priority": "P0",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 899,
+      "sourceSignature": "saveLabResults(id: string, code: string, results: Record<string, string>, note: string)",
+      "originalRelatedOperationIds": [
+        "submitLabResults"
+      ],
+      "resolution": "new-proposed-operation",
+      "operationId": "saveLabResults",
+      "method": "PATCH",
+      "path": "/api/v1/laboratory/orders/{id}/result-drafts",
+      "mappingNote": "New distinct semantic operation; typed request fields derived from current HOSNEX action. Does not guarantee parity until UI adapter and state rules are tested.",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "addPatient",
+      "module": "M01",
+      "priority": "P0",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 985,
+      "sourceSignature": "addPatient(p: Omit<Patient, \"id\" | \"mrn\">): Patient",
+      "originalRelatedOperationIds": [
+        "createPatient"
+      ],
+      "resolution": "reuse-with-explicit-adapter",
+      "operationId": "createPatient",
+      "method": null,
+      "path": null,
+      "mappingNote": "map sex L/P -> gender male/female, flat address -> structured; unknown NIK reason; server MRN authoritative",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "register",
+      "module": "M01",
+      "priority": "P0",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 992,
+      "sourceSignature": "register(r: Omit<Registration, \"id\" | \"queueNumber\" | \"queueStatus\" | \"status\">): Registration",
+      "originalRelatedOperationIds": [
+        "createRegistration"
+      ],
+      "resolution": "reuse-with-explicit-adapter",
+      "operationId": "createRegistration",
+      "method": null,
+      "path": null,
+      "mappingNote": "map UMUM/BPJS/ASURANSI payer to enum; practitioner name -> ID, queue ticket and number from server",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "setQueue",
+      "module": "M01",
+      "priority": "P0",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 999,
+      "sourceSignature": "setQueue(id: string, queueStatus: QueueStatus)",
+      "originalRelatedOperationIds": [
+        "callQueue"
+      ],
+      "resolution": "new-proposed-operation",
+      "operationId": "setQueue",
+      "method": "POST",
+      "path": "/api/v1/queue/tickets/{id}/transitions/preview",
+      "mappingNote": "New distinct semantic operation; typed request fields derived from current HOSNEX action. Does not guarantee parity until UI adapter and state rules are tested.",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "addTriage",
+      "module": "M03",
+      "priority": "P0",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 1006,
+      "sourceSignature": "addTriage(t: Triage)",
+      "originalRelatedOperationIds": [
+        "createEmergencyTriage"
+      ],
+      "resolution": "reuse-with-explicit-adapter",
+      "operationId": "createEmergencyTriage",
+      "method": null,
+      "path": null,
+      "mappingNote": "triage regId maps to Encounter and ATS level with override reason; guard unsupported disposition",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "updateTriage",
+      "module": "M03",
+      "priority": "P0",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 1009,
+      "sourceSignature": "updateTriage(regId: string, patch: Partial<Triage>)",
+      "originalRelatedOperationIds": [
+        "reassessEmergency"
+      ],
+      "resolution": "new-proposed-operation",
+      "operationId": "updateTriage",
+      "method": "PATCH",
+      "path": "/api/v1/emergency/triage/{id}/draft",
+      "mappingNote": "New distinct semantic operation; typed request fields derived from current HOSNEX action. Does not guarantee parity until UI adapter and state rules are tested.",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    },
+    {
+      "action": "saveEncounter",
+      "module": "M02",
+      "priority": "P0",
+      "source": "src/lib/simrs/store.ts",
+      "sourceLine": 1065,
+      "sourceSignature": "saveEncounter(id: string, e: Encounter)",
+      "originalRelatedOperationIds": [
+        "updateOutpatientAssessment"
+      ],
+      "resolution": "reuse-with-explicit-adapter",
+      "operationId": "saveCompositeEncounterDraft",
+      "method": null,
+      "path": null,
+      "mappingNote": "multipart SOAP/vitals/Rx/LAB/RAD drafts must preserve related encounterId and forbid editing signed record",
+      "maturity": "review-only; frontend adapter and stateful acceptance NOT DONE"
+    }
+  ]
+}

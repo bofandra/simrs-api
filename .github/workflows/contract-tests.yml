@@ -24,5 +24,7 @@ jobs:
         run: npm run check:v3.3
       - name: Check HOSNEX v3.4 remaining 34 action contract proposals
         run: npm run check:v3.4
+      - name: Check HOSNEX v3.5 29 partial action endpoint alignments
+        run: npm run check:v3.5
       - name: Run mock API tests
         run: npm test
