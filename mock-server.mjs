@@ -398,6 +398,14 @@ function applyV32(operation, body, output, db, requestPath, search) {
         return error(422,'UNKNOWN_PATIENT','Pasien sintetis tidak ditemukan');
       return {eligibilityCheckId:randomUUID(),status:'ELIGIBLE',checkedAt:new Date().toISOString()};
     }
+    case 'getCompositeEncounterDraft': {
+      const target=requestPath.split('/')[4];
+      if(!db.encounters.some(e=>e.id===target))return error(404,'ENCOUNTER_NOT_FOUND','Encounter tidak ditemukan');
+      const existing=db.clinicalDrafts.find(d=>d.encounterId===target);
+      const locked=db.notes.some(n=>n.encounterId===target&&n.status==='signed');
+      return {encounterId:target,version:existing?.version||1,
+        status:locked?'locked':'draft',hasDraft:Boolean(existing),locked};
+    }
     case 'saveCompositeEncounterDraft': {
       const target=requestPath.split('/')[4];
       if(!db.encounters.some(e=>e.id===target))return error(404,'ENCOUNTER_NOT_FOUND','Encounter tidak ditemukan');

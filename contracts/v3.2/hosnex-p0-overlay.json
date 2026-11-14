@@ -362,6 +362,61 @@
       "notes": "Do not allow occupied bed manually set available; occupancy is computed from admissions"
     },
     {
+      "operationId": "getCompositeEncounterDraft",
+      "module": "M02",
+      "method": "GET",
+      "path": "/api/v1/encounters/{id}/drafts/clinical",
+      "frontendActions": [
+        "saveEncounter"
+      ],
+      "permission": "encounter.draft.read",
+      "requestSchema": null,
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "encounterId",
+          "version",
+          "status",
+          "hasDraft",
+          "locked"
+        ],
+        "properties": {
+          "encounterId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "locked"
+            ]
+          },
+          "hasDraft": {
+            "type": "boolean"
+          },
+          "locked": {
+            "type": "boolean"
+          }
+        }
+      },
+      "responseExample": {
+        "encounterId": "11111111-1111-4111-8111-111111111111",
+        "version": 1,
+        "status": "draft",
+        "hasDraft": false,
+        "locked": false
+      },
+      "successStatus": 200,
+      "reviewRequired": true,
+      "notes": "Read-only synthetic draft version/status for conflict recovery; no SOAP text or PHI. Explicitly not a signing endpoint."
+    },
+    {
       "operationId": "saveCompositeEncounterDraft",
       "module": "M02",
       "method": "PATCH",

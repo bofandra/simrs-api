@@ -21,15 +21,15 @@ async function get(base,path){
   const res=await fetch(base+path,{headers:{'X-Organization-Id':'DEMO-RS-001'}});
   return {status:res.status,data:await res.json(),headers:res.headers};
 }
-test('v3.2 overlay is discoverable as 199 review-only operations without altering v3.1',async()=>withServer(async base=>{
-  const h=await get(base,'/healthz');assert.equal(h.status,200);assert.equal(h.data.operations,199);
+test('v3.2 overlay is discoverable as 200 review-only operations without altering v3.1',async()=>withServer(async base=>{
+  const h=await get(base,'/healthz');assert.equal(h.status,200);assert.equal(h.data.operations,200);
   const spec=await get(base,'/openapi.json');
   assert.equal(spec.data.info.version,'3.2.0-draft.0');
   assert.equal(spec.data['x-overlay-status'],'PROPOSAL_ONLY');
   assert.equal(spec.data.paths['/api/v1/registrations'].post.operationId,'createRegistration');
   assert.equal(spec.data.paths['/api/v1/encounters/{id}/drafts/clinical'].patch.operationId,'saveCompositeEncounterDraft');
   const overlay=Object.values(spec.data.paths).flatMap(v=>Object.values(v)).filter(v=>v?.['x-contract-status']==='review-only');
-  assert.equal(overlay.length,19);
+  assert.equal(overlay.length,20);
   const old=await get(base,'/openapi-v3.1.json');assert.equal(old.data.info.version,'3.1.0-candidate.1');
 }));
 test('same patient and encounter propagate across HTTP registration, clinical, lab and pharmacy demo',async()=>withServer(async base=>{
@@ -57,9 +57,18 @@ test('same patient and encounter propagate across HTTP registration, clinical, l
   const chart=await get(base,'/api/v1/encounters/'+encounterId+'/chart');
   assert.equal(chart.status,200);assert.equal(chart.data.patient.id,patientId);
   assert.equal(chart.data.patient.mrn,r.data.mrn??filtered.data.items[0].mrn);
+  const initialDraft=await get(base,'/api/v1/encounters/'+encounterId+'/drafts/clinical');
+  assert.equal(initialDraft.status,200);
+  assert.deepEqual(initialDraft.data,{encounterId,version:1,status:'draft',hasDraft:false,locked:false});
   const draft=await send(base,'/api/v1/encounters/'+encounterId+'/drafts/clinical',
     {expectedVersion:1,clinicalNote:{subjective:'Gejala demo'},observations:[],proposedOrders:[],proposedPrescriptions:[]},'PATCH');
   assert.equal(draft.status,200);assert.equal(draft.data.version,2);
+  const afterDraft=await get(base,'/api/v1/encounters/'+encounterId+'/drafts/clinical');
+  assert.equal(afterDraft.status,200);
+  assert.equal(afterDraft.data.version,2);
+  assert.equal(afterDraft.data.hasDraft,true);
+  const unknownDraft=await get(base,'/api/v1/encounters/11111111-1111-4111-8111-111111111111/drafts/clinical');
+  assert.equal(unknownDraft.status,404);
   const stale=await send(base,'/api/v1/encounters/'+encounterId+'/drafts/clinical',
     {expectedVersion:1,clinicalNote:{subjective:'Stale'},observations:[],proposedOrders:[],proposedPrescriptions:[]},'PATCH');
   assert.equal(stale.status,412);
@@ -73,6 +82,12 @@ test('same patient and encounter propagate across HTTP registration, clinical, l
   const sign=await send(base,'/api/v1/clinical/notes/'+note.data.id+'/sign',
     {version:1,signatureContext:'mock only'});
   assert.equal(sign.status,200);assert.equal(sign.data.status,'signed');
+  const lockedDraft=await get(base,'/api/v1/encounters/'+encounterId+'/drafts/clinical');
+  assert.equal(lockedDraft.data.locked,true);
+  assert.equal(lockedDraft.data.status,'locked');
+  const rejectedPatch=await send(base,'/api/v1/encounters/'+encounterId+'/drafts/clinical',
+    {expectedVersion:2,clinicalNote:{subjective:'Tidak boleh'},observations:[],proposedOrders:[],proposedPrescriptions:[]},'PATCH');
+  assert.equal(rejectedPatch.status,409);
 
   const order=await send(base,'/api/v1/orders',{encounterId,serviceCode:'HB',category:'LAB',
     urgency:'routine',indication:'Demo',targetUnitId:unitId});

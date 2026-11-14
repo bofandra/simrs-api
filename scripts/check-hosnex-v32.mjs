@@ -10,12 +10,12 @@ assert.equal(JSON.stringify(base),baseBefore,'v3.1 source must not mutate');
 assert.equal(spec.openapi,'3.1.0');
 assert.equal(spec.info.version,'3.2.0-draft.0');
 assert.equal(spec['x-overlay-status'],'PROPOSAL_ONLY');
-assert.equal(overlay.operations.length,19);
+assert.equal(overlay.operations.length,20);
 const ops=Object.entries(spec.paths).flatMap(([path,verbs])=>Object.entries(verbs).filter(([method,v])=>['get','post','put','patch','delete'].includes(method)).map(([method,v])=>({path,method,operation:v})));
 const baseOps=Object.entries(base.paths).flatMap(([path,verbs])=>Object.entries(verbs).filter(([method,v])=>['get','post','put','patch','delete'].includes(method)).map(([method,v])=>({path,method,operation:v})));
 assert.equal(baseOps.length,180);
-assert.equal(ops.length,199);
-assert.equal(new Set(ops.map(x=>x.operation.operationId)).size,199);
+assert.equal(ops.length,200);
+assert.equal(new Set(ops.map(x=>x.operation.operationId)).size,200);
 for(const {path,method,operation} of baseOps){
  const corresponding=spec.paths[path][method];
  assert.equal(JSON.stringify(corresponding),JSON.stringify(operation),'Existing v3.1 op changed: '+operation.operationId);
@@ -34,4 +34,4 @@ for(const {operationId,method,path,frontendActions,requestSchema,responseSchema,
    assert(op.parameters.some(p=>p.in==='path'&&p.name===m[1]&&p.required));
  }
 }
-console.log('PASS: 180 preserved + 19 review-only proposals = 199 valid operationIds');
+console.log('PASS: 180 preserved + 20 review-only proposals = 200 valid operationIds');
