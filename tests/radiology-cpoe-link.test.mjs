@@ -8,7 +8,8 @@ const unit='25d6f4b1-f3ad-48c6-919f-409fb68e0d0c';
 async function request(base,path,method='GET',body,role='admin',key){
   const headers={'X-Organization-Id':'DEMO-RS-001','X-Demo-Staff-Id':role,
     ...(method==='GET'?{}:{'Content-Type':'application/json',
-      'Idempotency-Key':key??'m10-test-'+(++n)+'-unique'})};
+      'Idempotency-Key':key??'m10-test-'+(++n)+'-unique',
+      'If-Match':String(body?.expectedVersion??body?.version??1)})};
   const r=await fetch(base+path,{method,headers,...(body?{body:JSON.stringify(body)}:{})});
   return {status:r.status,data:await r.json()};
 }
