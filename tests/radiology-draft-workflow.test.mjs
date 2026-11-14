@@ -14,6 +14,7 @@ async function withServer(run){
 async function req(base,path,method='GET',body,opts={}){
   const headers={
     'X-Organization-Id':opts.tenant??'DEMO-RS-001',
+    'X-Demo-Staff-Id':opts.staff??'admin',
     ...(method==='GET'?{}:{'Content-Type':'application/json','Idempotency-Key':opts.key??'m10-'+(++seq)+'-unique'}),
     ...(opts.scenario?{'X-Demo-Scenario':opts.scenario}:{})
   };
