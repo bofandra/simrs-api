@@ -15,12 +15,16 @@ import { createMedicalDraftStore } from './mock-medical-drafts.mjs';
 import { createRadiologyDemoStore } from './mock-radiology-demo.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const V32 = process.argv.includes('--v32') || process.env.SIMRS_CONTRACT_VERSION === '3.2';
+const V33 = process.argv.includes('--v33') || process.env.SIMRS_CONTRACT_VERSION === '3.3';
+const V32 = V33 || process.argv.includes('--v32') || process.env.SIMRS_CONTRACT_VERSION === '3.2';
 const V31 = V32 || process.argv.includes('--v31') || process.env.SIMRS_CONTRACT_VERSION === '3.1';
 const baselineSpec = JSON.parse(readFileSync(join(HERE, V31 ? 'openapi-v3.1.json' : 'openapi.json'), 'utf8'));
 const v32Overlay = V32 ? JSON.parse(readFileSync(join(HERE,'contracts/v3.2/hosnex-p0-overlay.json'),'utf8')) : null;
-const spec = V32 ? buildHosnexV32Spec(baselineSpec,v32Overlay) : baselineSpec;
-const overlayOperations = new Set(v32Overlay?.operations.map(x=>x.operationId) ?? []);
+const v33Overlay = V33 ? JSON.parse(readFileSync(join(HERE,'contracts/v3.3/p0-gap-operations.json'),'utf8')) : null;
+const v32Spec = V32 ? buildHosnexV32Spec(baselineSpec,v32Overlay) : baselineSpec;
+const spec = V33 ? buildHosnexV32Spec(v32Spec,v33Overlay) : v32Spec;
+const v33Operations = new Set(v33Overlay?.operations.map(x=>x.operationId) ?? []);
+const overlayOperations = new Set([...(v32Overlay?.operations.map(x=>x.operationId) ?? []),...v33Operations]);
 const operations = Object.entries(spec.paths).flatMap(([template, verbs]) =>
   Object.entries(verbs).filter(([verb]) => ['get', 'post', 'put', 'patch', 'delete'].includes(verb))
     .map(([verb, detail]) => ({ template, verb: verb.toUpperCase(), detail,
@@ -445,6 +449,9 @@ function applyV31(operation, body, output, db, requestPath, search) {
 function applyV32(operation, body, output, db, requestPath, search) {
   const op=operation.detail.operationId;
   if(!V32 || !overlayOperations.has(op))return applyV31(operation,body,output,db,requestPath,search);
+  // v3.3 P0 responses are explicit contract-only previews: never change hospital/demo state.
+  if(V33 && v33Operations.has(op))return {...clone(output),targetId:requestPath.split('/').filter(Boolean).find((part,i,parts)=>parts[i-1]==='jobs'||parts[i-1]==='items'||parts[i-1]==='summaries'||parts[i-1]==='encounters'||parts[i-1]==='claims')||output.targetId,
+    mock:true,simulated:true,persisted:false,realWorldEffect:false};
   const error=(status,code,message)=>({__error:[status,code,message]});
   switch(op){
     case 'listUnitPractitioners':
@@ -515,7 +522,7 @@ export function createMockServer() {
     if (req.method === 'OPTIONS') {
       res.writeHead(204, { 'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization, Idempotency-Key, If-Match, X-Correlation-ID, X-Organization-Id, X-Demo-Scenario, X-Demo-Staff-Id',
-        'Access-Control-Allow-Methods': 'GET,POST,PATCH,OPTIONS', 'X-SIMRS-Mock': 'true' });
+        'Access-Control-Allow-Methods': 'GET,POST,PATCH,PUT,OPTIONS', 'X-SIMRS-Mock': 'true' });
       res.end(); return;
     }
     if (url.pathname === '/healthz') {
@@ -780,7 +787,7 @@ export function createMockServer() {
         if (previous.payload !== JSON.stringify(body))
           return json(res, 409, problem('IDEMPOTENCY_REUSE_CONFLICT',
             'Kunci idempotensi sudah digunakan dengan payload berbeda', correlationId), correlationId);
-        return json(res, previous.status, previous.result, correlationId, { 'X-Idempotent-Replay': 'true' });
+        return json(res, previous.status, previous.result, correlationId, { 'X-Idempotent-Replay': 'true',...(V33 && v33Operations.has(operation.detail.operationId) ? {'X-SIMRS-State-Persisted':'false','X-SIMRS-Scenario':'contract-preview'} : {}) });
       }
       const { status, sample } = successResponse(operation.detail);
       let result = applyV32(operation, body, sample, db, url.pathname, url.searchParams);
@@ -793,7 +800,7 @@ export function createMockServer() {
       }
       result = normalizeV31Response(operation,result,status);
       db.idempotency.set(dedupeKey, { payload: JSON.stringify(body), status, result });
-      return json(res, status, result, correlationId);
+      return json(res, status, result, correlationId, V33 && v33Operations.has(operation.detail.operationId) ? {'X-SIMRS-State-Persisted':'false','X-SIMRS-Scenario':'contract-preview'} : {});
     }
     const { status, sample } = successResponse(operation.detail);
     const response=applyV32(operation,{},sample,db,url.pathname,url.searchParams);
@@ -808,5 +815,5 @@ export function createMockServer() {
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const port = Number(process.env.PORT || 4010);
   createMockServer().listen(port, '127.0.0.1', () =>
-    console.log('SIMRS synthetic API mock: http://127.0.0.1:' + port + '/docs (' + operations.length + ' operations; '+(V32?'v3.2':V31?'v3.1':'v3.0')+')'));
+    console.log('SIMRS synthetic API mock: http://127.0.0.1:' + port + '/docs (' + operations.length + ' operations; '+(V33?'v3.3':V32?'v3.2':V31?'v3.1':'v3.0')+')'));
 }

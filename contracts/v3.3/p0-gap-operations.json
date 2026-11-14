@@ -1,0 +1,1378 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "HOSNEX P0 Endpoint Closure — v3.3 Candidates",
+    "version": "3.3.0-draft.0",
+    "description": "13 additive HTTP mock response contracts, neither production-approved nor integrated into HOSNEX FE"
+  },
+  "status": "PROPOSAL_ONLY",
+  "source": {
+    "frontend": "bofandra/hosnex",
+    "backend": "bofandra/simrs-api",
+    "baseline": "v3.2=200 operationIds",
+    "date": "2026-11-14"
+  },
+  "deferredExternal": [
+    {
+      "frontendAction": "signInPortal",
+      "module": "CH01",
+      "integrationBoundary": "Patient OIDC/OAuth",
+      "status": "EXTERNAL_AUTH_BOUNDARY",
+      "reason": "Do not fabricate a local production login endpoint; fixture stays browser-side until auth design"
+    },
+    {
+      "frontendAction": "signOutPortal",
+      "module": "CH01",
+      "integrationBoundary": "Patient OIDC/OAuth",
+      "status": "EXTERNAL_AUTH_BOUNDARY",
+      "reason": "Requires real session provider design; not a hospital resource endpoint"
+    }
+  ],
+  "operations": [
+    {
+      "operationId": "validateIntegrationJob",
+      "module": "M21",
+      "method": "POST",
+      "path": "/api/v1/integrations/jobs/{id}/validate",
+      "frontendActions": [
+        "validateIntegrationJob"
+      ],
+      "permission": "integration.jobs.validate",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Synthetic QA actor, not authentication"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 500
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "validateIntegrationJob"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "validation-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "validateIntegrationJob",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "validation-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX P0 contract-only mock response. No durable state, production signature, stock mutation, claim dispatch, BPJS/SATUSEHAT transmission or external acknowledgements."
+    },
+    {
+      "operationId": "sendIntegrationJob",
+      "module": "M21",
+      "method": "POST",
+      "path": "/api/v1/integrations/jobs/{id}/send",
+      "frontendActions": [
+        "sendIntegrationJob"
+      ],
+      "permission": "integration.jobs.send",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Synthetic QA actor, not authentication"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 500
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "sendIntegrationJob"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "transmission-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "sendIntegrationJob",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "transmission-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX P0 contract-only mock response. No durable state, production signature, stock mutation, claim dispatch, BPJS/SATUSEHAT transmission or external acknowledgements."
+    },
+    {
+      "operationId": "resolveIntegrationJob",
+      "module": "M21",
+      "method": "POST",
+      "path": "/api/v1/integrations/jobs/{id}/resolve",
+      "frontendActions": [
+        "resolveIntegrationJob"
+      ],
+      "permission": "integration.jobs.resolve",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Synthetic QA actor, not authentication"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 500
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "resolveIntegrationJob"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "resolution-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "resolveIntegrationJob",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "resolution-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX P0 contract-only mock response. No durable state, production signature, stock mutation, claim dispatch, BPJS/SATUSEHAT transmission or external acknowledgements."
+    },
+    {
+      "operationId": "reconcileIntegrationJob",
+      "module": "M21",
+      "method": "POST",
+      "path": "/api/v1/integrations/jobs/{id}/reconcile",
+      "frontendActions": [
+        "reconcileIntegrationJob"
+      ],
+      "permission": "integration.jobs.reconcile",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Synthetic QA actor, not authentication"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 500
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "reconcileIntegrationJob"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "reconciliation-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "reconcileIntegrationJob",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "reconciliation-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX P0 contract-only mock response. No durable state, production signature, stock mutation, claim dispatch, BPJS/SATUSEHAT transmission or external acknowledgements."
+    },
+    {
+      "operationId": "resetIntegrationJob",
+      "module": "M21",
+      "method": "POST",
+      "path": "/api/v1/integrations/jobs/{id}/reset",
+      "frontendActions": [
+        "resetIntegrationJob"
+      ],
+      "permission": "integration.jobs.reset",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Synthetic QA actor, not authentication"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 500
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "resetIntegrationJob"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "reset-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "resetIntegrationJob",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "reset-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX P0 contract-only mock response. No durable state, production signature, stock mutation, claim dispatch, BPJS/SATUSEHAT transmission or external acknowledgements."
+    },
+    {
+      "operationId": "cancelIntegrationJob",
+      "module": "M21",
+      "method": "POST",
+      "path": "/api/v1/integrations/jobs/{id}/cancel",
+      "frontendActions": [
+        "cancelIntegrationJob"
+      ],
+      "permission": "integration.jobs.cancel",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Synthetic QA actor, not authentication"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 500
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "cancelIntegrationJob"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "cancellation-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "cancelIntegrationJob",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "cancellation-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX P0 contract-only mock response. No durable state, production signature, stock mutation, claim dispatch, BPJS/SATUSEHAT transmission or external acknowledgements."
+    },
+    {
+      "operationId": "setInventoryMinimum",
+      "module": "M16",
+      "method": "PATCH",
+      "path": "/api/v1/inventory/items/{id}/reorder-policy",
+      "frontendActions": [
+        "setInventoryMinimum"
+      ],
+      "permission": "inventory.policy.edit",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "minimumQty",
+          "unit"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Synthetic QA actor, not authentication"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 500
+          },
+          "minimumQty": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "setInventoryMinimum"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "policy-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "setInventoryMinimum",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "policy-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 200,
+      "reviewRequired": true,
+      "notes": "HOSNEX P0 contract-only mock response. No durable state, production signature, stock mutation, claim dispatch, BPJS/SATUSEHAT transmission or external acknowledgements."
+    },
+    {
+      "operationId": "reopenMedicalSummary",
+      "module": "M05",
+      "method": "POST",
+      "path": "/api/v1/clinical/summaries/{id}/reopen",
+      "frontendActions": [
+        "reopenMedicalSummary"
+      ],
+      "permission": "clinical.summary.reopen",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Synthetic QA actor, not authentication"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 500
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "reopenMedicalSummary"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "reopen-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "reopenMedicalSummary",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "reopen-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX P0 contract-only mock response. No durable state, production signature, stock mutation, claim dispatch, BPJS/SATUSEHAT transmission or external acknowledgements."
+    },
+    {
+      "operationId": "saveMorbidityCoding",
+      "module": "M05",
+      "method": "PUT",
+      "path": "/api/v1/encounters/{id}/coding",
+      "frontendActions": [
+        "saveMorbidityCoding"
+      ],
+      "permission": "clinical.coding.draft",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "diagnoses"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Synthetic QA actor, not authentication"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 500
+          },
+          "diagnoses": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "code",
+                "type"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "minLength": 2
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "PRIMARY",
+                    "SECONDARY"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "saveMorbidityCoding"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "coding-draft-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "saveMorbidityCoding",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "coding-draft-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 200,
+      "reviewRequired": true,
+      "notes": "HOSNEX P0 contract-only mock response. No durable state, production signature, stock mutation, claim dispatch, BPJS/SATUSEHAT transmission or external acknowledgements."
+    },
+    {
+      "operationId": "reopenMorbidityCoding",
+      "module": "M05",
+      "method": "POST",
+      "path": "/api/v1/encounters/{id}/coding/reopen",
+      "frontendActions": [
+        "reopenMorbidityCoding"
+      ],
+      "permission": "clinical.coding.reopen",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Synthetic QA actor, not authentication"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 500
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "reopenMorbidityCoding"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "coding-reopen-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "reopenMorbidityCoding",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "coding-reopen-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX P0 contract-only mock response. No durable state, production signature, stock mutation, claim dispatch, BPJS/SATUSEHAT transmission or external acknowledgements."
+    },
+    {
+      "operationId": "readyClaim",
+      "module": "M14",
+      "method": "POST",
+      "path": "/api/v1/claims/{id}/ready",
+      "frontendActions": [
+        "readyClaim"
+      ],
+      "permission": "claims.ready",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Synthetic QA actor, not authentication"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 500
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "readyClaim"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "readiness-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "readyClaim",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "readiness-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX P0 contract-only mock response. No durable state, production signature, stock mutation, claim dispatch, BPJS/SATUSEHAT transmission or external acknowledgements."
+    },
+    {
+      "operationId": "reopenClaim",
+      "module": "M14",
+      "method": "POST",
+      "path": "/api/v1/claims/{id}/reopen",
+      "frontendActions": [
+        "reopenClaim"
+      ],
+      "permission": "claims.reopen",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Synthetic QA actor, not authentication"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 500
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "reopenClaim"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "claim-reopen-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "reopenClaim",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "claim-reopen-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX P0 contract-only mock response. No durable state, production signature, stock mutation, claim dispatch, BPJS/SATUSEHAT transmission or external acknowledgements."
+    },
+    {
+      "operationId": "acknowledgeClaim",
+      "module": "M14",
+      "method": "POST",
+      "path": "/api/v1/claims/{id}/acknowledgements",
+      "frontendActions": [
+        "acknowledgeClaim"
+      ],
+      "permission": "claims.ack.preview",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actorId",
+          "expectedVersion",
+          "reason",
+          "acknowledgementReference"
+        ],
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Synthetic QA actor, not authentication"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 500
+          },
+          "acknowledgementReference": {
+            "type": "string",
+            "minLength": 3
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "targetId",
+          "status",
+          "version",
+          "mock",
+          "simulated",
+          "persisted",
+          "realWorldEffect"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "enum": [
+              "acknowledgeClaim"
+            ]
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "acknowledgement-preview"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mock": {
+            "type": "boolean",
+            "const": true
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "persisted": {
+            "type": "boolean",
+            "const": false
+          },
+          "realWorldEffect": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "responseExample": {
+        "operationId": "acknowledgeClaim",
+        "targetId": "11111111-1111-4111-8111-111111111111",
+        "status": "acknowledgement-preview",
+        "version": 2,
+        "mock": true,
+        "simulated": true,
+        "persisted": false,
+        "realWorldEffect": false
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "HOSNEX P0 contract-only mock response. No durable state, production signature, stock mutation, claim dispatch, BPJS/SATUSEHAT transmission or external acknowledgements."
+    }
+  ],
+  "nonGoals": [
+    "No deployment or connectivity to public host",
+    "No production database, PHI, real stock, monetary, legal or national API effects"
+  ]
+}
