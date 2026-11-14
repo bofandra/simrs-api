@@ -12,6 +12,7 @@ import { getMockActionCatalog, simulateHosnexAction, mockActionCoverage } from '
 import { createClinicalWorkspaceStore } from './mock-clinical-workspaces.mjs';
 import { createP0ReadModels } from './mock-p0-read-models.mjs';
 import { createMedicalDraftStore } from './mock-medical-drafts.mjs';
+import { createRadiologyDemoStore } from './mock-radiology-demo.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const V32 = process.argv.includes('--v32') || process.env.SIMRS_CONTRACT_VERSION === '3.2';
@@ -500,6 +501,7 @@ export function createMockServer() {
   const db = state();
   const clinicalWorkspaces = createClinicalWorkspaceStore();
   const medicalDrafts = createMedicalDraftStore(clinicalWorkspaces);
+  const radiologyDemo = createRadiologyDemoStore();
   const p0Reads = createP0ReadModels(clinicalWorkspaces,medicalDrafts);
   return createServer(async (req, res) => {
     const correlationId = /^[a-zA-Z0-9-]{8,128}$/.test(String(req.headers['x-correlation-id'] || ''))
@@ -523,6 +525,42 @@ export function createMockServer() {
       const html = readFileSync(join(HERE, 'docs/index.html'), 'utf8');
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });
       res.end(html.replace('src="../openapi.json"', 'src="/openapi.json"')); return;
+    }
+    // M10 draft radiology workflow; does NOT generate DICOM, PACS, real signatures or viewer sessions.
+    if(url.pathname==='/__demo/radiology/orders'||
+       url.pathname.startsWith('/__demo/radiology/orders/')){
+      const headers={'X-SIMRS-Demo-State':'process-memory','X-SIMRS-State-Persisted':'false'};
+      if(!V32)return json(res,404,problem('NOT_FOUND','Only available on synthetic v3.2',correlationId),correlationId,headers);
+      if(req.headers['x-organization-id']!=='DEMO-RS-001')
+        return json(res,403,problem('DEMO_TENANT_REQUIRED','Tenant fiktif M10 tidak cocok',correlationId),correlationId,headers);
+      const forced={forbidden:403,conflict:409,invalid:422,error:500}[req.headers['x-demo-scenario']];
+      if(forced)return json(res,forced,problem('MOCK_'+String(req.headers['x-demo-scenario']).toUpperCase(),
+        'Skenario negatif M10 sintetis',correlationId),correlationId,headers);
+      const parts=url.pathname.split('/').filter(Boolean);
+      if(parts.length===3&&req.method==='GET')
+        return json(res,200,radiologyDemo.list(),correlationId,headers);
+      if(parts.length===4&&req.method==='GET'){
+        const data=radiologyDemo.snapshot(parts[3]);
+        return data?json(res,200,data,correlationId,headers):
+          json(res,404,problem('RADIOLOGY_ORDER_NOT_FOUND','Order demo tidak ada',correlationId),correlationId,headers);
+      }
+      if(parts.length===5&&parts[4]==='viewer'&&req.method==='GET')
+        return json(res,501,problem('NO_REAL_DICOM_VIEWER',
+          'Viewer PACS/DICOM sengaja tidak disimulasikan sebagai gambar asli',correlationId),correlationId,headers);
+      if(parts.length===5&&['schedule','acquisition-note','report','qa-review'].includes(parts[4])&&
+         req.method===(parts[4]==='qa-review'?'POST':'PATCH')){
+        let body;
+        try{body=await readBody(req);}catch{
+          return json(res,400,problem('INVALID_BODY','JSON M10 tidak valid',correlationId),correlationId,headers);
+        }
+        const result=radiologyDemo.save(parts[3],parts[4],body,String(req.headers['idempotency-key']||''));
+        return result.data?json(res,result.status,result.data,correlationId,headers):
+          json(res,result.status,problem(result.code,result.message,correlationId,result.details||[]),
+            correlationId,headers);
+      }
+      return json(res,405,problem('RADIOLOGY_DEMO_NOT_SUPPORTED',
+        'Hanya jadwal, catatan pemeriksaan, draft laporan dan review QA; sign/publish/PACS tidak didukung',
+        correlationId),correlationId,headers);
     }
     // M05 draft-only summary/coding/review in synthetic Node process memory.
     if(url.pathname==='/__demo/medical-records/episodes'||
