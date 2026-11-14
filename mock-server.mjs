@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { buildHosnexV32Spec } from './scripts/compose-hosnex-v32.mjs';
 import { getMockActionCatalog, simulateHosnexAction, mockActionCoverage } from './mock-hosnex-actions.mjs';
+import { createClinicalWorkspaceStore } from './mock-clinical-workspaces.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const V32 = process.argv.includes('--v32') || process.env.SIMRS_CONTRACT_VERSION === '3.2';
@@ -495,6 +496,7 @@ function readBody(req) {
 }
 export function createMockServer() {
   const db = state();
+  const clinicalWorkspaces = createClinicalWorkspaceStore();
   return createServer(async (req, res) => {
     const correlationId = /^[a-zA-Z0-9-]{8,128}$/.test(String(req.headers['x-correlation-id'] || ''))
       ? req.headers['x-correlation-id'] : randomUUID();
@@ -517,6 +519,41 @@ export function createMockServer() {
       const html = readFileSync(join(HERE, 'docs/index.html'), 'utf8');
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });
       res.end(html.replace('src="../openapi.json"', 'src="/openapi.json"')); return;
+    }
+    // Process-memory demo of P0 handoff. Not a production API and not a pure fixture.
+    if(url.pathname.startsWith('/__demo/clinical-workspaces')){
+      if(!V32)return json(res,404,problem('NOT_FOUND','Clinical workspaces require v3.2 mock',correlationId),correlationId);
+      if(req.headers['x-organization-id']!=='DEMO-RS-001')
+        return json(res,403,problem('DEMO_TENANT_REQUIRED','Hanya organisasi fiktif DEMO-RS-001',correlationId),correlationId,
+          {'X-SIMRS-Demo-State':'process-memory'});
+      const parts=url.pathname.split('/').filter(Boolean);
+      const module=parts[2],id=parts[3];
+      const headers={'X-SIMRS-Demo-State':'process-memory','X-SIMRS-State-Persisted':'false'};
+      if(parts.length===2&&req.method==='GET')
+        return json(res,200,{mock:true,simulated:true,persisted:false,realWorldEffect:false,
+          stateScope:'process-memory',items:clinicalWorkspaces.catalog()},correlationId,headers);
+      if(!clinicalWorkspaces.validModule(module))
+        return json(res,404,problem('UNKNOWN_DEMO_MODULE','Workspace tidak didukung',correlationId),correlationId,headers);
+      if(parts.length===3&&req.method==='GET')
+        return json(res,200,clinicalWorkspaces.list(module),correlationId,headers);
+      if(parts.length===4&&req.method==='GET'){
+        const data=clinicalWorkspaces.detail(module,id);
+        return data?json(res,200,data,correlationId,headers)
+          :json(res,404,problem('DEMO_RECORD_NOT_FOUND','Record belum tersedia',correlationId),correlationId,headers);
+      }
+      if(parts.length===6&&parts[4]==='actions'&&req.method==='POST'){
+        const forced={forbidden:403,conflict:409,invalid:422,error:500}[req.headers['x-demo-scenario']];
+        if(forced)return json(res,forced,problem('MOCK_'+String(req.headers['x-demo-scenario']).toUpperCase(),
+          'Skenario gagal fiktif',correlationId),correlationId,headers);
+        let body;
+        try{body=await readBody(req);}catch{
+          return json(res,400,problem('INVALID_BODY','Payload JSON tidak valid',correlationId),correlationId,headers);
+        }
+        const result=clinicalWorkspaces.apply(module,id,parts[5],body,String(req.headers['idempotency-key']||''));
+        return result.data?json(res,result.status,result.data,correlationId,headers)
+          :json(res,result.status,problem(result.code,result.message,correlationId),correlationId,headers);
+      }
+      return json(res,404,problem('NOT_FOUND','Rute demo tidak tersedia',correlationId),correlationId,headers);
     }
     // Tooling-only mock response gateway: every audited FE action has a sample.
     // This namespace is deliberately OUTSIDE OpenAPI. No actual business state is written.

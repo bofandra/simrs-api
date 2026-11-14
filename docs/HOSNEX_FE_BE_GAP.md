@@ -1,3 +1,11 @@
+## Wave P0 tambahan — IGD, Rawat Inap, Keperawatan (14 November 2026)
+
+- Node mock menyediakan namespace **`/__demo/clinical-workspaces/M03|M04|M06`** untuk worklist, detail, dan tujuh transisi sintetis dalam satu episode pasien fiktif.
+- Semua perubahan hanya di **RAM proses Node** dan tidak pernah menyentuh database, stok, catatan klinis sungguhan, BPJS/SATUSEHAT, atau persistensi; respons menampilkan `simulated:true`, `persisted:false`, `stateScope:process-memory`, `X-SIMRS-Demo-State:process-memory`.
+- Alur versi: IGD `triage → reassess → request-admission`; Rawat Inap `reserve-bed → admit-bed`; Keperawatan `assess → handover`. Worklist hilir kosong sampai tahap sebelumnya selesai. `expectedVersion` menghindari stale write, `Idempotency-Key` replay aman.
+- Endpoint tooling ini **bukan** perubahan OpenAPI 200 kandidat dan **bukan** implementasi full PRD transaksi; hanya read/workflow contoh untuk HOSNEX mode API. Belum menangani real bed occupancy, triage instrument, assessment detail dan SBAR lengkap.
+- Test API: `tests/clinical-workspaces.test.mjs` meliputi gating lintas modul, detail, duplicate replay, 412 stale, 409 transisi salah, 422 validasi, 403 tenant, dan 500 skenario.
+
 # SIMRS API — mock response server untuk HOSNEX (14 November 2026)
 
 **Keputusan produk:** `bofandra/simrs-api` **hanya MOCK RESPONSE SERVER**. Tujuannya memenuhi kebutuhan pengembangan dan QA antarmuka HOSNEX, tanpa membangun layanan backend produksi. Tidak diperlukan PostgreSQL, koneksi nasional, autentikasi pengguna nyata, transaksi keuangan, inventory atau tanda tangan klinis legal.
