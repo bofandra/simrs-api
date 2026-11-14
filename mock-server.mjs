@@ -367,18 +367,20 @@ function applyV31(operation, body, output, db, requestPath, search) {
       const existing=db.labResults.find(v=>v.orderId===orderId);
       if(existing)return error(409,'RESULT_ALREADY_CREATED','Draft hasil sudah dibuat');
       const result={id:randomUUID(),orderId,encounterId:db.orders.find(o=>o.id===orderId)?.encounterId,
-        specimenId:specimen.id,results:body.observations||[],status:'draft'};
+        specimenId:specimen.id,results:body.observations||[],status:'draft',version:1};
       db.labResults.push(result);return {id:result.id,status:'draft'};
     }
     case 'getLabReport': {
       const r=db.labResults.find(v=>v.id===id);
       return r?entity(output,{id:r.id,labOrderId:r.orderId,encounterId:r.encounterId,
-        specimenId:r.specimenId,status:r.status,results:r.results}):null;
+        specimenId:r.specimenId,status:r.status,results:r.results,version:r.version??1,
+        note:r.note??''}):null;
     }
     case 'verifyLabReport': {
       const r=db.labResults.find(v=>v.id===id);
       if(!r)return error(404,'REPORT_NOT_FOUND','Laporan lab demo tidak ditemukan');
       if(r.status!=='draft')return error(409,'REPORT_STATE_CONFLICT','Laporan tidak dapat diverifikasi ulang');
+      if(body.resultVersion!==(r.version??1))return error(412,'STALE_RESULT_VERSION','Versi hasil tidak sesuai draft terbaru');
       if(db.specimens.find(s=>s.id===r.specimenId)?.status==='rejected')return error(422,'SPECIMEN_REJECTED','Specimen rejected tidak boleh diverifikasi');
       r.status='verified';return {id:r.id,status:'verified'};
     }
@@ -477,7 +479,38 @@ function applyV32(operation, body, output, db, requestPath, search) {
       status:'queue-transition-preview',version:reg.queueVersion,
       mock:true,simulated:true,persisted:false,realWorldEffect:false};
   }
-  // v3.3–v3.5 candidates other than setQueue remain pure contract previews.
+  // v3.5 HOSNEX M09: update a LAB draft in Node RAM only, never a real LIS.
+  if(V35 && op==='saveLabResults'){
+    const orderId=requestPath.split('/')[5];
+    const order=db.orders.find(o=>o.id===orderId&&o.category==='LAB');
+    if(!order)return {__error:[404,'LAB_ORDER_NOT_FOUND','Order LAB demo tidak tersedia']};
+    const report=db.labResults.find(r=>r.orderId===orderId);
+    if(!report)return {__error:[409,'LAB_DRAFT_REQUIRED','Hasil draft awal harus dibuat dahulu']};
+    if(report.status!=='draft')return {__error:[409,'LAB_DRAFT_LOCKED','Laporan sudah diverifikasi atau dirilis']};
+    const version=report.version??1;
+    if(body.expectedVersion!==version)return {__error:[412,'STALE_RESULT_VERSION','Versi hasil lab draft telah berubah']};
+    if(body.serviceCode!==order.serviceCode)
+      return {__error:[422,'LAB_SERVICE_CODE_MISMATCH','Kode pemeriksaan berbeda dari order']};
+    if(typeof body.reason!=='string'||body.reason.trim().length<3)
+      return {__error:[422,'LAB_CHANGE_REASON_REQUIRED','Alasan revisi hasil wajib minimal tiga karakter']};
+    const values=body.values;
+    if(!values||typeof values!=='object'||Array.isArray(values)||!Object.keys(values).length)
+      return {__error:[422,'LAB_VALUES_REQUIRED','Minimal satu parameter hasil diperlukan']};
+    const accepted=new Set(report.results.map(o=>o.analyteCode));
+    const updates=new Map();
+    for(const [analyte,value] of Object.entries(values)){
+      if(!accepted.has(analyte)||typeof value!=='string'||!value.trim()||!Number.isFinite(Number(value)))
+        return {__error:[422,'LAB_RESULT_NOT_IN_ORDER','Parameter atau nilai hasil tidak sesuai order demo']};
+      updates.set(analyte,Number(value));
+    }
+    report.results=report.results.map(o=>updates.has(o.analyteCode)?{...o,value:updates.get(o.analyteCode)}:o);
+    report.note=body.note;
+    report.version=version+1;
+    return {...clone(output),operationId:'saveLabResults',targetId:orderId,
+      status:'lab-results-draft-preview',version:report.version,
+      mock:true,simulated:true,persisted:false,realWorldEffect:false};
+  }
+  // All other v3.3–v3.5 candidates remain pure contract previews.
   if((V33 && v33Operations.has(op)) || (V34 && v34Operations.has(op)) || (V35 && v35Operations.has(op)))return {...clone(output),targetId:requestPath.split('/').filter(Boolean).find((part,i,parts)=>parts[i-1]==='jobs'||parts[i-1]==='items'||parts[i-1]==='summaries'||parts[i-1]==='encounters'||parts[i-1]==='claims')||output.targetId,
     mock:true,simulated:true,persisted:false,realWorldEffect:false};
   const error=(status,code,message)=>({__error:[status,code,message]});
