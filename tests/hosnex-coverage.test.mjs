@@ -31,7 +31,7 @@ test('all audited Hosnex actions are distinct and crosswalk uses known operation
 test('P0 addendum is additive, typed, traceable, and explicitly not production', () => {
   assert.equal(draft.status,'PROPOSAL_ONLY');
   assert.equal(draft.info.version,'3.2.0-draft.0');
-  assert.equal(draft.operations.length,19);
+  assert.equal(draft.operations.length,20);
   const originalIds = new Set(current.map(o=>o.operationId));
   const routeMethod = new Set(current.map(o=>o.method+' '+o.path));
   const newIds = new Set();

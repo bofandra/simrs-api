@@ -12,9 +12,9 @@
     "missingNoProposal": 15
   },
   "baselineCandidateOperations": 180,
-  "proposedAdditions": 19,
-  "composedCandidateOperations": 199,
-  "warning": "Counts are static action mappings, NOT implemented or signed-off API coverage. 19 overlay endpoints do not automatically close 16 proposed mappings.",
+  "proposedAdditions": 20,
+  "composedCandidateOperations": 200,
+  "warning": "Counts are static mappings, NOT implemented or approved endpoint coverage. 20 review-only overlay endpoints (including M02 draft GET) still map to 16 action proposal backlinks; this does not close the 15 unmapped P0 actions.",
   "proposalBacklinks": [
     {
       "action": "grantPortal",
