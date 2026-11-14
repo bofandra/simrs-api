@@ -10,6 +10,7 @@ import { dirname, join } from 'node:path';
 import { buildHosnexV32Spec } from './scripts/compose-hosnex-v32.mjs';
 import { getMockActionCatalog, simulateHosnexAction, mockActionCoverage } from './mock-hosnex-actions.mjs';
 import { createClinicalWorkspaceStore } from './mock-clinical-workspaces.mjs';
+import { createP0ReadModels } from './mock-p0-read-models.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const V32 = process.argv.includes('--v32') || process.env.SIMRS_CONTRACT_VERSION === '3.2';
@@ -497,6 +498,7 @@ function readBody(req) {
 export function createMockServer() {
   const db = state();
   const clinicalWorkspaces = createClinicalWorkspaceStore();
+  const p0Reads = createP0ReadModels(clinicalWorkspaces);
   return createServer(async (req, res) => {
     const correlationId = /^[a-zA-Z0-9-]{8,128}$/.test(String(req.headers['x-correlation-id'] || ''))
       ? req.headers['x-correlation-id'] : randomUUID();
@@ -519,6 +521,32 @@ export function createMockServer() {
       const html = readFileSync(join(HERE, 'docs/index.html'), 'utf8');
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });
       res.end(html.replace('src="../openapi.json"', 'src="/openapi.json"')); return;
+    }
+    // Additional HOSNEX P0 context: strictly read-only; never accept stock/payment/
+    // claims submissions or national interoperability dispatch from this namespace.
+    if(url.pathname==='/__demo/p0-read-models' || url.pathname.startsWith('/__demo/p0-read-models/')){
+      const marker={'X-SIMRS-Demo-State':'process-memory','X-SIMRS-State-Persisted':'false'};
+      if(!V32)return json(res,404,problem('NOT_FOUND','Requires v3.2 mock',correlationId),correlationId,marker);
+      if(req.headers['x-organization-id']!=='DEMO-RS-001')
+        return json(res,403,problem('DEMO_TENANT_REQUIRED','Only fictitious demo organization',correlationId),correlationId,marker);
+      if(req.method!=='GET')return json(res,405,problem('READ_ONLY_DEMO',
+        'Mutasi, pembayaran, klaim, inventori dan FHIR dispatch tidak diizinkan',correlationId),correlationId,marker);
+      const forced={forbidden:403,conflict:409,invalid:422,error:500}[req.headers['x-demo-scenario']];
+      if(forced)return json(res,forced,problem('MOCK_'+String(req.headers['x-demo-scenario']).toUpperCase(),
+        'Injected synthetic error',correlationId),correlationId,marker);
+      const parts=url.pathname.split('/').filter(Boolean);
+      if(parts.length===2)return json(res,200,{mock:true,simulated:true,persisted:false,
+        realWorldEffect:false,readOnly:true,stateScope:'process-memory',modules:p0Reads.modules},correlationId,marker);
+      const module=parts[2],id=parts[3];
+      if(!p0Reads.validModule(module))return json(res,404,
+        problem('UNKNOWN_DEMO_MODULE','Module has no P0 read model',correlationId),correlationId,marker);
+      if(parts.length===3)return json(res,200,p0Reads.list(module),correlationId,marker);
+      if(parts.length===4){
+        const result=p0Reads.detail(module,id);
+        return result?json(res,200,result,correlationId,marker):
+          json(res,404,problem('DEMO_RECORD_NOT_FOUND','No matching demo record',correlationId),correlationId,marker);
+      }
+      return json(res,404,problem('NOT_FOUND','Unknown demo route',correlationId),correlationId,marker);
     }
     // Process-memory demo of P0 handoff. Not a production API and not a pure fixture.
     if(url.pathname.startsWith('/__demo/clinical-workspaces')){

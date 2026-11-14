@@ -1,3 +1,14 @@
+## Wave P0 read-only — M05, M13, M14, M16, M21 (14 November 2026)
+
+- HTTP **GET only**, namespace `/__demo/p0-read-models` berisi katalog/list/detail untuk 5 modul; total modul dengan workspace HTTP parsial menjadi **12/21**.
+- M05: ringkasan kelengkapan resume IGD dan SBAR terhubung dengan tahap episode M03/M04/M06; bukan tanda tangan RME legal.
+- M13: pratinjau biaya fiktif, **bukan** billing/payment atau ledger sungguhan.
+- M14: checklist kesiapan klaim tergantung tahap IGD/RI/keperawatan; **tidak pernah mengirim klaim** dan tidak memvalidasi eligibility BPJS.
+- M16: dua item stok fiktif untuk demo, tanpa mutasi atau distribusi/release stok.
+- M21: pratinjau mapping FHIR sintetis dan gap validasi, **tanpa** koneksi SATUSEHAT.
+- Seluruh payload mengandung `readOnly:true`, `simulated:true`, `persisted:false`, `realWorldEffect:false`, dan `stateScope:process-memory`; setiap metode non-GET ditolak dengan **405**.
+- Pengujian: `tests/p0-read-models.test.mjs` memeriksa linked episode, tidak ada aksi finansial/nasional/stok, 403/404/405/500, serta 200 OpenAPI yang tidak berubah. Belum menjamin kesetaraan seluruh form/aksi PRD.
+
 ## Wave P0 tambahan — IGD, Rawat Inap, Keperawatan (14 November 2026)
 
 - Node mock menyediakan namespace **`/__demo/clinical-workspaces/M03|M04|M06`** untuk worklist, detail, dan tujuh transisi sintetis dalam satu episode pasien fiktif.
