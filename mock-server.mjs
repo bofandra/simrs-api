@@ -192,6 +192,7 @@ function applyScenario(operationId, body, output, db, requestPath, search = new 
       db.encounters.push(encounter);
       const reg = {registrationId:id,encounterId:encounter.id,patientId:body.patientId,unitId:body.unitId,
         queueTicketId:randomUUID(),queueNumber:'A-'+String(db.registrations.length+1).padStart(3,'0'),
+        queueStatus:'waiting',queueVersion:1,
         payer:body.payer,status:'ACTIVE'};
       db.registrations.push(reg);
       return reg;
@@ -457,7 +458,26 @@ function applyV31(operation, body, output, db, requestPath, search) {
 function applyV32(operation, body, output, db, requestPath, search) {
   const op=operation.detail.operationId;
   if(!V32 || !overlayOperations.has(op))return applyV31(operation,body,output,db,requestPath,search);
-  // v3.3 P0 responses are explicit contract-only previews: never change hospital/demo state.
+  // v3.5 P0: stateful synthetic queue lifecycle for HOSNEX M01, process RAM only.
+  // This is deliberately NOT a real hospital queue or production authority.
+  if(V35 && op==='setQueue'){
+    const ticketId=requestPath.split('/')[5];
+    const reg=db.registrations.find(r=>r.queueTicketId===ticketId);
+    if(!reg)return {__error:[404,'QUEUE_TICKET_NOT_FOUND','Tiket antrean demo tidak tersedia']};
+    const current=reg.queueStatus??'waiting';
+    const version=reg.queueVersion??1;
+    if(body.expectedVersion!==version)
+      return {__error:[412,'STALE_QUEUE_VERSION','Versi antrean demo sudah berubah']};
+    const next={waiting:'called',called:'in-service','in-service':'done',done:null}[current];
+    if(body.queueStatus!==next)
+      return {__error:[409,'QUEUE_TRANSITION_CONFLICT','Transisi antrean tidak sesuai urutan simulasi']};
+    reg.queueStatus=next;
+    reg.queueVersion=version+1;
+    return {...clone(output),operationId:'setQueue',targetId:ticketId,
+      status:'queue-transition-preview',version:reg.queueVersion,
+      mock:true,simulated:true,persisted:false,realWorldEffect:false};
+  }
+  // v3.3–v3.5 candidates other than setQueue remain pure contract previews.
   if((V33 && v33Operations.has(op)) || (V34 && v34Operations.has(op)) || (V35 && v35Operations.has(op)))return {...clone(output),targetId:requestPath.split('/').filter(Boolean).find((part,i,parts)=>parts[i-1]==='jobs'||parts[i-1]==='items'||parts[i-1]==='summaries'||parts[i-1]==='encounters'||parts[i-1]==='claims')||output.targetId,
     mock:true,simulated:true,persisted:false,realWorldEffect:false};
   const error=(status,code,message)=>({__error:[status,code,message]});
@@ -532,6 +552,23 @@ export function createMockServer() {
         'Access-Control-Allow-Headers': 'Content-Type, Authorization, Idempotency-Key, If-Match, X-Correlation-ID, X-Organization-Id, X-Demo-Scenario, X-Demo-Staff-Id',
         'Access-Control-Allow-Methods': 'GET,POST,PATCH,PUT,OPTIONS', 'X-SIMRS-Mock': 'true' });
       res.end(); return;
+    }
+    // Read-only inspection of synthetic queue state; separate from OpenAPI proposal.
+    if(V35 && url.pathname.startsWith('/__demo/queue/tickets/')){
+      const queueHeaders={'X-SIMRS-State-Persisted':'false','X-SIMRS-Demo-State':'process-memory'};
+      if(req.method!=='GET')
+        return json(res,405,problem('METHOD_NOT_ALLOWED','Antrean demo inspector hanya GET',correlationId),correlationId,queueHeaders);
+      if(req.headers['x-organization-id']!==defaultOrg)
+        return json(res,403,problem('DEMO_TENANT_REQUIRED','Organisasi demo tidak sesuai',correlationId),correlationId,queueHeaders);
+      const ticketId=decodeURIComponent(url.pathname.slice('/__demo/queue/tickets/'.length));
+      const registration=db.registrations.find(r=>r.queueTicketId===ticketId);
+      if(!registration)
+        return json(res,404,problem('QUEUE_TICKET_NOT_FOUND','Tiket antrean demo tidak ditemukan',correlationId),correlationId,queueHeaders);
+      return json(res,200,{queueTicketId:registration.queueTicketId,registrationId:registration.registrationId,
+        encounterId:registration.encounterId,queueNumber:registration.queueNumber,
+        queueStatus:registration.queueStatus??'waiting',version:registration.queueVersion??1,
+        stateScope:'process-memory',mock:true,simulated:true,persisted:false,realWorldEffect:false},
+        correlationId,queueHeaders);
     }
     if (url.pathname === '/healthz') {
       return json(res, 200, { service: 'simrs-api', mode: 'synthetic-mock',
