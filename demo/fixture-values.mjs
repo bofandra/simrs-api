@@ -1,0 +1,20 @@
+// Values that can be displayed without collecting real identifiers or source data.
+export const fixtureValues = {
+  'F-M01-04': { nomor: 'A-001', 'loket/poli': 'Loket 1', status: 'Menunggu', 'waktu panggil': 'Belum dipanggil' },
+  'F-M01-05': { 'kartu pasien': 'Kartu pasien demo', label: 'Label pasien simulasi' },
+  'F-M02-01': { 'jam janji': '09.00 WIB', status: 'Menunggu pemeriksaan', vital: 'Belum dicatat', alert: 'Tinjau data simulasi sebelum pemeriksaan' },
+  'F-M04-01': { bedId: 'BED-DEMO-01', wardId: 'MELATI', room: 'Melati 01', class: 'Kelas 2', status: 'available', lastUpdated: '09.00 WIB', version: 1 },
+  'F-M05-01': { authorId: 'PRAKTISI-DEMO-01', noteStatus: 'draft' },
+  'F-M05-03': { description: 'Deskripsi kode simulasi' },
+  'F-M10-03': { UID: 'STUDI-DEMO-01', 'study reference': 'Radiografi phantom sintetis', 'image series': 'Proyeksi frontal ilustratif' },
+  'F-M11-03': { expiryDate: '2027-12-31', stockAvailable: 10 },
+  'F-M13-01': { 'source event': 'Pelayanan poli simulasi', jasa: 'Pemeriksaan demo', tarif: 'Rp50.000', qty: 1 },
+  'F-M13-03': { receiptNumber: 'Diterbitkan setelah pembayaran' },
+  'F-M14-04': { externalAcknowledgement: 'Menunggu respons penjamin demo' },
+  'F-M16-01': { gudang: 'Depo Farmasi', SKU: 'OBAT-DEMO-A', lot: 'LOT-DEMO-01', 'on-hand': '10 unit', reserved: '0 unit', expiry: '31 Des 2027' },
+  'F-M16-06': { unit: 'Depo Farmasi', SKU: 'OBAT-DEMO-A', lot: 'LOT-DEMO-01', tanggal: '14 Nov 2026', 'on-hand': '10 unit', available: '10 unit', reserved: '0 unit', expiry: '31 Des 2027', mutation: 'Saldo awal', periode: 'Nov 2026' },
+  'F-M16-07': { availableQty: 10 },
+  'F-M20-02': { BOR: '72% (demo)', LOS: '4 hari (demo)', 'waiting time': '18 menit (demo)', pendapatan: 'Rp1.500.000 (demo)', klaim: '2 menunggu ACK (demo)' },
+  'F-M20-03': { periode: 'Nov 2026', unit: 'Bangsal Melati', kunjungan: '20 (demo)', 'pasien masuk/keluar': '12 masuk / 8 keluar (demo)', 'fasilitas bed': '16 bed (demo)', 'BOR/LOS/TOI/BTO/NDR/GDR sesuai definisi': 'Lihat ringkasan indikator demo' },
+  'F-M20-04': { periode: 'Nov 2026', 'jenis penjamin': 'Umum', unit: 'Poli Penyakit Dalam', 'nilai charge': 'Rp200.000', payment: 'Rp150.000', klaim: 'Rp0', piutang: 'Rp50.000', 'sumber data': 'Billing demo', 'cut-off': '14 Nov 2026, 17.00 WIB' },
+};

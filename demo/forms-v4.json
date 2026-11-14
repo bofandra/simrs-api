@@ -1,0 +1,5053 @@
+{
+  "baseline": "PRD SIMRS Baru v4.0 · Bab 8",
+  "forms": [
+    {
+      "id": "F-M01-01",
+      "module": "M01",
+      "title": "Kedatangan & pencarian pasien",
+      "actor": "Petugas admisi",
+      "uiContext": " Worklist/search-first",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-CORE-08",
+      "relatedFRModuleCandidates": [
+        "FR-004",
+        "FR-005",
+        "FR-006",
+        "FR-007",
+        "FR-061"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "patient identifier",
+          "spec": "string(1..64)"
+        },
+        {
+          "id": "field2",
+          "label": "NIK",
+          "spec": "string(16) jika tersedia"
+        },
+        {
+          "id": "field3",
+          "label": "nama lengkap",
+          "spec": "string(1..200) wajib"
+        },
+        {
+          "id": "field4",
+          "label": "tanggal lahir",
+          "spec": "date wajib atau estimasi terverifikasi"
+        },
+        {
+          "id": "field5",
+          "label": "sex",
+          "spec": "code wajib"
+        },
+        {
+          "id": "field6",
+          "label": "alamat",
+          "spec": "address bertingkat"
+        },
+        {
+          "id": "field7",
+          "label": "telepon",
+          "spec": "string opsional"
+        },
+        {
+          "id": "field8",
+          "label": "penanggung jawab",
+          "spec": "contact[]"
+        },
+        {
+          "id": "field9",
+          "label": "kandidat duplikat",
+          "spec": "read-only list"
+        }
+      ]
+    },
+    {
+      "id": "F-M01-02",
+      "module": "M01",
+      "title": "Registrasi kunjungan & payer",
+      "actor": "Petugas admisi",
+      "uiContext": " Guided form di worklist",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-CORE-09",
+      "relatedFRModuleCandidates": [
+        "FR-004",
+        "FR-005",
+        "FR-006",
+        "FR-007",
+        "FR-061"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "patientId",
+          "spec": "UUID wajib"
+        },
+        {
+          "id": "field2",
+          "label": "serviceType",
+          "spec": "RJ/IGD/RI wajib"
+        },
+        {
+          "id": "field3",
+          "label": "unitId",
+          "spec": "UUID wajib"
+        },
+        {
+          "id": "field4",
+          "label": "requestedPractitionerId",
+          "spec": "UUID opsional"
+        },
+        {
+          "id": "field5",
+          "label": "payer",
+          "spec": "code wajib"
+        },
+        {
+          "id": "field6",
+          "label": "appointmentId",
+          "spec": "UUID opsional"
+        },
+        {
+          "id": "field7",
+          "label": "visitDateTime",
+          "spec": "datetime wajib"
+        },
+        {
+          "id": "field8",
+          "label": "referralNumber",
+          "spec": "string opsional"
+        },
+        {
+          "id": "field9",
+          "label": "queueTicketId",
+          "spec": "UUID output"
+        }
+      ]
+    },
+    {
+      "id": "F-M01-03",
+      "module": "M01",
+      "title": "Jadwal & booking",
+      "actor": "Petugas reservasi",
+      "uiContext": " Calendar/slot drawer",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-CORE-10",
+      "relatedFRModuleCandidates": [
+        "FR-004",
+        "FR-005",
+        "FR-006",
+        "FR-007",
+        "FR-061"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "dokter",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "tanggal/jam",
+          "spec": "date/datetime"
+        },
+        {
+          "id": "field3",
+          "label": "poli",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "kuota",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field5",
+          "label": "status",
+          "spec": "enum/code"
+        }
+      ]
+    },
+    {
+      "id": "F-M01-04",
+      "module": "M01",
+      "title": "Pemanggilan antrean",
+      "actor": "Petugas loket",
+      "uiContext": " Queue board",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-CORE-11",
+      "relatedFRModuleCandidates": [
+        "FR-004",
+        "FR-005",
+        "FR-006",
+        "FR-007",
+        "FR-061"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "nomor",
+          "spec": "identifier/code"
+        },
+        {
+          "id": "field2",
+          "label": "loket/poli",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "status",
+          "spec": "enum/code"
+        },
+        {
+          "id": "field4",
+          "label": "waktu panggil",
+          "spec": "date/datetime"
+        }
+      ]
+    },
+    {
+      "id": "F-M01-05",
+      "module": "M01",
+      "title": "Cetak dokumen registrasi",
+      "actor": "Petugas admisi",
+      "uiContext": " Action panel",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-CORE-09",
+      "relatedFRModuleCandidates": [
+        "FR-004",
+        "FR-005",
+        "FR-006",
+        "FR-007",
+        "FR-061"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-CORE-08",
+        "US-CORE-09",
+        "US-CORE-10",
+        "US-CORE-11"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "kartu pasien",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "label",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "identitas kunjungan",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M02-01",
+      "module": "M02",
+      "title": "Worklist poli dokter",
+      "actor": "Dokter poli",
+      "uiContext": " Encounter worklist",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-RME-01",
+      "relatedFRModuleCandidates": [],
+      "relatedUSModuleCandidates": [
+        "US-RME-01"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "pasien",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "jam janji",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "status",
+          "spec": "enum/code"
+        },
+        {
+          "id": "field4",
+          "label": "vital",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field5",
+          "label": "alert",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M02-02",
+      "module": "M02",
+      "title": "Workspace pemeriksaan",
+      "actor": "Dokter poli",
+      "uiContext": " Patient chart split-view",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-RME-01",
+      "relatedFRModuleCandidates": [],
+      "relatedUSModuleCandidates": [
+        "US-RME-01"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "encounterId",
+          "spec": "UUID wajib"
+        },
+        {
+          "id": "field2",
+          "label": "chiefComplaint",
+          "spec": "text wajib"
+        },
+        {
+          "id": "field3",
+          "label": "allergies",
+          "spec": "list read-only"
+        },
+        {
+          "id": "field4",
+          "label": "vitalSigns",
+          "spec": "Observation[]"
+        },
+        {
+          "id": "field5",
+          "label": "history",
+          "spec": "text"
+        },
+        {
+          "id": "field6",
+          "label": "physicalExam",
+          "spec": "text"
+        },
+        {
+          "id": "field7",
+          "label": "assessment",
+          "spec": "text"
+        },
+        {
+          "id": "field8",
+          "label": "managementPlan",
+          "spec": "text"
+        },
+        {
+          "id": "field9",
+          "label": "signedAt",
+          "spec": "datetime read-only"
+        }
+      ]
+    },
+    {
+      "id": "F-M02-03",
+      "module": "M02",
+      "title": "Instruksi dan kontrol",
+      "actor": "Dokter poli",
+      "uiContext": " Embedded orders & action bar",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-RME-01",
+      "relatedFRModuleCandidates": [],
+      "relatedUSModuleCandidates": [
+        "US-RME-01"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "diagnoses",
+          "spec": "code[]"
+        },
+        {
+          "id": "field2",
+          "label": "labOrders",
+          "spec": "ServiceOrder[]"
+        },
+        {
+          "id": "field3",
+          "label": "radiologyOrders",
+          "spec": "ServiceOrder[]"
+        },
+        {
+          "id": "field4",
+          "label": "prescriptions",
+          "spec": "MedicationRequest[]"
+        },
+        {
+          "id": "field5",
+          "label": "followupDate",
+          "spec": "date"
+        },
+        {
+          "id": "field6",
+          "label": "patientEducation",
+          "spec": "text"
+        },
+        {
+          "id": "field7",
+          "label": "referral",
+          "spec": "Referral?"
+        }
+      ]
+    },
+    {
+      "id": "F-M03-01",
+      "module": "M03",
+      "title": "Triage intake",
+      "actor": "Perawat triase",
+      "uiContext": " Rapid assessment panel",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-RME-02",
+      "relatedFRModuleCandidates": [
+        "FR-010"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-RME-02"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "arrivedAt",
+          "spec": "datetime wajib"
+        },
+        {
+          "id": "field2",
+          "label": "arrivalMode",
+          "spec": "enum"
+        },
+        {
+          "id": "field3",
+          "label": "triagePriority",
+          "spec": "enum wajib"
+        },
+        {
+          "id": "field4",
+          "label": "chiefComplaint",
+          "spec": "text wajib"
+        },
+        {
+          "id": "field5",
+          "label": "bloodPressure",
+          "spec": "systolic/diastolic mmHg"
+        },
+        {
+          "id": "field6",
+          "label": "heartRate",
+          "spec": "bpm"
+        },
+        {
+          "id": "field7",
+          "label": "respiratoryRate",
+          "spec": "/min"
+        },
+        {
+          "id": "field8",
+          "label": "oxygenSaturation",
+          "spec": "percent"
+        },
+        {
+          "id": "field9",
+          "label": "consciousness",
+          "spec": "code"
+        },
+        {
+          "id": "field10",
+          "label": "assessorId",
+          "spec": "UUID"
+        }
+      ]
+    },
+    {
+      "id": "F-M03-02",
+      "module": "M03",
+      "title": "Resusitasi dan observasi",
+      "actor": "Dokter/perawat IGD",
+      "uiContext": " Status board + bedside chart",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-RME-02",
+      "relatedFRModuleCandidates": [
+        "FR-010"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-RME-02"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "assessment",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "tindakan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "observasi berkala",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "instruksi",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M03-03",
+      "module": "M03",
+      "title": "Disposisi pasien",
+      "actor": "Dokter IGD",
+      "uiContext": " Action modal + handover",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-RME-02",
+      "relatedFRModuleCandidates": [
+        "FR-010"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-RME-02"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "encounterId",
+          "spec": "UUID wajib"
+        },
+        {
+          "id": "field2",
+          "label": "disposition",
+          "spec": "home/admit/refer/deceased wajib"
+        },
+        {
+          "id": "field3",
+          "label": "reason",
+          "spec": "text wajib"
+        },
+        {
+          "id": "field4",
+          "label": "destination",
+          "spec": "unit/organization conditional"
+        },
+        {
+          "id": "field5",
+          "label": "ambulanceNeeded",
+          "spec": "boolean"
+        },
+        {
+          "id": "field6",
+          "label": "dischargeAt",
+          "spec": "datetime"
+        },
+        {
+          "id": "field7",
+          "label": "handoverTo",
+          "spec": "UUID?"
+        }
+      ]
+    },
+    {
+      "id": "F-M03-04",
+      "module": "M03",
+      "title": "Pemakaian BMHP / obat pada tindakan IGD",
+      "actor": "P0 | Dokter/perawat IGD",
+      "uiContext": " Bedside chart → tindakan → pemakaian BMHP",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": null,
+      "relatedFRModuleCandidates": [
+        "FR-010"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-RME-02"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "jenis item",
+          "spec": "enum/code"
+        },
+        {
+          "id": "field2",
+          "label": "qty",
+          "spec": "decimal / integer + satuan"
+        },
+        {
+          "id": "field3",
+          "label": "waktu",
+          "spec": "date/datetime"
+        },
+        {
+          "id": "field4",
+          "label": "pemberi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field5",
+          "label": "indikasi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field6",
+          "label": "lokasi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field7",
+          "label": "hubungan tindakan",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M03-05",
+      "module": "M03",
+      "title": "PONEK triage dan monitoring obstetri emergensi",
+      "actor": "P1 | Bidan triase, dokter jaga, DPJP Obgyn",
+      "uiContext": " IGD → ruang PONEK → panel triase obstetri",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": null,
+      "relatedFRModuleCandidates": [
+        "FR-010"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-RME-02"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "identitas ibu",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "usia kehamilan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "keluhan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "prioritas",
+          "spec": "enum/code"
+        },
+        {
+          "id": "field5",
+          "label": "TTV",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field6",
+          "label": "status janin/CTG bila relevan",
+          "spec": "enum/code"
+        },
+        {
+          "id": "field7",
+          "label": "tindakan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field8",
+          "label": "disposisi",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M04-01",
+      "module": "M04",
+      "title": "Bed board",
+      "actor": "Bed manager",
+      "uiContext": " Ward/bed map",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-OPS-10",
+      "relatedFRModuleCandidates": [
+        "FR-011",
+        "FR-047",
+        "FR-063"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-RME-03",
+        "US-OPS-10"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "bedId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field2",
+          "label": "wardId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field3",
+          "label": "room",
+          "spec": "code"
+        },
+        {
+          "id": "field4",
+          "label": "class",
+          "spec": "enum"
+        },
+        {
+          "id": "field5",
+          "label": "status",
+          "spec": "available/reserved/occupied/cleaning/out-of-service"
+        },
+        {
+          "id": "field6",
+          "label": "occupantId",
+          "spec": "UUID?"
+        },
+        {
+          "id": "field7",
+          "label": "lastUpdated",
+          "spec": "datetime"
+        },
+        {
+          "id": "field8",
+          "label": "version",
+          "spec": "integer"
+        }
+      ]
+    },
+    {
+      "id": "F-M04-02",
+      "module": "M04",
+      "title": "Admisi dan transfer",
+      "actor": "Petugas ranap",
+      "uiContext": " Admission flow",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-RME-03",
+      "relatedFRModuleCandidates": [
+        "FR-011",
+        "FR-047",
+        "FR-063"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-RME-03",
+        "US-OPS-10"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "admissionOrderId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field2",
+          "label": "sourceUnitId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field3",
+          "label": "targetUnitId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field4",
+          "label": "bedId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field5",
+          "label": "dpjpId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field6",
+          "label": "reason",
+          "spec": "text"
+        },
+        {
+          "id": "field7",
+          "label": "handoverNotes",
+          "spec": "text"
+        },
+        {
+          "id": "field8",
+          "label": "effectiveAt",
+          "spec": "datetime"
+        }
+      ]
+    },
+    {
+      "id": "F-M04-03",
+      "module": "M04",
+      "title": "Visite dan perjalanan pasien",
+      "actor": "DPJP ranap",
+      "uiContext": " Longitudinal patient chart",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-RME-03",
+      "relatedFRModuleCandidates": [
+        "FR-011",
+        "FR-047",
+        "FR-063"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-RME-03",
+        "US-OPS-10"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "CPPT",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "orders",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "hasil",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "status",
+          "spec": "enum/code"
+        },
+        {
+          "id": "field5",
+          "label": "care team",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M04-04",
+      "module": "M04",
+      "title": "Perencanaan pulang",
+      "actor": "DPJP/perawat",
+      "uiContext": " Discharge checklist",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-RME-03",
+      "relatedFRModuleCandidates": [
+        "FR-011",
+        "FR-047",
+        "FR-063"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-RME-03",
+        "US-OPS-10"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "dischargeDiagnosis",
+          "spec": "code[] wajib"
+        },
+        {
+          "id": "field2",
+          "label": "dischargeSummary",
+          "spec": "text wajib"
+        },
+        {
+          "id": "field3",
+          "label": "medicationReconciliationId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field4",
+          "label": "followUp",
+          "spec": "date/plan"
+        },
+        {
+          "id": "field5",
+          "label": "education",
+          "spec": "text"
+        },
+        {
+          "id": "field6",
+          "label": "clinicalSignature",
+          "spec": "reference"
+        },
+        {
+          "id": "field7",
+          "label": "bedReleaseStatus",
+          "spec": "enum"
+        }
+      ]
+    },
+    {
+      "id": "F-M04-05",
+      "module": "M04",
+      "title": "Serah terima & transfer ICU/perinatologi",
+      "actor": "P1 | Perawat penerima dan pengirim, dokter/DPJP",
+      "uiContext": " Ward/bed board → transfer → handover klinis",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": null,
+      "relatedFRModuleCandidates": [
+        "FR-011",
+        "FR-047",
+        "FR-063"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-RME-03",
+        "US-OPS-10"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "asal/tujuan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "alasan transfer",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "kondisi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "TTV",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field5",
+          "label": "care team",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field6",
+          "label": "rencana",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field7",
+          "label": "obat/order aktif",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field8",
+          "label": "penerima",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field9",
+          "label": "waktu",
+          "spec": "date/datetime"
+        }
+      ]
+    },
+    {
+      "id": "F-M05-01",
+      "module": "M05",
+      "title": "CPPT/SOAP",
+      "actor": "Dokter/perawat",
+      "uiContext": " Chart clinical notes",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-RME-04",
+      "relatedFRModuleCandidates": [
+        "FR-009",
+        "FR-012",
+        "FR-013",
+        "FR-014",
+        "FR-015",
+        "FR-016",
+        "FR-033",
+        "FR-034",
+        "FR-042",
+        "FR-052",
+        "FR-053",
+        "FR-055",
+        "FR-059",
+        "FR-060"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11",
+        "US-ENT-04"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "noteId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field2",
+          "label": "encounterId",
+          "spec": "UUID wajib"
+        },
+        {
+          "id": "field3",
+          "label": "subjective",
+          "spec": "text"
+        },
+        {
+          "id": "field4",
+          "label": "objective",
+          "spec": "text"
+        },
+        {
+          "id": "field5",
+          "label": "assessment",
+          "spec": "text"
+        },
+        {
+          "id": "field6",
+          "label": "plan",
+          "spec": "text"
+        },
+        {
+          "id": "field7",
+          "label": "authorId",
+          "spec": "UUID read-only"
+        },
+        {
+          "id": "field8",
+          "label": "noteStatus",
+          "spec": "draft/signed/amended"
+        },
+        {
+          "id": "field9",
+          "label": "signature",
+          "spec": "reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M05-02",
+      "module": "M05",
+      "title": "TTV dan asesmen",
+      "actor": "Dokter/perawat",
+      "uiContext": " Embedded chart section",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-RME-05",
+      "relatedFRModuleCandidates": [
+        "FR-009",
+        "FR-012",
+        "FR-013",
+        "FR-014",
+        "FR-015",
+        "FR-016",
+        "FR-033",
+        "FR-034",
+        "FR-042",
+        "FR-052",
+        "FR-053",
+        "FR-055",
+        "FR-059",
+        "FR-060"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11",
+        "US-ENT-04"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "measurementAt",
+          "spec": "datetime"
+        },
+        {
+          "id": "field2",
+          "label": "bloodPressure",
+          "spec": "mmHg"
+        },
+        {
+          "id": "field3",
+          "label": "pulse",
+          "spec": "bpm"
+        },
+        {
+          "id": "field4",
+          "label": "temperature",
+          "spec": "C"
+        },
+        {
+          "id": "field5",
+          "label": "respiration",
+          "spec": "/min"
+        },
+        {
+          "id": "field6",
+          "label": "SpO2",
+          "spec": "percent"
+        },
+        {
+          "id": "field7",
+          "label": "weight",
+          "spec": "kg"
+        },
+        {
+          "id": "field8",
+          "label": "height",
+          "spec": "cm"
+        },
+        {
+          "id": "field9",
+          "label": "painScore",
+          "spec": "integer"
+        },
+        {
+          "id": "field10",
+          "label": "assessorId",
+          "spec": "UUID"
+        }
+      ]
+    },
+    {
+      "id": "F-M05-03",
+      "module": "M05",
+      "title": "Diagnosis & tindakan",
+      "actor": "Dokter",
+      "uiContext": " Search/code picker",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-RME-06",
+      "relatedFRModuleCandidates": [
+        "FR-009",
+        "FR-012",
+        "FR-013",
+        "FR-014",
+        "FR-015",
+        "FR-016",
+        "FR-033",
+        "FR-034",
+        "FR-042",
+        "FR-052",
+        "FR-053",
+        "FR-055",
+        "FR-059",
+        "FR-060"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11",
+        "US-ENT-04"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "diagnosisCode",
+          "spec": "ICD system+code"
+        },
+        {
+          "id": "field2",
+          "label": "description",
+          "spec": "string read-only"
+        },
+        {
+          "id": "field3",
+          "label": "type",
+          "spec": "primary/secondary"
+        },
+        {
+          "id": "field4",
+          "label": "onset",
+          "spec": "date"
+        },
+        {
+          "id": "field5",
+          "label": "clinicalStatus",
+          "spec": "enum"
+        },
+        {
+          "id": "field6",
+          "label": "procedureCode",
+          "spec": "code"
+        },
+        {
+          "id": "field7",
+          "label": "reason",
+          "spec": "text"
+        }
+      ]
+    },
+    {
+      "id": "F-M05-04",
+      "module": "M05",
+      "title": "CPOE order",
+      "actor": "Dokter",
+      "uiContext": " Order composer",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-RME-08",
+      "relatedFRModuleCandidates": [
+        "FR-009",
+        "FR-012",
+        "FR-013",
+        "FR-014",
+        "FR-015",
+        "FR-016",
+        "FR-033",
+        "FR-034",
+        "FR-042",
+        "FR-052",
+        "FR-053",
+        "FR-055",
+        "FR-059",
+        "FR-060"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11",
+        "US-ENT-04"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "orderCode",
+          "spec": "code wajib"
+        },
+        {
+          "id": "field2",
+          "label": "encounterId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field3",
+          "label": "indication",
+          "spec": "text wajib"
+        },
+        {
+          "id": "field4",
+          "label": "urgency",
+          "spec": "routine/urgent/stat"
+        },
+        {
+          "id": "field5",
+          "label": "specimenType",
+          "spec": "code conditional"
+        },
+        {
+          "id": "field6",
+          "label": "destinationUnitId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field7",
+          "label": "orderStatus",
+          "spec": "enum"
+        }
+      ]
+    },
+    {
+      "id": "F-M05-05",
+      "module": "M05",
+      "title": "Rencana asuhan & care team",
+      "actor": "DPJP",
+      "uiContext": " Care-plan panel",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-RME-09",
+      "relatedFRModuleCandidates": [
+        "FR-009",
+        "FR-012",
+        "FR-013",
+        "FR-014",
+        "FR-015",
+        "FR-016",
+        "FR-033",
+        "FR-034",
+        "FR-042",
+        "FR-052",
+        "FR-053",
+        "FR-055",
+        "FR-059",
+        "FR-060"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11",
+        "US-ENT-04"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "tujuan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "intervensi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "anggota tim",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "periode",
+          "spec": "date/datetime"
+        }
+      ]
+    },
+    {
+      "id": "F-M05-06",
+      "module": "M05",
+      "title": "Rujukan & konsultasi",
+      "actor": "Dokter",
+      "uiContext": " Referral composer",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-RME-10",
+      "relatedFRModuleCandidates": [
+        "FR-009",
+        "FR-012",
+        "FR-013",
+        "FR-014",
+        "FR-015",
+        "FR-016",
+        "FR-033",
+        "FR-034",
+        "FR-042",
+        "FR-052",
+        "FR-053",
+        "FR-055",
+        "FR-059",
+        "FR-060"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11",
+        "US-ENT-04"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "tujuan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "alasan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "ringkasan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "urgensi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field5",
+          "label": "status",
+          "spec": "enum/code"
+        }
+      ]
+    },
+    {
+      "id": "F-M05-07",
+      "module": "M05",
+      "title": "Dokumen signed & addendum",
+      "actor": "Dokter/rekam medis",
+      "uiContext": " Document panel",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-RME-11",
+      "relatedFRModuleCandidates": [
+        "FR-009",
+        "FR-012",
+        "FR-013",
+        "FR-014",
+        "FR-015",
+        "FR-016",
+        "FR-033",
+        "FR-034",
+        "FR-042",
+        "FR-052",
+        "FR-053",
+        "FR-055",
+        "FR-059",
+        "FR-060"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11",
+        "US-ENT-04"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "jenis",
+          "spec": "enum/code"
+        },
+        {
+          "id": "field2",
+          "label": "versi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "signer",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "timestamp",
+          "spec": "date/datetime"
+        },
+        {
+          "id": "field5",
+          "label": "reason amendment",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M05-08",
+      "module": "M05",
+      "title": "Clinical pathway",
+      "actor": "DPJP",
+      "uiContext": " Contextual pathway tracker",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-ENT-04",
+      "relatedFRModuleCandidates": [
+        "FR-009",
+        "FR-012",
+        "FR-013",
+        "FR-014",
+        "FR-015",
+        "FR-016",
+        "FR-033",
+        "FR-034",
+        "FR-042",
+        "FR-052",
+        "FR-053",
+        "FR-055",
+        "FR-059",
+        "FR-060"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11",
+        "US-ENT-04"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "versi pathway",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "step",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "variance",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "outcome",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M05-09",
+      "module": "M05",
+      "title": "Skor klinis & formulir khusus",
+      "actor": "Dokter/perawat",
+      "uiContext": " Versioned instrument panel",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-RME-05",
+      "relatedFRModuleCandidates": [
+        "FR-009",
+        "FR-012",
+        "FR-013",
+        "FR-014",
+        "FR-015",
+        "FR-016",
+        "FR-033",
+        "FR-034",
+        "FR-042",
+        "FR-052",
+        "FR-053",
+        "FR-055",
+        "FR-059",
+        "FR-060"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11",
+        "US-ENT-04"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "instrumen",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "butir",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "skor",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "interpretasi",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M05-10",
+      "module": "M05",
+      "title": "Tracer berkas rekam medis fisik (masa transisi)",
+      "actor": "P2 | Petugas rekam medis",
+      "uiContext": " Medical record office → worklist → drawer pelacakan",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": null,
+      "relatedFRModuleCandidates": [
+        "FR-009",
+        "FR-012",
+        "FR-013",
+        "FR-014",
+        "FR-015",
+        "FR-016",
+        "FR-033",
+        "FR-034",
+        "FR-042",
+        "FR-052",
+        "FR-053",
+        "FR-055",
+        "FR-059",
+        "FR-060"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-RME-04",
+        "US-RME-05",
+        "US-RME-06",
+        "US-RME-08",
+        "US-RME-09",
+        "US-RME-10",
+        "US-RME-11",
+        "US-ENT-04"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "nomor RM",
+          "spec": "identifier/code"
+        },
+        {
+          "id": "field2",
+          "label": "nomor kunjungan",
+          "spec": "identifier/code"
+        },
+        {
+          "id": "field3",
+          "label": "unit tujuan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "pengirim",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field5",
+          "label": "penerima",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field6",
+          "label": "tanggal pinjam",
+          "spec": "date/datetime"
+        },
+        {
+          "id": "field7",
+          "label": "tanggal kembali",
+          "spec": "date/datetime"
+        },
+        {
+          "id": "field8",
+          "label": "status",
+          "spec": "enum/code"
+        }
+      ]
+    },
+    {
+      "id": "F-M06-01",
+      "module": "M06",
+      "title": "Pengkajian keperawatan",
+      "actor": "Perawat",
+      "uiContext": " Bedside assessment",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-RME-07",
+      "relatedFRModuleCandidates": [],
+      "relatedUSModuleCandidates": [
+        "US-RME-07"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "admissionAssessmentAt",
+          "spec": "datetime"
+        },
+        {
+          "id": "field2",
+          "label": "historyIllness",
+          "spec": "text"
+        },
+        {
+          "id": "field3",
+          "label": "familyHistory",
+          "spec": "text"
+        },
+        {
+          "id": "field4",
+          "label": "growthAndDevelopment",
+          "spec": "text"
+        },
+        {
+          "id": "field5",
+          "label": "psychologicalAssessment",
+          "spec": "text"
+        },
+        {
+          "id": "field6",
+          "label": "socialAssessment",
+          "spec": "text"
+        },
+        {
+          "id": "field7",
+          "label": "spiritualNeeds",
+          "spec": "text"
+        },
+        {
+          "id": "field8",
+          "label": "educationNeeds",
+          "spec": "text"
+        },
+        {
+          "id": "field9",
+          "label": "fallRisk",
+          "spec": "score"
+        },
+        {
+          "id": "field10",
+          "label": "pain",
+          "spec": "score"
+        },
+        {
+          "id": "field11",
+          "label": "vitalSigns",
+          "spec": "Observation[]"
+        },
+        {
+          "id": "field12",
+          "label": "assessor",
+          "spec": "UUID"
+        }
+      ]
+    },
+    {
+      "id": "F-M06-02",
+      "module": "M06",
+      "title": "Rencana & implementasi keperawatan",
+      "actor": "Perawat",
+      "uiContext": " Per-shift tasklist",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-RME-07",
+      "relatedFRModuleCandidates": [],
+      "relatedUSModuleCandidates": [
+        "US-RME-07"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "diagnosa keperawatan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "target",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "intervensi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "hasil",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M06-03",
+      "module": "M06",
+      "title": "Handover antar-shift",
+      "actor": "Perawat penanggung jawab",
+      "uiContext": " Handover board",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-RME-07",
+      "relatedFRModuleCandidates": [],
+      "relatedUSModuleCandidates": [
+        "US-RME-07"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "kondisi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "tugas pending",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "risiko",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "penerima",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M07-01",
+      "module": "M07",
+      "title": "Jadwal kasus operasi",
+      "actor": "Koordinator OK",
+      "uiContext": " Surgery case board",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-MED-06",
+      "relatedFRModuleCandidates": [],
+      "relatedUSModuleCandidates": [
+        "US-MED-06",
+        "US-MED-07"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "kasus",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "tim",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "kamar",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "tanggal/jam",
+          "spec": "date/datetime"
+        },
+        {
+          "id": "field5",
+          "label": "kesiapan",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M07-02",
+      "module": "M07",
+      "title": "Safety checklist perioperatif",
+      "actor": "Tim OK",
+      "uiContext": " Step checklist",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-MED-06",
+      "relatedFRModuleCandidates": [],
+      "relatedUSModuleCandidates": [
+        "US-MED-06",
+        "US-MED-07"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "caseId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field2",
+          "label": "consentStatus",
+          "spec": "boolean"
+        },
+        {
+          "id": "field3",
+          "label": "preopAssessmentStatus",
+          "spec": "boolean"
+        },
+        {
+          "id": "field4",
+          "label": "signInItems",
+          "spec": "checklist[]"
+        },
+        {
+          "id": "field5",
+          "label": "timeOutItems",
+          "spec": "checklist[]"
+        },
+        {
+          "id": "field6",
+          "label": "signOutItems",
+          "spec": "checklist[]"
+        },
+        {
+          "id": "field7",
+          "label": "instrumentCounts",
+          "spec": "integer[]"
+        },
+        {
+          "id": "field8",
+          "label": "confirmedBy",
+          "spec": "UUID"
+        },
+        {
+          "id": "field9",
+          "label": "confirmedAt",
+          "spec": "datetime"
+        }
+      ]
+    },
+    {
+      "id": "F-M07-03",
+      "module": "M07",
+      "title": "Record anestesi",
+      "actor": "Dokter anestesi",
+      "uiContext": " Intraoperative timeline",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-MED-07",
+      "relatedFRModuleCandidates": [],
+      "relatedUSModuleCandidates": [
+        "US-MED-06",
+        "US-MED-07"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "obat",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "ventilasi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "TTV",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "kejadian",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field5",
+          "label": "anestesi",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M07-04",
+      "module": "M07",
+      "title": "Recovery & handover",
+      "actor": "Tim PACU",
+      "uiContext": " PACU monitoring board",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-MED-07",
+      "relatedFRModuleCandidates": [],
+      "relatedUSModuleCandidates": [
+        "US-MED-06",
+        "US-MED-07"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "skor recovery",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "kondisi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "instruksi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "destination",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M08-01",
+      "module": "M08",
+      "title": "Sesi hemodialisis",
+      "actor": "Perawat HD",
+      "uiContext": " Session chart",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-MED-08",
+      "relatedFRModuleCandidates": [
+        "FR-019",
+        "FR-048",
+        "FR-049",
+        "FR-056",
+        "FR-057",
+        "FR-058"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-MED-08",
+        "US-MED-09",
+        "US-MED-10",
+        "US-MED-12"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "preskripsi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "akses",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "monitoring",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "hasil",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M08-02",
+      "module": "M08",
+      "title": "Rehabilitasi",
+      "actor": "Terapis",
+      "uiContext": " Progress plan + sessions",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-MED-09",
+      "relatedFRModuleCandidates": [
+        "FR-019",
+        "FR-048",
+        "FR-049",
+        "FR-056",
+        "FR-057",
+        "FR-058"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-MED-08",
+        "US-MED-09",
+        "US-MED-10",
+        "US-MED-12"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "fungsi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "rencana",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "sesi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "outcome",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M08-03",
+      "module": "M08",
+      "title": "Paket MCU",
+      "actor": "Koordinator MCU",
+      "uiContext": " Package workflow",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-MED-10",
+      "relatedFRModuleCandidates": [
+        "FR-019",
+        "FR-048",
+        "FR-049",
+        "FR-056",
+        "FR-057",
+        "FR-058"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-MED-08",
+        "US-MED-09",
+        "US-MED-10",
+        "US-MED-12"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "paket",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "komponen",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "pemeriksaan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "resume",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M08-04",
+      "module": "M08",
+      "title": "Transfusi darah",
+      "actor": "Bank darah/perawat",
+      "uiContext": " Bedside verification",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-MED-12",
+      "relatedFRModuleCandidates": [
+        "FR-019",
+        "FR-048",
+        "FR-049",
+        "FR-056",
+        "FR-057",
+        "FR-058"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-MED-08",
+        "US-MED-09",
+        "US-MED-10",
+        "US-MED-12"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "komponen",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "unit",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "crossmatch",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "identitas",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field5",
+          "label": "monitoring",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M08-05",
+      "module": "M08",
+      "title": "Maternal/perinatologi",
+      "actor": "Dokter/perawat terlatih",
+      "uiContext": " Maternal-newborn chart",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-RME-03",
+      "relatedFRModuleCandidates": [
+        "FR-019",
+        "FR-048",
+        "FR-049",
+        "FR-056",
+        "FR-057",
+        "FR-058"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-MED-08",
+        "US-MED-09",
+        "US-MED-10",
+        "US-MED-12"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "ibu-bayi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "episode persalinan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "identitas bayi",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M08-06",
+      "module": "M08",
+      "title": "Imunisasi & pediatri",
+      "actor": "Dokter/perawat",
+      "uiContext": " Specialty form",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-RME-05",
+      "relatedFRModuleCandidates": [
+        "FR-019",
+        "FR-048",
+        "FR-049",
+        "FR-056",
+        "FR-057",
+        "FR-058"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-MED-08",
+        "US-MED-09",
+        "US-MED-10",
+        "US-MED-12"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "produk/lot",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "usia",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "pertumbuhan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "perkembangan",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M09-01",
+      "module": "M09",
+      "title": "Order lab masuk",
+      "actor": "ATLM",
+      "uiContext": " Worklist",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-MED-01",
+      "relatedFRModuleCandidates": [
+        "FR-017",
+        "FR-051"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-MED-01"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "nomor order",
+          "spec": "identifier/code"
+        },
+        {
+          "id": "field2",
+          "label": "specimen",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "prioritas",
+          "spec": "enum/code"
+        },
+        {
+          "id": "field4",
+          "label": "unit pengirim",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M09-02",
+      "module": "M09",
+      "title": "Penerimaan spesimen",
+      "actor": "ATLM",
+      "uiContext": " Specimen queue",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-MED-01",
+      "relatedFRModuleCandidates": [
+        "FR-017",
+        "FR-051"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-MED-01"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "barcode",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "collectedAt",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "receivedAt",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "accept/reject",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M09-03",
+      "module": "M09",
+      "title": "Input dan validasi hasil",
+      "actor": "ATLM/validator",
+      "uiContext": " Results grid",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-MED-01",
+      "relatedFRModuleCandidates": [
+        "FR-017",
+        "FR-051"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-MED-01"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "orderId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field2",
+          "label": "specimenId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field3",
+          "label": "analyteCode",
+          "spec": "LOINC/local code"
+        },
+        {
+          "id": "field4",
+          "label": "numericValue",
+          "spec": "decimal or textValue:string"
+        },
+        {
+          "id": "field5",
+          "label": "UCUMunit",
+          "spec": "code"
+        },
+        {
+          "id": "field6",
+          "label": "referenceInterval",
+          "spec": "range conditional"
+        },
+        {
+          "id": "field7",
+          "label": "abnormalFlag",
+          "spec": "enum"
+        },
+        {
+          "id": "field8",
+          "label": "resultStatus",
+          "spec": "draft/verified"
+        },
+        {
+          "id": "field9",
+          "label": "verifierId",
+          "spec": "UUID"
+        }
+      ]
+    },
+    {
+      "id": "F-M09-04",
+      "module": "M09",
+      "title": "Mikrobiologi",
+      "actor": "ATLM",
+      "uiContext": " Microbiology workflow",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-MED-01",
+      "relatedFRModuleCandidates": [
+        "FR-017",
+        "FR-051"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-MED-01"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "kultur",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "organisme",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "antibiotik",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "sensitivitas",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M09-05",
+      "module": "M09",
+      "title": "Panel komponen pemeriksaan & nilai rujukan laboratorium",
+      "actor": "P0 | ATLM, validator hasil",
+      "uiContext": " Lab worklist → order detail → panel pemeriksaan",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": null,
+      "relatedFRModuleCandidates": [
+        "FR-017",
+        "FR-051"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-MED-01"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "kode pemeriksaan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "parameter",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "unit",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "metode",
+          "spec": "enum/code"
+        },
+        {
+          "id": "field5",
+          "label": "reference range terkalibrasi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field6",
+          "label": "hasil",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field7",
+          "label": "status validasi",
+          "spec": "enum/code"
+        }
+      ]
+    },
+    {
+      "id": "F-M10-01",
+      "module": "M10",
+      "title": "Worklist radiologi",
+      "actor": "Radiografer",
+      "uiContext": " Imaging worklist",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-MED-02",
+      "relatedFRModuleCandidates": [
+        "FR-018"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-MED-02",
+        "US-MED-03"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "order",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "modalitas",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "jadwal",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "status",
+          "spec": "enum/code"
+        },
+        {
+          "id": "field5",
+          "label": "pasien",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M10-02",
+      "module": "M10",
+      "title": "Laporan ekspertise",
+      "actor": "Radiolog",
+      "uiContext": " Report editor",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-MED-02",
+      "relatedFRModuleCandidates": [
+        "FR-018"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-MED-02",
+        "US-MED-03"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "findings",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "impression",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "signer",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "attachment",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M10-03",
+      "module": "M10",
+      "title": "Viewer studies",
+      "actor": "Dokter berwenang",
+      "uiContext": " Embedded imaging viewer",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-MED-03",
+      "relatedFRModuleCandidates": [
+        "FR-018"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-MED-02",
+        "US-MED-03"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "UID",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "study reference",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "image series",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M11-01",
+      "module": "M11",
+      "title": "Resep klinis",
+      "actor": "Dokter",
+      "uiContext": " Embedded prescribing",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-MED-04",
+      "relatedFRModuleCandidates": [
+        "FR-020",
+        "FR-021",
+        "FR-038",
+        "FR-050"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "patientId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field2",
+          "label": "encounterId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field3",
+          "label": "productKFA",
+          "spec": "code"
+        },
+        {
+          "id": "field4",
+          "label": "localDrugId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field5",
+          "label": "dose",
+          "spec": "decimal"
+        },
+        {
+          "id": "field6",
+          "label": "doseUnit",
+          "spec": "code"
+        },
+        {
+          "id": "field7",
+          "label": "route",
+          "spec": "code"
+        },
+        {
+          "id": "field8",
+          "label": "frequency",
+          "spec": "code"
+        },
+        {
+          "id": "field9",
+          "label": "duration",
+          "spec": "number+unit"
+        },
+        {
+          "id": "field10",
+          "label": "instruction",
+          "spec": "text"
+        },
+        {
+          "id": "field11",
+          "label": "prescriber",
+          "spec": "UUID"
+        }
+      ]
+    },
+    {
+      "id": "F-M11-02",
+      "module": "M11",
+      "title": "Verifikasi apoteker",
+      "actor": "Apoteker",
+      "uiContext": " Prescription work queue",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-MED-04",
+      "relatedFRModuleCandidates": [
+        "FR-020",
+        "FR-021",
+        "FR-038",
+        "FR-050"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "interaksi/alergi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "klarifikasi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "verifikasi",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M11-03",
+      "module": "M11",
+      "title": "Dispensing & retur",
+      "actor": "Apoteker/TTK",
+      "uiContext": " Pick/pack workflow",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-MED-05",
+      "relatedFRModuleCandidates": [
+        "FR-020",
+        "FR-021",
+        "FR-038",
+        "FR-050"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "prescriptionItemId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field2",
+          "label": "lotId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field3",
+          "label": "itemId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field4",
+          "label": "quantity",
+          "spec": "decimal"
+        },
+        {
+          "id": "field5",
+          "label": "expiryDate",
+          "spec": "date read-only"
+        },
+        {
+          "id": "field6",
+          "label": "stockAvailable",
+          "spec": "decimal read-only"
+        },
+        {
+          "id": "field7",
+          "label": "dispenseAt",
+          "spec": "datetime"
+        },
+        {
+          "id": "field8",
+          "label": "patientReceiver",
+          "spec": "string"
+        },
+        {
+          "id": "field9",
+          "label": "pharmacistId",
+          "spec": "UUID"
+        }
+      ]
+    },
+    {
+      "id": "F-M11-04",
+      "module": "M11",
+      "title": "Administrasi obat / BCMA",
+      "actor": "Perawat",
+      "uiContext": " Bedside medication workflow",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-MED-05",
+      "relatedFRModuleCandidates": [
+        "FR-020",
+        "FR-021",
+        "FR-038",
+        "FR-050"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-MED-04",
+        "US-MED-05"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "pasien",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "obat",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "waktu",
+          "spec": "date/datetime"
+        },
+        {
+          "id": "field4",
+          "label": "alasan tidak diberikan",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M12-01",
+      "module": "M12",
+      "title": "Asesmen & order gizi",
+      "actor": "Ahli gizi",
+      "uiContext": " Nutrition care workspace",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-MED-11",
+      "relatedFRModuleCandidates": [
+        "FR-024"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-MED-11",
+        "US-OPS-05"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "status gizi",
+          "spec": "enum/code"
+        },
+        {
+          "id": "field2",
+          "label": "alergi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "diet",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "tekstur",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M12-02",
+      "module": "M12",
+      "title": "Kitchen production",
+      "actor": "Petugas dapur",
+      "uiContext": " Production batch board",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-OPS-05",
+      "relatedFRModuleCandidates": [
+        "FR-024"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-MED-11",
+        "US-OPS-05"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "menu",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "jumlah",
+          "spec": "decimal / integer + satuan"
+        },
+        {
+          "id": "field3",
+          "label": "batch",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "QC",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M12-03",
+      "module": "M12",
+      "title": "Distribusi tray",
+      "actor": "Petugas distribusi",
+      "uiContext": " Dispatch scan list",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-OPS-05",
+      "relatedFRModuleCandidates": [
+        "FR-024"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-MED-11",
+        "US-OPS-05"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "pasien",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "bed",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "diet",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "serah terima",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M13-01",
+      "module": "M13",
+      "title": "Timeline charge",
+      "actor": "Billing",
+      "uiContext": " Encounter finance panel",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-FIN-01",
+      "relatedFRModuleCandidates": [
+        "FR-025",
+        "FR-026",
+        "FR-065"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-FIN-01",
+        "US-FIN-02",
+        "US-FIN-03"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "source event",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "jasa",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "tarif",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "qty",
+          "spec": "decimal / integer + satuan"
+        }
+      ]
+    },
+    {
+      "id": "F-M13-02",
+      "module": "M13",
+      "title": "Invoice dan koreksi",
+      "actor": "Billing/kasir",
+      "uiContext": " Invoice detail",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-FIN-02",
+      "relatedFRModuleCandidates": [
+        "FR-025",
+        "FR-026",
+        "FR-065"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-FIN-01",
+        "US-FIN-02",
+        "US-FIN-03"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "line item",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "penjamin",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "total",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "koreksi",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M13-03",
+      "module": "M13",
+      "title": "Kasir pembayaran",
+      "actor": "Kasir",
+      "uiContext": " Payment workspace",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-FIN-03",
+      "relatedFRModuleCandidates": [
+        "FR-025",
+        "FR-026",
+        "FR-065"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-FIN-01",
+        "US-FIN-02",
+        "US-FIN-03"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "invoiceId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field2",
+          "label": "amount",
+          "spec": "money positive"
+        },
+        {
+          "id": "field3",
+          "label": "paymentMethod",
+          "spec": "enum"
+        },
+        {
+          "id": "field4",
+          "label": "receivedAt",
+          "spec": "datetime"
+        },
+        {
+          "id": "field5",
+          "label": "providerReference",
+          "spec": "string"
+        },
+        {
+          "id": "field6",
+          "label": "allocations",
+          "spec": "amount[]"
+        },
+        {
+          "id": "field7",
+          "label": "cashierId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field8",
+          "label": "receiptNumber",
+          "spec": "output"
+        }
+      ]
+    },
+    {
+      "id": "F-M13-04",
+      "module": "M13",
+      "title": "Deposit/diskon/refund",
+      "actor": "Kasir supervisor",
+      "uiContext": " Controlled action",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-FIN-03",
+      "relatedFRModuleCandidates": [
+        "FR-025",
+        "FR-026",
+        "FR-065"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-FIN-01",
+        "US-FIN-02",
+        "US-FIN-03"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "saldo",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "alasan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "approval",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "refund reason",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M14-01",
+      "module": "M14",
+      "title": "Pemeriksaan eligibility",
+      "actor": "Petugas penjamin",
+      "uiContext": " Payer validation panel",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-FIN-04",
+      "relatedFRModuleCandidates": [
+        "FR-027",
+        "FR-040",
+        "FR-041",
+        "FR-062",
+        "FR-064"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-FIN-04",
+        "US-FIN-05",
+        "US-FIN-06",
+        "US-FIN-07"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "payer",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "peserta",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "coverage",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "status",
+          "spec": "enum/code"
+        }
+      ]
+    },
+    {
+      "id": "F-M14-02",
+      "module": "M14",
+      "title": "VClaim/SEP/control",
+      "actor": "Petugas BPJS",
+      "uiContext": " BPJS operation worklist",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-FIN-05",
+      "relatedFRModuleCandidates": [
+        "FR-027",
+        "FR-040",
+        "FR-041",
+        "FR-062",
+        "FR-064"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-FIN-04",
+        "US-FIN-05",
+        "US-FIN-06",
+        "US-FIN-07"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "SEP",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "kontrol",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "rujukan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "external status",
+          "spec": "enum/code"
+        }
+      ]
+    },
+    {
+      "id": "F-M14-03",
+      "module": "M14",
+      "title": "Grouping casemix",
+      "actor": "Coder",
+      "uiContext": " Claim episode workspace",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-FIN-06",
+      "relatedFRModuleCandidates": [
+        "FR-027",
+        "FR-040",
+        "FR-041",
+        "FR-062",
+        "FR-064"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-FIN-04",
+        "US-FIN-05",
+        "US-FIN-06",
+        "US-FIN-07"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "diagnosis/prosedur signed",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "grouper status",
+          "spec": "enum/code"
+        }
+      ]
+    },
+    {
+      "id": "F-M14-04",
+      "module": "M14",
+      "title": "Claim dossier dan submission",
+      "actor": "Petugas klaim",
+      "uiContext": " Claim checklist",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-FIN-07",
+      "relatedFRModuleCandidates": [
+        "FR-027",
+        "FR-040",
+        "FR-041",
+        "FR-062",
+        "FR-064"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-FIN-04",
+        "US-FIN-05",
+        "US-FIN-06",
+        "US-FIN-07"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "claimId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field2",
+          "label": "encounterId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field3",
+          "label": "payerId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field4",
+          "label": "ICDdiagnosis",
+          "spec": "code[]"
+        },
+        {
+          "id": "field5",
+          "label": "procedureCodes",
+          "spec": "code[]"
+        },
+        {
+          "id": "field6",
+          "label": "documents",
+          "spec": "SignedDocument[]"
+        },
+        {
+          "id": "field7",
+          "label": "checklist",
+          "spec": "status[]"
+        },
+        {
+          "id": "field8",
+          "label": "externalAcknowledgement",
+          "spec": "read-only"
+        },
+        {
+          "id": "field9",
+          "label": "claimStatus",
+          "spec": "enum"
+        }
+      ]
+    },
+    {
+      "id": "F-M15-01",
+      "module": "M15",
+      "title": "General ledger",
+      "actor": "Akuntan",
+      "uiContext": " Ledger journal table",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-FIN-08",
+      "relatedFRModuleCandidates": [
+        "FR-028"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-FIN-08",
+        "US-FIN-09",
+        "US-FIN-10",
+        "US-FIN-11"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "akun",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "debit",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "kredit",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "periode",
+          "spec": "date/datetime"
+        },
+        {
+          "id": "field5",
+          "label": "status posting",
+          "spec": "enum/code"
+        }
+      ]
+    },
+    {
+      "id": "F-M15-02",
+      "module": "M15",
+      "title": "AP/AR worklist",
+      "actor": "Finance",
+      "uiContext": " Payables/receivables list",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-FIN-09",
+      "relatedFRModuleCandidates": [
+        "FR-028"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-FIN-08",
+        "US-FIN-09",
+        "US-FIN-10",
+        "US-FIN-11"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "lawan transaksi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "nilai",
+          "spec": "decimal / integer + satuan"
+        },
+        {
+          "id": "field3",
+          "label": "jatuh tempo",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "rekonsiliasi",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M15-03",
+      "module": "M15",
+      "title": "Budget dan costing",
+      "actor": "Manajemen keuangan",
+      "uiContext": " Cost center analysis",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-FIN-10",
+      "relatedFRModuleCandidates": [
+        "FR-028"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-FIN-08",
+        "US-FIN-09",
+        "US-FIN-10",
+        "US-FIN-11"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "periode",
+          "spec": "date/datetime"
+        },
+        {
+          "id": "field2",
+          "label": "cost driver",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "budget",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "unit cost",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M16-01",
+      "module": "M16",
+      "title": "Posisi stok multi-gudang",
+      "actor": "Petugas gudang",
+      "uiContext": " Inventory grid",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-OPS-01",
+      "relatedFRModuleCandidates": [
+        "FR-022",
+        "FR-036",
+        "FR-045",
+        "FR-066"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-OPS-01",
+        "US-OPS-02"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "gudang",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "SKU",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "lot",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "on-hand",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field5",
+          "label": "reserved",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field6",
+          "label": "expiry",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M16-02",
+      "module": "M16",
+      "title": "Permintaan dan mutasi",
+      "actor": "Petugas gudang",
+      "uiContext": " Request/approval workflow",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-OPS-01",
+      "relatedFRModuleCandidates": [
+        "FR-022",
+        "FR-036",
+        "FR-045",
+        "FR-066"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-OPS-01",
+        "US-OPS-02"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "requestId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field2",
+          "label": "requestingUnitId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field3",
+          "label": "requestedItems",
+          "spec": "[{itemId,qty,UOM}]"
+        },
+        {
+          "id": "field4",
+          "label": "requiredAt",
+          "spec": "datetime"
+        },
+        {
+          "id": "field5",
+          "label": "approvingOfficerId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field6",
+          "label": "approvedQty",
+          "spec": "decimal[]"
+        },
+        {
+          "id": "field7",
+          "label": "rejectionReason",
+          "spec": "text"
+        }
+      ]
+    },
+    {
+      "id": "F-M16-03",
+      "module": "M16",
+      "title": "Penerimaan dan stock opname",
+      "actor": "Petugas gudang",
+      "uiContext": " Receiving/count workflow",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-OPS-01",
+      "relatedFRModuleCandidates": [
+        "FR-022",
+        "FR-036",
+        "FR-045",
+        "FR-066"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-OPS-01",
+        "US-OPS-02"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "purchaseOrderId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field2",
+          "label": "itemId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field3",
+          "label": "lotNumber",
+          "spec": "string"
+        },
+        {
+          "id": "field4",
+          "label": "expiry",
+          "spec": "date"
+        },
+        {
+          "id": "field5",
+          "label": "receiptQty",
+          "spec": "decimal"
+        },
+        {
+          "id": "field6",
+          "label": "storageLocationId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field7",
+          "label": "supplierRef",
+          "spec": "string"
+        },
+        {
+          "id": "field8",
+          "label": "inspectionStatus",
+          "spec": "enum"
+        }
+      ]
+    },
+    {
+      "id": "F-M16-04",
+      "module": "M16",
+      "title": "Pengadaan PR/RFQ/PO",
+      "actor": "Pengadaan/approver",
+      "uiContext": " Procurement process board",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-OPS-02",
+      "relatedFRModuleCandidates": [
+        "FR-022",
+        "FR-036",
+        "FR-045",
+        "FR-066"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-OPS-01",
+        "US-OPS-02"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "vendor",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "penawaran",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "PO",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "approval",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M16-05",
+      "module": "M16",
+      "title": "Master barang/SKU, UOM dan konfigurasi lot",
+      "actor": "P0 | Admin master gudang/farmasi",
+      "uiContext": " Inventory → master data → create/edit drawer",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": null,
+      "relatedFRModuleCandidates": [
+        "FR-022",
+        "FR-036",
+        "FR-045",
+        "FR-066"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-OPS-01",
+        "US-OPS-02"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "SKU",
+          "spec": "code wajib"
+        },
+        {
+          "id": "field2",
+          "label": "itemName",
+          "spec": "string wajib"
+        },
+        {
+          "id": "field3",
+          "label": "itemCategory",
+          "spec": "enum"
+        },
+        {
+          "id": "field4",
+          "label": "UOM",
+          "spec": "code"
+        },
+        {
+          "id": "field5",
+          "label": "lotTracking",
+          "spec": "boolean"
+        },
+        {
+          "id": "field6",
+          "label": "expiryTracking",
+          "spec": "boolean"
+        },
+        {
+          "id": "field7",
+          "label": "minStock",
+          "spec": "decimal"
+        },
+        {
+          "id": "field8",
+          "label": "status",
+          "spec": "active/inactive"
+        }
+      ]
+    },
+    {
+      "id": "F-M16-06",
+      "module": "M16",
+      "title": "Riwayat stok dan laporan persediaan unit/periode",
+      "actor": "P1 | Gudang, koordinator farmasi, manajemen",
+      "uiContext": " Inventory → stock position → history/report tab",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": null,
+      "relatedFRModuleCandidates": [
+        "FR-022",
+        "FR-036",
+        "FR-045",
+        "FR-066"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-OPS-01",
+        "US-OPS-02"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "unit",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "SKU",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "lot",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "tanggal",
+          "spec": "date/datetime"
+        },
+        {
+          "id": "field5",
+          "label": "on-hand",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field6",
+          "label": "available",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field7",
+          "label": "reserved",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field8",
+          "label": "expiry",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field9",
+          "label": "mutation",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field10",
+          "label": "periode",
+          "spec": "date/datetime"
+        }
+      ]
+    },
+    {
+      "id": "F-M16-07",
+      "module": "M16",
+      "title": "Review, persetujuan parsial & tindak lanjut permintaan unit",
+      "actor": "P0 | Petugas gudang/apoteker berwenang",
+      "uiContext": " Inventory → request worklist → request detail",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": null,
+      "relatedFRModuleCandidates": [
+        "FR-022",
+        "FR-036",
+        "FR-045",
+        "FR-066"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-OPS-01",
+        "US-OPS-02"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "requestId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field2",
+          "label": "requestedQty",
+          "spec": "decimal"
+        },
+        {
+          "id": "field3",
+          "label": "availableQty",
+          "spec": "decimal read-only"
+        },
+        {
+          "id": "field4",
+          "label": "approvedQty",
+          "spec": "decimal"
+        },
+        {
+          "id": "field5",
+          "label": "rejectedQty",
+          "spec": "decimal"
+        },
+        {
+          "id": "field6",
+          "label": "reviewerId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field7",
+          "label": "decisionReason",
+          "spec": "text"
+        },
+        {
+          "id": "field8",
+          "label": "status",
+          "spec": "enum"
+        }
+      ]
+    },
+    {
+      "id": "F-M17-01",
+      "module": "M17",
+      "title": "Sterilisasi set instrumen",
+      "actor": "CSSD",
+      "uiContext": " Cycle tracker",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-OPS-03",
+      "relatedFRModuleCandidates": [
+        "FR-023",
+        "FR-044"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-OPS-03",
+        "US-OPS-04",
+        "US-OPS-06",
+        "US-OPS-07",
+        "US-OPS-08",
+        "US-OPS-09"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "instrumen",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "batch",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "indikator steril",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "release",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M17-02",
+      "module": "M17",
+      "title": "Laundry & linen",
+      "actor": "Laundry",
+      "uiContext": " Linen cycle list",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-OPS-04",
+      "relatedFRModuleCandidates": [
+        "FR-023",
+        "FR-044"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-OPS-03",
+        "US-OPS-04",
+        "US-OPS-06",
+        "US-OPS-07",
+        "US-OPS-08",
+        "US-OPS-09"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "asal",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "berat",
+          "spec": "decimal / integer + satuan"
+        },
+        {
+          "id": "field3",
+          "label": "kondisi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "QC",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field5",
+          "label": "distribusi",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M17-03",
+      "module": "M17",
+      "title": "Aset & maintenance",
+      "actor": "Teknisi/aset",
+      "uiContext": " Asset detail + workorders",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-OPS-06",
+      "relatedFRModuleCandidates": [
+        "FR-023",
+        "FR-044"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-OPS-03",
+        "US-OPS-04",
+        "US-OPS-06",
+        "US-OPS-07",
+        "US-OPS-08",
+        "US-OPS-09"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "serial",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "lokasi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "jadwal",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "kalibrasi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field5",
+          "label": "downtime",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M17-04",
+      "module": "M17",
+      "title": "Kesiapan fasilitas",
+      "actor": "Housekeeping",
+      "uiContext": " Facility task board",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-OPS-08",
+      "relatedFRModuleCandidates": [
+        "FR-023",
+        "FR-044"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-OPS-03",
+        "US-OPS-04",
+        "US-OPS-06",
+        "US-OPS-07",
+        "US-OPS-08",
+        "US-OPS-09"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "ruangan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "PIC",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "checklist",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "status siap",
+          "spec": "enum/code"
+        }
+      ]
+    },
+    {
+      "id": "F-M17-05",
+      "module": "M17",
+      "title": "Perjalanan ambulans",
+      "actor": "Koordinator transport",
+      "uiContext": " Dispatch board",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-OPS-09",
+      "relatedFRModuleCandidates": [
+        "FR-023",
+        "FR-044"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-OPS-03",
+        "US-OPS-04",
+        "US-OPS-06",
+        "US-OPS-07",
+        "US-OPS-08",
+        "US-OPS-09"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "unit",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "pasien",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "kendaraan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "crew",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field5",
+          "label": "status",
+          "spec": "enum/code"
+        }
+      ]
+    },
+    {
+      "id": "F-M18-01",
+      "module": "M18",
+      "title": "Employee directory & penugasan",
+      "actor": "Admin SDM",
+      "uiContext": " Employee profile",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-ENT-01",
+      "relatedFRModuleCandidates": [
+        "FR-029",
+        "FR-046"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-ENT-01",
+        "US-ENT-02",
+        "US-ENT-03"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "pegawai",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "unit",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "jabatan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "STR/SIP",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field5",
+          "label": "masa berlaku",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M18-02",
+      "module": "M18",
+      "title": "Absensi & payroll",
+      "actor": "Payroll",
+      "uiContext": " Payroll worklist",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-ENT-02",
+      "relatedFRModuleCandidates": [
+        "FR-029",
+        "FR-046"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-ENT-01",
+        "US-ENT-02",
+        "US-ENT-03"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "jadwal",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "hadir",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "adjustment",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "run",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M18-03",
+      "module": "M18",
+      "title": "Rekrutmen & talent",
+      "actor": "HR",
+      "uiContext": " Applicant board",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-ENT-03",
+      "relatedFRModuleCandidates": [
+        "FR-029",
+        "FR-046"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-ENT-01",
+        "US-ENT-02",
+        "US-ENT-03"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "lowongan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "kandidat",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "tahap",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "keputusan",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M18-04",
+      "module": "M18",
+      "title": "Biodata, mutasi & pengembangan kompetensi perawat",
+      "actor": "P2 | SDM/keperawatan manajerial, perawat sendiri (scope)",
+      "uiContext": " HRIS → profil pegawai → tabs karier/kompetensi",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": null,
+      "relatedFRModuleCandidates": [
+        "FR-029",
+        "FR-046"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-ENT-01",
+        "US-ENT-02",
+        "US-ENT-03"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "identitas pegawai",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "riwayat unit",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "penugasan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "pendidikan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field5",
+          "label": "kompetensi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field6",
+          "label": "usulan mutasi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field7",
+          "label": "approval",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M19-01",
+      "module": "M19",
+      "title": "Insiden keselamatan",
+      "actor": "Tim mutu",
+      "uiContext": " Confidential incident worklist",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-ENT-06",
+      "relatedFRModuleCandidates": [
+        "FR-030",
+        "FR-043",
+        "FR-054"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-ENT-05",
+        "US-ENT-06",
+        "US-ENT-07",
+        "US-ENT-08"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "kategori",
+          "spec": "enum/code"
+        },
+        {
+          "id": "field2",
+          "label": "insiden",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "tindak lanjut",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "RCA",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M19-02",
+      "module": "M19",
+      "title": "PPI & surveilans",
+      "actor": "Tim PPI",
+      "uiContext": " Surveillance board",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-ENT-05",
+      "relatedFRModuleCandidates": [
+        "FR-030",
+        "FR-043",
+        "FR-054"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-ENT-05",
+        "US-ENT-06",
+        "US-ENT-07",
+        "US-ENT-08"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "kasus",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "tanggal",
+          "spec": "date/datetime"
+        },
+        {
+          "id": "field3",
+          "label": "lokasi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "temuan",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M19-03",
+      "module": "M19",
+      "title": "Indikator mutu & evidence",
+      "actor": "Tim mutu",
+      "uiContext": " Measure dashboard",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-ENT-08",
+      "relatedFRModuleCandidates": [
+        "FR-030",
+        "FR-043",
+        "FR-054"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-ENT-05",
+        "US-ENT-06",
+        "US-ENT-07",
+        "US-ENT-08"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "indicatorId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field2",
+          "label": "definitionVersion",
+          "spec": "string"
+        },
+        {
+          "id": "field3",
+          "label": "numerator",
+          "spec": "decimal"
+        },
+        {
+          "id": "field4",
+          "label": "denominator",
+          "spec": "decimal"
+        },
+        {
+          "id": "field5",
+          "label": "period",
+          "spec": "month/date"
+        },
+        {
+          "id": "field6",
+          "label": "sourceSnapshotId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field7",
+          "label": "approverId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field8",
+          "label": "status",
+          "spec": "enum"
+        }
+      ]
+    },
+    {
+      "id": "F-M19-04",
+      "module": "M19",
+      "title": "Risk register",
+      "actor": "Manajer risiko",
+      "uiContext": " Risk matrix/worklist",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-ENT-07",
+      "relatedFRModuleCandidates": [
+        "FR-030",
+        "FR-043",
+        "FR-054"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-ENT-05",
+        "US-ENT-06",
+        "US-ENT-07",
+        "US-ENT-08"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "risiko",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "likelihood",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "impact",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "mitigasi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field5",
+          "label": "owner",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M20-01",
+      "module": "M20",
+      "title": "Laporan operasional",
+      "actor": "Petugas RL",
+      "uiContext": " Report builder",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-ENT-09",
+      "relatedFRModuleCandidates": [
+        "FR-031"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-ENT-09",
+        "US-ENT-10"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "indikator",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "sumber",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "periode",
+          "spec": "date/datetime"
+        },
+        {
+          "id": "field4",
+          "label": "approver",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M20-02",
+      "module": "M20",
+      "title": "Dashboard manajemen",
+      "actor": "Direksi",
+      "uiContext": " KPI dashboard",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-ENT-10",
+      "relatedFRModuleCandidates": [
+        "FR-031"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-ENT-09",
+        "US-ENT-10"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "BOR",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "LOS",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "waiting time",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "pendapatan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field5",
+          "label": "klaim",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M20-03",
+      "module": "M20",
+      "title": "Sensus unit dan laporan RL operasional",
+      "actor": "P1 | Rekam medis/pelaporan, supervisor unit",
+      "uiContext": " Reporting → template resmi/unit → parameter periode",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": null,
+      "relatedFRModuleCandidates": [
+        "FR-031"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-ENT-09",
+        "US-ENT-10"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "periode",
+          "spec": "date/datetime"
+        },
+        {
+          "id": "field2",
+          "label": "unit",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "kunjungan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "pasien masuk/keluar",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field5",
+          "label": "fasilitas bed",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field6",
+          "label": "BOR/LOS/TOI/BTO/NDR/GDR sesuai definisi",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M20-04",
+      "module": "M20",
+      "title": "Analitik pendapatan per unit dan penjamin",
+      "actor": "P1 | Direksi, keuangan, auditor sesuai izin",
+      "uiContext": " Management dashboard → finance drill-down",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": null,
+      "relatedFRModuleCandidates": [
+        "FR-031"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-ENT-09",
+        "US-ENT-10"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "periode",
+          "spec": "date/datetime"
+        },
+        {
+          "id": "field2",
+          "label": "jenis penjamin",
+          "spec": "enum/code"
+        },
+        {
+          "id": "field3",
+          "label": "unit",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "nilai charge",
+          "spec": "decimal / integer + satuan"
+        },
+        {
+          "id": "field5",
+          "label": "payment",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field6",
+          "label": "klaim",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field7",
+          "label": "piutang",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field8",
+          "label": "sumber data",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field9",
+          "label": "cut-off",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M21-01",
+      "module": "M21",
+      "title": "Pengelolaan tenant, akun & akses",
+      "actor": "Admin RS",
+      "uiContext": " Admin console",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-CORE-02",
+      "relatedFRModuleCandidates": [
+        "FR-001",
+        "FR-002",
+        "FR-003",
+        "FR-008",
+        "FR-032",
+        "FR-035",
+        "FR-037"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-CORE-01",
+        "US-CORE-02",
+        "US-CORE-03",
+        "US-CORE-04",
+        "US-CORE-05",
+        "US-CORE-06",
+        "US-CORE-07",
+        "US-CORE-12",
+        "US-ENT-11"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "user",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "role",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "organization",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "assignment",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field5",
+          "label": "scope",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M21-02",
+      "module": "M21",
+      "title": "Master organisasi, unit, bed, tarif",
+      "actor": "Admin master",
+      "uiContext": " Master-data console",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-CORE-03",
+      "relatedFRModuleCandidates": [
+        "FR-001",
+        "FR-002",
+        "FR-003",
+        "FR-008",
+        "FR-032",
+        "FR-035",
+        "FR-037"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-CORE-01",
+        "US-CORE-02",
+        "US-CORE-03",
+        "US-CORE-04",
+        "US-CORE-05",
+        "US-CORE-06",
+        "US-CORE-07",
+        "US-CORE-12",
+        "US-ENT-11"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "organisasi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "lokasi",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "layanan",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "tarif",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field5",
+          "label": "effective date",
+          "spec": "date/datetime"
+        }
+      ]
+    },
+    {
+      "id": "F-M21-03",
+      "module": "M21",
+      "title": "Terminologi & KFA mapping",
+      "actor": "Admin terminologi",
+      "uiContext": " Mapping workbench",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-CORE-07",
+      "relatedFRModuleCandidates": [
+        "FR-001",
+        "FR-002",
+        "FR-003",
+        "FR-008",
+        "FR-032",
+        "FR-035",
+        "FR-037"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-CORE-01",
+        "US-CORE-02",
+        "US-CORE-03",
+        "US-CORE-04",
+        "US-CORE-05",
+        "US-CORE-06",
+        "US-CORE-07",
+        "US-CORE-12",
+        "US-ENT-11"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "source code",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "target code",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "version",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "reviewer",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-M21-04",
+      "module": "M21",
+      "title": "Consent & akses khusus",
+      "actor": "Admin privasi",
+      "uiContext": " Consent timeline",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-CORE-12",
+      "relatedFRModuleCandidates": [
+        "FR-001",
+        "FR-002",
+        "FR-003",
+        "FR-008",
+        "FR-032",
+        "FR-035",
+        "FR-037"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-CORE-01",
+        "US-CORE-02",
+        "US-CORE-03",
+        "US-CORE-04",
+        "US-CORE-05",
+        "US-CORE-06",
+        "US-CORE-07",
+        "US-CORE-12",
+        "US-ENT-11"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "patientId",
+          "spec": "UUID"
+        },
+        {
+          "id": "field2",
+          "label": "granteeIdentity",
+          "spec": "UUID"
+        },
+        {
+          "id": "field3",
+          "label": "purpose",
+          "spec": "code"
+        },
+        {
+          "id": "field4",
+          "label": "scope",
+          "spec": "code[]"
+        },
+        {
+          "id": "field5",
+          "label": "validFrom/to",
+          "spec": "date"
+        },
+        {
+          "id": "field6",
+          "label": "consentDecision",
+          "spec": "grant/revoke/deny"
+        },
+        {
+          "id": "field7",
+          "label": "recordedBy",
+          "spec": "UUID"
+        }
+      ]
+    },
+    {
+      "id": "F-M21-05",
+      "module": "M21",
+      "title": "Monitoring integrasi",
+      "actor": "Admin integrasi",
+      "uiContext": " Delivery ledger dashboard",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-ENT-11",
+      "relatedFRModuleCandidates": [
+        "FR-001",
+        "FR-002",
+        "FR-003",
+        "FR-008",
+        "FR-032",
+        "FR-035",
+        "FR-037"
+      ],
+      "relatedUSModuleCandidates": [
+        "US-CORE-01",
+        "US-CORE-02",
+        "US-CORE-03",
+        "US-CORE-04",
+        "US-CORE-05",
+        "US-CORE-06",
+        "US-CORE-07",
+        "US-CORE-12",
+        "US-ENT-11"
+      ],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "outbox id",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field2",
+          "label": "provider",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field3",
+          "label": "ACK",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field4",
+          "label": "retry",
+          "spec": "text/reference"
+        },
+        {
+          "id": "field5",
+          "label": "error",
+          "spec": "text/reference"
+        }
+      ]
+    },
+    {
+      "id": "F-CH01-01",
+      "module": "CH01",
+      "title": "Portal pasien",
+      "actor": "Pasien/wali terverifikasi",
+      "uiContext": " Mobile-first channel",
+      "validation": "Semua referensi ID harus berada pada organisasi/scope yang berwenang; kode/enum memakai katalog aktif; angka memiliki satuan dan range; waktu memakai zona waktu RS; field kondisional diwajibkan sesuai state; submit menyertakan idempotency key untuk perintah yang dapat diduplikasi.",
+      "interaction": "Tampilkan kondisi kosong, isi sebagian, data tidak valid, sedang menyimpan, tersimpan, konflik, dan read-only setelah sign/approve. Ubah status dan layout hanya jika transisi diizinkan server.",
+      "directUserStory": "US-RME-12",
+      "relatedFRModuleCandidates": [],
+      "relatedUSModuleCandidates": [],
+      "fields": [
+        {
+          "id": "field1",
+          "label": "authenticatedPatientId",
+          "spec": "UUID read-only"
+        },
+        {
+          "id": "field2",
+          "label": "appointmentList",
+          "spec": "read-only"
+        },
+        {
+          "id": "field3",
+          "label": "releasedDocuments",
+          "spec": "read-only"
+        },
+        {
+          "id": "field4",
+          "label": "activeConsents",
+          "spec": "list"
+        },
+        {
+          "id": "field5",
+          "label": "proxyGrants",
+          "spec": "list"
+        },
+        {
+          "id": "field6",
+          "label": "revokeReason",
+          "spec": "text"
+        }
+      ]
+    }
+  ]
+}

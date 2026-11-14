@@ -12,6 +12,7 @@ import { getMockActionCatalog, simulateHosnexAction, mockActionCoverage } from '
 import { createClinicalWorkspaceStore } from './mock-clinical-workspaces.mjs';
 import { createP0ReadModels } from './mock-p0-read-models.mjs';
 import { createMedicalDraftStore } from './mock-medical-drafts.mjs';
+import { createDemoSessions, DemoProblem, demoVersion } from './demo/session.mjs';
 import { createRadiologyDemoStore } from './mock-radiology-demo.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -55,7 +56,7 @@ function json(res, status, value, correlationId, extra = {}) {
     'Cache-Control': 'no-store', 'X-SIMRS-Mock': 'true',
     'X-Correlation-ID': correlationId,
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Expose-Headers': 'X-SIMRS-Mock, X-Correlation-ID, X-SIMRS-Demo-State, X-SIMRS-State-Persisted, X-SIMRS-Scenario',
+    'Access-Control-Expose-Headers': 'X-SIMRS-Mock, X-Correlation-ID, X-SIMRS-Demo-State, X-SIMRS-State-Persisted, X-SIMRS-Scenario, X-Idempotent-Replay',
     ...extra
   });
   res.end(JSON.stringify(value, null, 2));
@@ -569,6 +570,7 @@ function readBody(req) {
 }
 export function createMockServer() {
   const db = state();
+  const demoSessions = createDemoSessions({ newId: randomUUID });
   const clinicalWorkspaces = createClinicalWorkspaceStore();
   const medicalDrafts = createMedicalDraftStore(clinicalWorkspaces);
   const radiologyDemo = createRadiologyDemoStore(()=>
@@ -585,6 +587,41 @@ export function createMockServer() {
         'Access-Control-Allow-Headers': 'Content-Type, Authorization, Idempotency-Key, If-Match, X-Correlation-ID, X-Organization-Id, X-Demo-Scenario, X-Demo-Staff-Id',
         'Access-Control-Allow-Methods': 'GET,POST,PATCH,PUT,OPTIONS', 'X-SIMRS-Mock': 'true' });
       res.end(); return;
+    }
+    if (V35 && (url.pathname === '/__demo/sessions' || url.pathname.startsWith('/__demo/sessions/'))) {
+      const meta = { 'X-SIMRS-State-Persisted': 'false', 'X-SIMRS-Demo-State': 'process-memory' };
+      if (req.headers['x-organization-id'] !== defaultOrg)
+        return json(res, 403, problem('DEMO_TENANT_REQUIRED', 'Gunakan organisasi fiktif DEMO-RS-001.', correlationId), correlationId, meta);
+      const actor = req.headers['x-demo-staff-id'];
+      const key = req.headers['idempotency-key'];
+      const match = /^\/__demo\/sessions\/([a-f0-9-]{36})\/(workspaces|commands)\/([a-zA-Z0-9-]+)$/.exec(url.pathname);
+      try {
+        if (url.pathname === '/__demo/sessions' && req.method === 'POST') {
+          const body = await readBody(req);
+          const snapshot = demoSessions.start(body?.workflowId, actor, key);
+          return json(res, 201, snapshot, correlationId, meta);
+        }
+        if (match?.[2] === 'workspaces' && req.method === 'GET')
+          return json(res, 200, demoSessions.read(match[1], match[3], actor), correlationId, meta);
+        if (match?.[2] === 'commands' && req.method === 'POST') {
+          const body = await readBody(req);
+          const version = req.headers['if-match'];
+          if (!/^[1-9]\d*$/.test(String(version)) || Number(version) !== body?.expectedVersion)
+            return json(res, 412, problem('DEMO_STALE', 'Versi permintaan tidak sesuai.', correlationId), correlationId, meta);
+          const snapshot = demoSessions.execute(match[1], match[3], {
+            actor, key, expectedVersion: body.expectedVersion, values: body.values, correlationId
+          });
+          return json(res, 200, snapshot, correlationId, snapshot.replay ? { ...meta, 'X-Idempotent-Replay': 'true' } : meta);
+        }
+        return json(res, match || url.pathname === '/__demo/sessions' ? 405 : 404,
+          problem('DEMO_ROUTE_UNAVAILABLE', 'Rute sesi demo tidak tersedia untuk permintaan ini.', correlationId), correlationId, meta);
+      } catch (error) {
+        if (error instanceof DemoProblem)
+          return json(res, error.status, problem(error.code, error.message, correlationId, error.details), correlationId, meta);
+        if (error.message === 'INVALID_JSON' || error.message === 'PAYLOAD_TOO_LARGE')
+          return json(res, 400, problem('INVALID_BODY', 'Payload demo tidak valid.', correlationId), correlationId, meta);
+        return json(res, 500, problem('DEMO_REQUEST_FAILED', 'Aksi demo gagal diproses.', correlationId, [], true), correlationId, meta);
+      }
     }
     // Read-only inspection of synthetic queue state; separate from OpenAPI proposal.
     if(V35 && url.pathname.startsWith('/__demo/queue/tickets/')){
@@ -605,7 +642,7 @@ export function createMockServer() {
     }
     if (url.pathname === '/healthz') {
       return json(res, 200, { service: 'simrs-api', mode: 'synthetic-mock',
-        operations: operations.length, status: 'ok' }, correlationId);
+        operations: operations.length, status: 'ok', ...(V35 ? { demoVersion } : {}) }, correlationId);
     }
     if (url.pathname === '/openapi.json' || url.pathname === '/openapi-v3.1.json' || url.pathname === '/openapi-v3.2.json' || url.pathname === '/contracts/operations.json') {
       return json(res, 200, url.pathname === '/openapi.json' || url.pathname === '/openapi-v3.2.json' ? spec : url.pathname === '/openapi-v3.1.json' ? JSON.parse(readFileSync(join(HERE,'openapi-v3.1.json'),'utf8')) :

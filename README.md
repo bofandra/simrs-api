@@ -138,3 +138,17 @@ Mock server Node hanya bind `127.0.0.1`. CORS `*` dan role/tenant check sintetis
 ## GitHub Pages repository ini
 
 Workflow `.github/workflows/pages.yml` dapat dijalankan manual *setelah* GitHub Pages repository `simrs-api` diaktifkan melalui **Settings → Pages → Source: GitHub Actions**. Koneksi GitHub Actions yang tersedia saat ini tidak diberi izin membuat Pages baru otomatis. Untuk dokumentasi publik yang langsung digunakan, API Explorer sudah disiapkan pada GitHub Pages FE `bofandra/simrs`.
+
+## Sesi prototipe PRD v4.0
+
+Server v3.5 menyediakan sesi sintetis yang dapat dipakai oleh panduan demo Hosnex. Pemeriksaan `GET /healthz` menampilkan `demoVersion: "4.0.0"`. Rute ini berada di luar 268 operasi OpenAPI kandidat.
+
+| Metode | Rute | Isi permintaan |
+| --- | --- | --- |
+| POST | `/__demo/sessions` | `{ "workflowId": "WF-01" }` atau `"forms"` untuk kasus contoh |
+| GET | `/__demo/sessions/{id}/workspaces/{workspaceId}` | `guide`, modul `M01`–`M21`, atau `CH01` |
+| POST | `/__demo/sessions/{id}/commands/{command}` | `{ "expectedVersion": 1, "values": { ... } }` |
+
+Kirim `X-Organization-Id: DEMO-RS-001` dan `X-Demo-Staff-Id` untuk identitas fiktif. POST memerlukan `Idempotency-Key` dan aksi pada sesi menyertakan `If-Match` sesuai `expectedVersion`. Respons menandai data sebagai sintetis. Versi berubah hanya setelah aksi diterima. Progres dan dokumen dibaca kembali dari sesi Node yang sama. Reset dan pemilihan skenario membuat sesi baru. Server membatasi jumlah sesi dalam RAM dan menghapus sesi tertua saat batas tercapai.
+
+`demo/` memuat aturan yang juga dipakai oleh browser dalam Mock Lokal. Hosnex menjalankan pemeriksaan agar salinannya sama. Identitas demo, lampiran, pembayaran, tanda tangan, dan respons mitra untuk demonstrasi bersifat fiktif.
