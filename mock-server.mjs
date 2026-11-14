@@ -207,7 +207,9 @@ function applyScenario(operationId, body, output, db, requestPath, search = new 
       if(V32 && !db.notes.some(n=>n.encounterId===body.encounterId && n.status==='signed'))
         return {__error:[422,'SIGNED_NOTE_REQUIRED','Order demo hanya bisa terbit setelah catatan SOAP signed (simulasi)']};
       const order = { id, encounterId: body.encounterId,
-        category: body.category || 'LAB', serviceCode: body.serviceCode, status: 'placed' };
+        category: body.category || 'LAB', serviceCode: body.serviceCode,
+        urgency:body.urgency,indication:body.indication,
+        targetUnitId:body.targetUnitId,status: 'placed' };
       db.orders.push(order);
       return { id, status: 'placed' };
     }
@@ -501,7 +503,10 @@ export function createMockServer() {
   const db = state();
   const clinicalWorkspaces = createClinicalWorkspaceStore();
   const medicalDrafts = createMedicalDraftStore(clinicalWorkspaces);
-  const radiologyDemo = createRadiologyDemoStore();
+  const radiologyDemo = createRadiologyDemoStore(()=>
+    db.orders.filter(o=>o.category==='RAD').map(o=>({
+      ...o,patientId:db.encounters.find(e=>e.id===o.encounterId)?.patientId
+    })));
   const p0Reads = createP0ReadModels(clinicalWorkspaces,medicalDrafts);
   return createServer(async (req, res) => {
     const correlationId = /^[a-zA-Z0-9-]{8,128}$/.test(String(req.headers['x-correlation-id'] || ''))
@@ -509,7 +514,7 @@ export function createMockServer() {
     const url = new URL(req.url, 'http://localhost');
     if (req.method === 'OPTIONS') {
       res.writeHead(204, { 'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization, Idempotency-Key, If-Match, X-Correlation-ID, X-Organization-Id, X-Demo-Scenario',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization, Idempotency-Key, If-Match, X-Correlation-ID, X-Organization-Id, X-Demo-Scenario, X-Demo-Staff-Id',
         'Access-Control-Allow-Methods': 'GET,POST,PATCH,OPTIONS', 'X-SIMRS-Mock': 'true' });
       res.end(); return;
     }
@@ -533,6 +538,18 @@ export function createMockServer() {
       if(!V32)return json(res,404,problem('NOT_FOUND','Only available on synthetic v3.2',correlationId),correlationId,headers);
       if(req.headers['x-organization-id']!=='DEMO-RS-001')
         return json(res,403,problem('DEMO_TENANT_REQUIRED','Tenant fiktif M10 tidak cocok',correlationId),correlationId,headers);
+      // Spoofable QA persona header, NOT authentication/authorization for production.
+      const staff=String(req.headers['x-demo-staff-id']||'');
+      const m10Roles={
+        admin:['read','schedule','acquisition-note','report','qa-review'],
+        radiographer:['read','schedule','acquisition-note'],
+        radiology:['read','report','qa-review'],
+        doctor:['read'],
+        emergency:['read']
+      };
+      if(!m10Roles[staff]?.includes('read'))
+        return json(res,403,problem('DEMO_ROLE_DENIED',
+          'Akun demo tidak diizinkan membaca worklist M10',correlationId),correlationId,headers);
       const forced={forbidden:403,conflict:409,invalid:422,error:500}[req.headers['x-demo-scenario']];
       if(forced)return json(res,forced,problem('MOCK_'+String(req.headers['x-demo-scenario']).toUpperCase(),
         'Skenario negatif M10 sintetis',correlationId),correlationId,headers);
@@ -549,6 +566,9 @@ export function createMockServer() {
           'Viewer PACS/DICOM sengaja tidak disimulasikan sebagai gambar asli',correlationId),correlationId,headers);
       if(parts.length===5&&['schedule','acquisition-note','report','qa-review'].includes(parts[4])&&
          req.method===(parts[4]==='qa-review'?'POST':'PATCH')){
+        if(!m10Roles[staff].includes(parts[4]))
+          return json(res,403,problem('DEMO_ROLE_DENIED',
+            'Profesi demo tidak diizinkan untuk tahap radiologi ini',correlationId),correlationId,headers);
         let body;
         try{body=await readBody(req);}catch{
           return json(res,400,problem('INVALID_BODY','JSON M10 tidak valid',correlationId),correlationId,headers);
@@ -739,6 +759,16 @@ export function createMockServer() {
         const version = String(req.headers['if-match']).replaceAll('"','');
         if (version !== String(body.expectedVersion))
           return json(res, 412, problem('STALE_VERSION', 'If-Match berbeda dari expectedVersion pada request', correlationId), correlationId);
+      }
+      // Test-only RBAC for RAD CPOE: source of truth remains Node process memory.
+      // Header is intentionally non-security-grade and MUST NOT gate real PHI.
+      if(operation.detail.operationId==='createServiceOrder'&&body.category==='RAD'){
+        if(!['admin','doctor','emergency'].includes(String(req.headers['x-demo-staff-id']||'')))
+          return json(res,403,problem('DEMO_ORDER_ROLE_DENIED',
+            'Hanya dokter pengirim sintetis boleh membuat order radiologi demo',correlationId),correlationId);
+        if(!['THX','CTH','USG'].includes(body.serviceCode))
+          return json(res,422,problem('UNSUPPORTED_RADIOLOGY_CODE',
+            'CPOE demo hanya mendukung THX/CTH/USG',correlationId),correlationId);
       }
       const dto = operation.detail.requestBody?.content?.['application/json']?.schema;
       const fieldErrors = validate(dto, body);
