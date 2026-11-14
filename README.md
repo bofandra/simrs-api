@@ -1,3 +1,5 @@
+> **Baseline produk saat ini:** [PRD SIMRS Baru Final 4.0](https://docs.google.com/document/d/1SZBVNRyz2VSu9lnE2_Dk9XYJ3RokOyfpxvdL4uYfwNc/edit). Lihat [audit keterlacakan 4.0](contracts/prd-v4/README.md) dan jalankan `npm run check:v4`. Seluruh 268 operasi adalah kandidat desain; hanya implementasi simulasi yang lulus uji yang boleh disebut berfungsi.
+
 # SIMRS Baru — API contract v3.0 dan sandbox
 
 ## Status kontrak HOSNEX terkini — mock API v3.5 (14 November 2026)
