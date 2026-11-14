@@ -25,7 +25,7 @@ const seed=(id,index,modality,exam,accession,priority)=>({
   id,episodeId:EPISODE,patientId:PATIENT,version:1,
   accessionNumber:accession,exam,modality,priority,
   indication:'Indikasi untuk pasien simulasi; bukan order klinis tervalidasi',
-  orderOrigin:'seed-only',cpoeLinked:false,
+  orderOrigin:'seed-only',cpoeLinked:false,orderId:null,
   status:'placed',scheduledAt:'',technician:'',identityChecked:false,
   contraindicationChecked:false,
   acquisitionNote:'',operator:'',performedAt:'',
@@ -34,7 +34,7 @@ const seed=(id,index,modality,exam,accession,priority)=>({
   reportSaved:false,qaReviewed:false,reviewer:'',history:[],
   label:`Order radiologi fiktif ${index}`
 });
-export function createRadiologyDemoStore(){
+export function createRadiologyDemoStore(loadSyntheticCpoeOrders=()=>[]){
   const records=new Map([
     [RADIOLOGY_DEMO_IDS[0],seed(RADIOLOGY_DEMO_IDS[0],1,'DX','Thorax PA',
       'DEMO-ACSN-0001','Routine')],
@@ -42,16 +42,41 @@ export function createRadiologyDemoStore(){
       'DEMO-ACSN-0002','Urgent')]
   ]);
   const dedupe=new Map();
+  // Bridge to the SAME process-memory CPOE order store. No fabricated external
+  // PACS records or duplicate RAD orders; IDs and encounter/patient must match.
+  const refreshCpoe=()=>{
+    for(const order of loadSyntheticCpoeOrders()){
+      if(!order||order.category!=='RAD'||!['THX','CTH','USG'].includes(order.serviceCode)||
+         !order.id||!order.encounterId||!order.patientId||records.has(order.id))continue;
+      const exam=order.serviceCode==='THX'?'Thorax PA':
+        order.serviceCode==='CTH'?'CT Kepala tanpa kontras':'USG Abdomen';
+      const modality=order.serviceCode==='THX'?'DX':order.serviceCode==='CTH'?'CT':'US';
+      const row=seed(order.id,records.size+1,modality,exam,
+        'DEMO-ACSN-'+order.id.slice(0,8).toUpperCase(),
+        order.urgency==='urgent'?'Urgent':'Routine');
+      row.patientId=order.patientId;
+      row.episodeId=order.encounterId;
+      row.orderId=order.id;
+      row.orderOrigin='synthetic-cpoe';
+      row.cpoeLinked=true;
+      row.indication=order.indication;
+      row.label='CPOE sintetis • '+exam;
+      records.set(row.id,row);
+    }
+  };
   const snapshot=id=>{
+    refreshCpoe();
     const record=records.get(id);
     return record?{...flags(),...copy(record)}:null;
   };
-  const list=()=>({...flags(),items:[...records.values()].map(r=>({
+  const list=()=>{refreshCpoe();return {...flags(),items:[...records.values()].map(r=>({
     id:r.id,episodeId:r.episodeId,patientId:r.patientId,
     accessionNumber:r.accessionNumber,label:r.label,exam:r.exam,modality:r.modality,
-    priority:r.priority,status:r.status,version:r.version
-  }))});
+    priority:r.priority,status:r.status,version:r.version,
+    orderOrigin:r.orderOrigin,cpoeLinked:r.cpoeLinked,orderId:r.orderId
+  }))};};
   const save=(id,section,body,key)=>{
+    refreshCpoe();
     const current=records.get(id);
     if(!current)return fail(404,'RADIOLOGY_ORDER_NOT_FOUND','Order radiologi sintetis tidak ditemukan');
     if(!['schedule','acquisition-note','report','qa-review'].includes(section))
