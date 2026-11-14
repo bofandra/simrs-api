@@ -93,3 +93,10 @@ Semua respons pure fixture menampilkan `mock:true, simulated:true, persisted:fal
 Branch `feat/hosnex-api-alignment-20261114` dan PR #2 tetap draft sampai kontrak dan kebutuhan mock selesai. **HOSNEX main terpisah sebagai mock frontend tanpa API**, sedangkan fitur integrasi FE ditujukan ke `integration/simrs-api`, tidak ke main.
 
 Terakhir: [Gap & rencana FE](https://github.com/bofandra/hosnex/blob/feat/hosnex-api-alignment-20261114/docs/PRD_V3_HOSNEX_API_GAP.md) · [Mock-first FE guide](https://github.com/bofandra/hosnex/blob/feat/hosnex-api-alignment-20261114/docs/API_INTEGRATION_HOSNEX.md).
+
+
+## Tahap 12 — M10 Radiologi sintetik (14 November 2026)
+
+HOSNEX M10 kini memakai rute tooling-only `/__demo/radiology/orders` pada Node mock v3.2: GET list/detail, PATCH jadwal, PATCH catatan akuisisi, PATCH draf laporan, POST review QA. `createRadiologyDemoStore` berisi dua seeded fictional orders terpisah dan menyimpan status hanya di RAM; transaksi diuji dengan optimistic version, Idempotency-Key, 403/404/409/412/422/500, serta `viewer` 501 dan `sign/study/publish` 405. Tidak ada CPOE order nyata, DICOM/PACS, StudyInstanceUID atau legal sign. Status hanya tahap QA, bukan pelaporan radiologi final. **200 kontrak OpenAPI tetap kandidat, bukan endpoint operasional baru.**
+
+Cakupan HOSNEX sekarang 21 modul HTTP surfaces, 9 modul aksi demo parsial (M01,M02,M03,M04,M05,M06,M09,M10,M11) dan 12 modul GET-only (M07,M08,M12,M13,M14,M15,M16,M17,M18,M19,M20,M21). F-M10-03 (PACS viewer) dan WF-06 belum terpenuhi dan perlu kontrak riil terpisah sebelum production design. Detail acceptance di [M10 form parity](https://github.com/bofandra/hosnex/blob/feat/hosnex-api-alignment-20261114/docs/M10_RIS_PACS_MOCK_PARITY.md).
