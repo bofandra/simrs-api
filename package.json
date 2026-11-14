@@ -12,6 +12,8 @@
     "validate:contract": "node scripts/check-contract.mjs",
     "build:v3.1": "node scripts/build-v31.mjs",
     "check:v3.1": "node scripts/build-v31.mjs --check && node scripts/check-v31.mjs",
-    "start:v3.1": "node mock-server.mjs --v31"
+    "start:v3.1": "node mock-server.mjs --v31",
+    "start:v3.2": "node mock-server.mjs --v32",
+    "check:v3.2": "node scripts/check-hosnex-v32.mjs"
   }
 }

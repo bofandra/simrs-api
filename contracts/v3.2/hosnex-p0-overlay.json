@@ -1,0 +1,1386 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Hosnex P0 Contract Overlay (standalone review artifact)",
+    "version": "3.2.0-draft.0",
+    "description": "Additive proposed routes ONLY; not approved production API and not enabled by mock server"
+  },
+  "status": "PROPOSAL_ONLY",
+  "source": {
+    "frontend": "bofandra/hosnex",
+    "backend": "bofandra/simrs-api",
+    "baseline": "openapi-v3.1.json",
+    "date": "2026-11-14"
+  },
+  "security": {
+    "note": "Staff operations require OIDC bearer, hospital/tenant context, RBAC+ABAC; CH01 routes require separate patient/proxy audience"
+  },
+  "compatibility": {
+    "note": "Do not change existing 180 operationIds or silently replace list response envelopes"
+  },
+  "operations": [
+    {
+      "operationId": "listUnitPractitioners",
+      "module": "M01",
+      "method": "GET",
+      "path": "/api/v1/units/{unitId}/practitioners",
+      "frontendActions": [
+        "register",
+        "bookPortalAppointment"
+      ],
+      "permission": "practitioner.search",
+      "requestSchema": null,
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "practitionerId",
+                "displayName"
+              ],
+              "properties": {
+                "practitionerId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "displayName": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      },
+      "responseExample": {
+        "items": [
+          {
+            "practitionerId": "11111111-1111-4111-8111-111111111111",
+            "displayName": "Dokter Demo"
+          }
+        ]
+      },
+      "successStatus": 200,
+      "reviewRequired": true,
+      "notes": "Use practitionerId rather than display name as foreign key; actual schedule filtering to review"
+    },
+    {
+      "operationId": "checkBPJSEligibility",
+      "module": "M01",
+      "method": "POST",
+      "path": "/api/v1/coverage/bpjs/eligibility-checks",
+      "frontendActions": [
+        "register"
+      ],
+      "permission": "coverage.verify",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "patientId",
+          "serviceType",
+          "dateOfService"
+        ],
+        "properties": {
+          "patientId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "serviceType": {
+            "type": "string",
+            "enum": [
+              "RJ",
+              "RI",
+              "IGD"
+            ]
+          },
+          "dateOfService": {
+            "type": "string",
+            "format": "date"
+          },
+          "referralNumber": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "eligibilityCheckId",
+          "status",
+          "checkedAt"
+        ],
+        "properties": {
+          "eligibilityCheckId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ELIGIBLE",
+              "INELIGIBLE",
+              "UNAVAILABLE"
+            ]
+          },
+          "checkedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "responseExample": {
+        "eligibilityCheckId": "11111111-1111-4111-8111-111111111111",
+        "status": "ELIGIBLE",
+        "checkedAt": "2026-11-14T09:00:00+07:00"
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Do not claim an actual BPJS check until a real connector and legal eligibility rules exist"
+    },
+    {
+      "operationId": "reserveAdmissionBed",
+      "module": "M04",
+      "method": "POST",
+      "path": "/api/v1/admissions/{id}/bed-reservations",
+      "frontendActions": [
+        "reserveBed"
+      ],
+      "permission": "bed.reserve",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "bedId",
+          "expectedAdmissionVersion",
+          "reason"
+        ],
+        "properties": {
+          "bedId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedAdmissionVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "admissionId",
+          "bedId",
+          "status",
+          "version"
+        ],
+        "properties": {
+          "admissionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "bedId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "reserved"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "responseExample": {
+        "admissionId": "11111111-1111-4111-8111-111111111111",
+        "bedId": "22222222-2222-4222-8222-222222222222",
+        "status": "reserved",
+        "version": 2
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Atomic capacity check, exclusive reservation, TTL and concurrency; no production bed mutation"
+    },
+    {
+      "operationId": "admitReservedPatient",
+      "module": "M04",
+      "method": "POST",
+      "path": "/api/v1/admissions/{id}/admit",
+      "frontendActions": [
+        "admit"
+      ],
+      "permission": "admission.admit",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "bedId",
+          "expectedVersion",
+          "admittedAt"
+        ],
+        "properties": {
+          "bedId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "admittedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "admissionId",
+          "bedId",
+          "status",
+          "version"
+        ],
+        "properties": {
+          "admissionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "bedId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "admitted"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "responseExample": {
+        "admissionId": "11111111-1111-4111-8111-111111111111",
+        "bedId": "22222222-2222-4222-8222-222222222222",
+        "status": "admitted",
+        "version": 3
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Ensure admission and bed occupancy change in single database transaction"
+    },
+    {
+      "operationId": "changeBedAvailability",
+      "module": "M04",
+      "method": "PATCH",
+      "path": "/api/v1/beds/{id}/availability",
+      "frontendActions": [
+        "setBedStatus"
+      ],
+      "permission": "bed.status.update",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "status",
+          "expectedVersion",
+          "reason"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "AVAILABLE",
+              "CLEANING",
+              "MAINTENANCE",
+              "BLOCKED"
+            ]
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "bedId",
+          "status",
+          "version"
+        ],
+        "properties": {
+          "bedId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "responseExample": {
+        "bedId": "22222222-2222-4222-8222-222222222222",
+        "status": "CLEANING",
+        "version": 4
+      },
+      "successStatus": 200,
+      "reviewRequired": true,
+      "notes": "Do not allow occupied bed manually set available; occupancy is computed from admissions"
+    },
+    {
+      "operationId": "getCompositeEncounterDraft",
+      "module": "M02",
+      "method": "GET",
+      "path": "/api/v1/encounters/{id}/drafts/clinical",
+      "frontendActions": [
+        "saveEncounter"
+      ],
+      "permission": "encounter.draft.read",
+      "requestSchema": null,
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "encounterId",
+          "version",
+          "status",
+          "hasDraft",
+          "locked"
+        ],
+        "properties": {
+          "encounterId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "locked"
+            ]
+          },
+          "hasDraft": {
+            "type": "boolean"
+          },
+          "locked": {
+            "type": "boolean"
+          }
+        }
+      },
+      "responseExample": {
+        "encounterId": "11111111-1111-4111-8111-111111111111",
+        "version": 1,
+        "status": "draft",
+        "hasDraft": false,
+        "locked": false
+      },
+      "successStatus": 200,
+      "reviewRequired": true,
+      "notes": "Read-only synthetic draft version/status for conflict recovery; no SOAP text or PHI. Explicitly not a signing endpoint."
+    },
+    {
+      "operationId": "saveCompositeEncounterDraft",
+      "module": "M02",
+      "method": "PATCH",
+      "path": "/api/v1/encounters/{id}/drafts/clinical",
+      "frontendActions": [
+        "saveEncounter"
+      ],
+      "permission": "encounter.draft.update",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedVersion",
+          "clinicalNote",
+          "observations",
+          "proposedOrders",
+          "proposedPrescriptions"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "clinicalNote": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "observations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "proposedOrders": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "proposedPrescriptions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "encounterId",
+          "version",
+          "status"
+        ],
+        "properties": {
+          "encounterId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft"
+            ]
+          }
+        }
+      },
+      "responseExample": {
+        "encounterId": "11111111-1111-4111-8111-111111111111",
+        "version": 2,
+        "status": "draft"
+      },
+      "successStatus": 200,
+      "reviewRequired": true,
+      "notes": "Draft only; no signing, orders or prescriptions are transmitted when saving draft"
+    },
+    {
+      "operationId": "requestRxClarification",
+      "module": "M11",
+      "method": "POST",
+      "path": "/api/v1/pharmacy/prescriptions/{id}/clarifications",
+      "frontendActions": [
+        "clarifyPrescription"
+      ],
+      "permission": "prescription.clarify",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "reason",
+          "expectedVersion"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "clarificationId",
+          "prescriptionId",
+          "status"
+        ],
+        "properties": {
+          "clarificationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "prescriptionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending"
+            ]
+          }
+        }
+      },
+      "responseExample": {
+        "clarificationId": "11111111-1111-4111-8111-111111111111",
+        "prescriptionId": "22222222-2222-4222-8222-222222222222",
+        "status": "pending"
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Pharmacist review gate and prescriber recipient required"
+    },
+    {
+      "operationId": "resolveRxClarification",
+      "module": "M11",
+      "method": "POST",
+      "path": "/api/v1/pharmacy/prescriptions/{id}/clarifications/{clarificationId}/resolve",
+      "frontendActions": [
+        "resolvePrescription"
+      ],
+      "permission": "prescription.clarify.resolve",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "resolution",
+          "expectedVersion"
+        ],
+        "properties": {
+          "resolution": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "clarificationId",
+          "status"
+        ],
+        "properties": {
+          "clarificationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "resolved"
+            ]
+          }
+        }
+      },
+      "responseExample": {
+        "clarificationId": "11111111-1111-4111-8111-111111111111",
+        "status": "resolved"
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Require prescribing clinician authorization and immutable resolution audit"
+    },
+    {
+      "operationId": "prepareRx",
+      "module": "M11",
+      "method": "POST",
+      "path": "/api/v1/pharmacy/prescriptions/{id}/preparations",
+      "frontendActions": [
+        "preparePrescription"
+      ],
+      "permission": "dispense.prepare",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "locationId",
+          "expectedVersion",
+          "lotSelections"
+        ],
+        "properties": {
+          "locationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "lotSelections": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "medicationLineId",
+                "lotId",
+                "quantity"
+              ],
+              "properties": {
+                "medicationLineId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "lotId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "quantity": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            }
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "preparationId",
+          "status"
+        ],
+        "properties": {
+          "preparationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "preparing"
+            ]
+          }
+        }
+      },
+      "responseExample": {
+        "preparationId": "11111111-1111-4111-8111-111111111111",
+        "status": "preparing"
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "FEFO/expiry/availability checks; no stock deduction on preparation"
+    },
+    {
+      "operationId": "verifyPreparedRxLine",
+      "module": "M11",
+      "method": "POST",
+      "path": "/api/v1/pharmacy/preparations/{id}/lines/{lineId}/verify",
+      "frontendActions": [
+        "checkPreparedItem"
+      ],
+      "permission": "dispense.prepare.verify",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "lotId",
+          "barcode",
+          "expectedVersion"
+        ],
+        "properties": {
+          "lotId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "barcode": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "preparationId",
+          "lineId",
+          "status"
+        ],
+        "properties": {
+          "preparationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "lineId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "verified"
+            ]
+          }
+        }
+      },
+      "responseExample": {
+        "preparationId": "11111111-1111-4111-8111-111111111111",
+        "lineId": "22222222-2222-4222-8222-222222222222",
+        "status": "verified"
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Barcode and patient-bound prescription validation"
+    },
+    {
+      "operationId": "markPreparedRxReady",
+      "module": "M11",
+      "method": "POST",
+      "path": "/api/v1/pharmacy/preparations/{id}/ready",
+      "frontendActions": [
+        "readyPrescription"
+      ],
+      "permission": "dispense.prepare.ready",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedVersion",
+          "labelsVerified"
+        ],
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "labelsVerified": {
+            "type": "boolean"
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "preparationId",
+          "status"
+        ],
+        "properties": {
+          "preparationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ready"
+            ]
+          }
+        }
+      },
+      "responseExample": {
+        "preparationId": "11111111-1111-4111-8111-111111111111",
+        "status": "ready"
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "All lines verified and label checks required; not equivalent to dispensing"
+    },
+    {
+      "operationId": "listMyAppointments",
+      "module": "CH01",
+      "method": "GET",
+      "path": "/api/v1/portal/me/appointments",
+      "frontendActions": [
+        "bookPortalAppointment",
+        "cancelPortalAppointment",
+        "checkInPortalAppointment"
+      ],
+      "permission": "portal.appointment.read",
+      "requestSchema": null,
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "appointmentId",
+                "status",
+                "slotTime"
+              ],
+              "properties": {
+                "appointmentId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "status": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "slotTime": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responseExample": {
+        "items": [
+          {
+            "appointmentId": "11111111-1111-4111-8111-111111111111",
+            "status": "booked",
+            "slotTime": "2026-11-14T08:00:00+07:00"
+          }
+        ]
+      },
+      "successStatus": 200,
+      "reviewRequired": true,
+      "notes": "patientId from token audience only; never accept arbitrary patientId query"
+    },
+    {
+      "operationId": "bookMyAppointment",
+      "module": "CH01",
+      "method": "POST",
+      "path": "/api/v1/portal/me/appointments",
+      "frontendActions": [
+        "bookPortalAppointment"
+      ],
+      "permission": "portal.appointment.create",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "unitId",
+          "practitionerId",
+          "slotId",
+          "payer"
+        ],
+        "properties": {
+          "unitId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "practitionerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "slotId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "payer": {
+            "type": "string",
+            "enum": [
+              "SELF_PAY",
+              "BPJS",
+              "INSURANCE"
+            ]
+          },
+          "referralNumber": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "appointmentId",
+          "bookingNumber",
+          "status"
+        ],
+        "properties": {
+          "appointmentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "bookingNumber": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "booked"
+            ]
+          }
+        }
+      },
+      "responseExample": {
+        "appointmentId": "11111111-1111-4111-8111-111111111111",
+        "bookingNumber": "DEMO-001",
+        "status": "booked"
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Patient owns appointment; proxy scope and slot conflict transactional"
+    },
+    {
+      "operationId": "cancelMyAppointment",
+      "module": "CH01",
+      "method": "POST",
+      "path": "/api/v1/portal/me/appointments/{id}/cancel",
+      "frontendActions": [
+        "cancelPortalAppointment"
+      ],
+      "permission": "portal.appointment.cancel",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "reason",
+          "expectedVersion"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "appointmentId",
+          "status"
+        ],
+        "properties": {
+          "appointmentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "cancelled"
+            ]
+          }
+        }
+      },
+      "responseExample": {
+        "appointmentId": "11111111-1111-4111-8111-111111111111",
+        "status": "cancelled"
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Patient/proxy authorization and late-cancellation policy"
+    },
+    {
+      "operationId": "checkInMyAppointment",
+      "module": "CH01",
+      "method": "POST",
+      "path": "/api/v1/portal/me/appointments/{id}/check-in",
+      "frontendActions": [
+        "checkInPortalAppointment"
+      ],
+      "permission": "portal.appointment.check-in",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "arrivalAt",
+          "expectedVersion"
+        ],
+        "properties": {
+          "arrivalAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "registrationId",
+          "encounterId",
+          "queueTicketId",
+          "status"
+        ],
+        "properties": {
+          "registrationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "encounterId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "queueTicketId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "checked-in"
+            ]
+          }
+        }
+      },
+      "responseExample": {
+        "registrationId": "11111111-1111-4111-8111-111111111111",
+        "encounterId": "22222222-2222-4222-8222-222222222222",
+        "queueTicketId": "33333333-3333-4333-8333-333333333333",
+        "status": "checked-in"
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Atomic check-in, create registration once, idempotent replay"
+    },
+    {
+      "operationId": "listMyDocuments",
+      "module": "CH01",
+      "method": "GET",
+      "path": "/api/v1/portal/me/documents",
+      "frontendActions": [
+        "readPortalDocument"
+      ],
+      "permission": "portal.document.read",
+      "requestSchema": null,
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "documentId",
+                "status",
+                "title"
+              ],
+              "properties": {
+                "documentId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "released"
+                  ]
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      },
+      "responseExample": {
+        "items": [
+          {
+            "documentId": "11111111-1111-4111-8111-111111111111",
+            "status": "released",
+            "title": "Hasil Laboratorium"
+          }
+        ]
+      },
+      "successStatus": 200,
+      "reviewRequired": true,
+      "notes": "Only released source reports with active consent; no drafts"
+    },
+    {
+      "operationId": "getMyDocument",
+      "module": "CH01",
+      "method": "GET",
+      "path": "/api/v1/portal/me/documents/{id}",
+      "frontendActions": [
+        "readPortalDocument"
+      ],
+      "permission": "portal.document.read",
+      "requestSchema": null,
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "documentId",
+          "title",
+          "sourceVersion",
+          "fields"
+        ],
+        "properties": {
+          "documentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "label",
+                "value"
+              ],
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      },
+      "responseExample": {
+        "documentId": "11111111-1111-4111-8111-111111111111",
+        "title": "Hasil Laboratorium",
+        "sourceVersion": 1,
+        "fields": [
+          {
+            "label": "Pemeriksaan",
+            "value": "Contoh sintetis"
+          }
+        ]
+      },
+      "successStatus": 200,
+      "reviewRequired": true,
+      "notes": "Revalidate consent, proxy grants and source version on each read; audit disclosure"
+    },
+    {
+      "operationId": "grantMyPortalProxy",
+      "module": "CH01",
+      "method": "POST",
+      "path": "/api/v1/portal/me/proxy-grants",
+      "frontendActions": [
+        "grantPortal"
+      ],
+      "permission": "portal.proxy.create",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "granteePatientId",
+          "relationship",
+          "evidenceId",
+          "scopes",
+          "expiresAt"
+        ],
+        "properties": {
+          "granteePatientId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "relationship": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "appointments",
+                "documents",
+                "billing"
+              ]
+            }
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "grantId",
+          "status"
+        ],
+        "properties": {
+          "grantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending-verification",
+              "active"
+            ]
+          }
+        }
+      },
+      "responseExample": {
+        "grantId": "11111111-1111-4111-8111-111111111111",
+        "status": "pending-verification"
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Evidence verification and per-scope consent must precede activation"
+    },
+    {
+      "operationId": "setDocumentPortalDisclosure",
+      "module": "M05",
+      "method": "POST",
+      "path": "/api/v1/clinical/documents/{id}/portal-disclosures",
+      "frontendActions": [
+        "releasePortalDocument"
+      ],
+      "permission": "clinical.document.disclose",
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sourceVersion",
+          "status",
+          "reason"
+        ],
+        "properties": {
+          "sourceVersion": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "released",
+              "held"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "responseSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "documentId",
+          "status",
+          "sourceVersion"
+        ],
+        "properties": {
+          "documentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceVersion": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "responseExample": {
+        "documentId": "11111111-1111-4111-8111-111111111111",
+        "status": "released",
+        "sourceVersion": 1
+      },
+      "successStatus": 201,
+      "reviewRequired": true,
+      "notes": "Staff-scope disclosure authorization separate from patient portal token"
+    }
+  ],
+  "amendments": [
+    {
+      "operationId": "createPatient",
+      "proposal": "Frontend map sex L/P -> gender male/female; backend accepts structured address and NIK within identifiers, return patientId/mrn. Add explicit no-NIK reason. Freeze after FE/BE."
+    },
+    {
+      "operationId": "createRegistration",
+      "proposal": "Return queueTicketId and resolved queueNumber/display text or provide GET queue ticket; define mapping payer UMUM/BPJS/ASURANSI -> payer.type and referral/practitioner fields."
+    },
+    {
+      "operationId": "bookAppointment",
+      "proposal": "Use practitionerId, slotId and server slot availability. CH01 patients must call patient-audience-specific endpoint."
+    },
+    {
+      "operationId": "createClinicalNote",
+      "proposal": "Define SOAP narrative and sign gating separately from issuing orders and prescriptions."
+    },
+    {
+      "operationId": "allocatePayment",
+      "proposal": "Decide on integer IDR vs minor units explicitly; do not silently multiply amounts."
+    }
+  ],
+  "nonGoals": [
+    "Real BPJS/SATUSEHAT calls",
+    "Actual dispensing, stock posting, signing or payments",
+    "Making mock UI a production clinical application"
+  ]
+}

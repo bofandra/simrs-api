@@ -1,0 +1,1172 @@
+{
+  "schemaVersion": 1,
+  "auditDate": "2026-11-14",
+  "frontendRepository": "bofandra/hosnex",
+  "frontendSourceSha": "35185c06be42f76bb3b5cde6c9890f3db512249d",
+  "backendRepository": "bofandra/simrs-api",
+  "backendContract": "106 v3.0 operations + 74 proposed v3.1 (180)",
+  "method": "Static code crosswalk, not live HTTP/DTO parity test",
+  "counts": {
+    "candidate": 27,
+    "partial": 29,
+    "missing": 60
+  },
+  "actions": [
+    {
+      "frontendAction": "reportSafetyIncident",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M19",
+      "priority": "P1-P3",
+      "status": "candidate",
+      "existingOperationIds": [
+        "reportSafetyIncident"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "reviewSafetyIncident",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M19",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "addSafetyAction",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M19",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "completeSafetyAction",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M19",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "verifySafetyAction",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M19",
+      "priority": "P1-P3",
+      "status": "partial",
+      "existingOperationIds": [
+        "verifyRiskMitigation"
+      ],
+      "note": "Related API is not semantically identical"
+    },
+    {
+      "frontendAction": "closeSafetyIncident",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M19",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "reopenSafetyIncident",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M19",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "createSafetyMeasure",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M19",
+      "priority": "P1-P3",
+      "status": "partial",
+      "existingOperationIds": [
+        "calculateQualityIndicator"
+      ],
+      "note": "Definition and publication differ from calculation"
+    },
+    {
+      "frontendAction": "publishSafetyMeasure",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M19",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "createStaff",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M18",
+      "priority": "P1-P3",
+      "status": "candidate",
+      "existingOperationIds": [
+        "createEmployee"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "updateStaffProfile",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M18",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "deactivateStaff",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M18",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "addStaffCredential",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M18",
+      "priority": "P1-P3",
+      "status": "partial",
+      "existingOperationIds": [
+        "updatePractitionerCredential"
+      ],
+      "note": "Related API is not semantically identical"
+    },
+    {
+      "frontendAction": "reviewStaffCredential",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M18",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "revokeStaffCredential",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M18",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "assessStaffCredentials",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M18",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "createAsset",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M17",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "updateAssetDetails",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M17",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "reportAssetCondition",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M17",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "scheduleAssetWork",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M17",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "startAssetWork",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M17",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "closeAssetWork",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M17",
+      "priority": "P1-P3",
+      "status": "candidate",
+      "existingOperationIds": [
+        "closeMaintenanceOrder"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "cancelAssetWork",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M17",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "saveIntegrationMapping",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M21",
+      "priority": "P0",
+      "status": "partial",
+      "existingOperationIds": [
+        "reviewTerminologyMapping"
+      ],
+      "note": "Related API is not semantically identical"
+    },
+    {
+      "frontendAction": "collectIntegrationJobs",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M21",
+      "priority": "P0",
+      "status": "partial",
+      "existingOperationIds": [
+        "listIntegrationJobs"
+      ],
+      "note": "Related API is not semantically identical"
+    },
+    {
+      "frontendAction": "validateIntegrationJob",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M21",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "sendIntegrationJob",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M21",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "resolveIntegrationJob",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M21",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "retryIntegrationJob",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M21",
+      "priority": "P0",
+      "status": "candidate",
+      "existingOperationIds": [
+        "retryIntegrationJob"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "reconcileIntegrationJob",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M21",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "resetIntegrationJob",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M21",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "cancelIntegrationJob",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M21",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "signInPortal",
+      "source": "src/lib/simrs/store.ts",
+      "module": "CH01",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "signOutPortal",
+      "source": "src/lib/simrs/store.ts",
+      "module": "CH01",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "consentPortal",
+      "source": "src/lib/simrs/store.ts",
+      "module": "CH01",
+      "priority": "P0",
+      "status": "partial",
+      "existingOperationIds": [
+        "updateConsent"
+      ],
+      "note": "Patient-owned consent is not equivalent to staff updateConsent"
+    },
+    {
+      "frontendAction": "grantPortal",
+      "source": "src/lib/simrs/store.ts",
+      "module": "CH01",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "revokePortalGrant",
+      "source": "src/lib/simrs/store.ts",
+      "module": "CH01",
+      "priority": "P0",
+      "status": "candidate",
+      "existingOperationIds": [
+        "revokePatientProxy"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "releasePortalDocument",
+      "source": "src/lib/simrs/store.ts",
+      "module": "CH01",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "readPortalDocument",
+      "source": "src/lib/simrs/store.ts",
+      "module": "CH01",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "bookPortalAppointment",
+      "source": "src/lib/simrs/store.ts",
+      "module": "CH01",
+      "priority": "P0",
+      "status": "partial",
+      "existingOperationIds": [
+        "bookAppointment"
+      ],
+      "note": "Requires patient audience and scoped self-service contract"
+    },
+    {
+      "frontendAction": "cancelPortalAppointment",
+      "source": "src/lib/simrs/store.ts",
+      "module": "CH01",
+      "priority": "P0",
+      "status": "partial",
+      "existingOperationIds": [
+        "cancelAppointment"
+      ],
+      "note": "Patient self-service authorization differs from staff cancellation"
+    },
+    {
+      "frontendAction": "checkInPortalAppointment",
+      "source": "src/lib/simrs/store.ts",
+      "module": "CH01",
+      "priority": "P0",
+      "status": "partial",
+      "existingOperationIds": [
+        "checkInAppointment"
+      ],
+      "note": "Patient self-check-in and queue creation must be atomic"
+    },
+    {
+      "frontendAction": "saveNutritionMenu",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M12",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "signDiet",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M12",
+      "priority": "P1-P3",
+      "status": "partial",
+      "existingOperationIds": [
+        "createDietOrder"
+      ],
+      "note": "Related API is not semantically identical"
+    },
+    {
+      "frontendAction": "planMeal",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M12",
+      "priority": "P1-P3",
+      "status": "partial",
+      "existingOperationIds": [
+        "createKitchenBatch"
+      ],
+      "note": "Planning a tray differs from creating a kitchen batch"
+    },
+    {
+      "frontendAction": "transitionMeal",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M12",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "relabelMeal",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M12",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "deliverMeal",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M12",
+      "priority": "P1-P3",
+      "status": "candidate",
+      "existingOperationIds": [
+        "confirmTrayDelivery"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "rejectMeal",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M12",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "receiveBloodUnit",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M08",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "createBloodRequest",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M08",
+      "priority": "P1-P3",
+      "status": "candidate",
+      "existingOperationIds": [
+        "requestTransfusion"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "crossmatchBlood",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M08",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "issueBlood",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M08",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "startBlood",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M08",
+      "priority": "P1-P3",
+      "status": "partial",
+      "existingOperationIds": [
+        "confirmTransfusionAdministration"
+      ],
+      "note": "Bedside identity verification and initiation differ from completion"
+    },
+    {
+      "frontendAction": "monitorBlood",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M08",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "cancelBlood",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M08",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "setInventoryMinimum",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M16",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "postInventoryMovement",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M16",
+      "priority": "P0",
+      "status": "candidate",
+      "existingOperationIds": [
+        "postStockMovement"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "saveClinicalNote",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M05",
+      "priority": "P0",
+      "status": "partial",
+      "existingOperationIds": [
+        "createClinicalNote"
+      ],
+      "note": "Related API is not semantically identical"
+    },
+    {
+      "frontendAction": "addMedicalAddendum",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M05",
+      "priority": "P0",
+      "status": "candidate",
+      "existingOperationIds": [
+        "addClinicalAddendum"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "saveMedicalSummary",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M05",
+      "priority": "P0",
+      "status": "partial",
+      "existingOperationIds": [
+        "getOutpatientSummary"
+      ],
+      "note": "Existing operation only reads summary, not write"
+    },
+    {
+      "frontendAction": "reopenMedicalSummary",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M05",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "saveMorbidityCoding",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M05",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "reopenMorbidityCoding",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M05",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "createSurgery",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M07",
+      "priority": "P1-P3",
+      "status": "candidate",
+      "existingOperationIds": [
+        "createSurgeryCase"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "rescheduleSurgery",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M07",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "readySurgery",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M07",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "surgeryGate",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M07",
+      "priority": "P1-P3",
+      "status": "partial",
+      "existingOperationIds": [
+        "completeSurgeryChecklist"
+      ],
+      "note": "Related API is not semantically identical"
+    },
+    {
+      "frontendAction": "saveSurgeryNote",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M07",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "closeSurgery",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M07",
+      "priority": "P1-P3",
+      "status": "partial",
+      "existingOperationIds": [
+        "releasePACU"
+      ],
+      "note": "Related API is not semantically identical"
+    },
+    {
+      "frontendAction": "cancelSurgery",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M07",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "scheduleRadiology",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M10",
+      "priority": "P1-P3",
+      "status": "partial",
+      "existingOperationIds": [
+        "createServiceOrder"
+      ],
+      "note": "Generic service order does not schedule modality"
+    },
+    {
+      "frontendAction": "performRadiology",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M10",
+      "priority": "P1-P3",
+      "status": "partial",
+      "existingOperationIds": [
+        "linkDICOMStudy"
+      ],
+      "note": "Related API is not semantically identical"
+    },
+    {
+      "frontendAction": "saveRadiologyResults",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M10",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "verifyRadiology",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M10",
+      "priority": "P1-P3",
+      "status": "partial",
+      "existingOperationIds": [
+        "signRadiologyReport"
+      ],
+      "note": "Verification, signing and release are separate"
+    },
+    {
+      "frontendAction": "publishRadiology",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M10",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "reviseRadiology",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M10",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "cancelRadiology",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M10",
+      "priority": "P1-P3",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "issueInvoice",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M13",
+      "priority": "P0",
+      "status": "partial",
+      "existingOperationIds": [
+        "issueInvoice"
+      ],
+      "note": "Related API is not semantically identical"
+    },
+    {
+      "frontendAction": "payInvoice",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M13",
+      "priority": "P0",
+      "status": "partial",
+      "existingOperationIds": [
+        "allocatePayment"
+      ],
+      "note": "Hosnex integer rupiah vs tentative API minor units"
+    },
+    {
+      "frontendAction": "refundPayment",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M13",
+      "priority": "P0",
+      "status": "candidate",
+      "existingOperationIds": [
+        "requestRefund"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "saveClaim",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M14",
+      "priority": "P0",
+      "status": "partial",
+      "existingOperationIds": [
+        "createClaimDossier"
+      ],
+      "note": "Related API is not semantically identical"
+    },
+    {
+      "frontendAction": "readyClaim",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M14",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "reopenClaim",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M14",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "submitClaim",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M14",
+      "priority": "P0",
+      "status": "candidate",
+      "existingOperationIds": [
+        "submitClaim"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "acknowledgeClaim",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M14",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "reconcileClaim",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M14",
+      "priority": "P0",
+      "status": "candidate",
+      "existingOperationIds": [
+        "reconcileClaimRemittance"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "acceptLab",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M09",
+      "priority": "P0",
+      "status": "candidate",
+      "existingOperationIds": [
+        "acceptLabOrder"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "collectLab",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M09",
+      "priority": "P0",
+      "status": "candidate",
+      "existingOperationIds": [
+        "collectLabSpecimen"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "receiveLab",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M09",
+      "priority": "P0",
+      "status": "candidate",
+      "existingOperationIds": [
+        "receiveSpecimen"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "recollectLab",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M09",
+      "priority": "P0",
+      "status": "candidate",
+      "existingOperationIds": [
+        "recollectLabSpecimen"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "saveLabResults",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M09",
+      "priority": "P0",
+      "status": "partial",
+      "existingOperationIds": [
+        "submitLabResults"
+      ],
+      "note": "Related API is not semantically identical"
+    },
+    {
+      "frontendAction": "verifyLab",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M09",
+      "priority": "P0",
+      "status": "candidate",
+      "existingOperationIds": [
+        "verifyLabReport"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "releaseLab",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M09",
+      "priority": "P0",
+      "status": "candidate",
+      "existingOperationIds": [
+        "releaseLabReport"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "reviseLab",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M09",
+      "priority": "P0",
+      "status": "candidate",
+      "existingOperationIds": [
+        "createLabReportAmendment"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "reviewPrescription",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M11",
+      "priority": "P0",
+      "status": "candidate",
+      "existingOperationIds": [
+        "reviewPrescription"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "clarifyPrescription",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M11",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "resolvePrescription",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M11",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "cancelPrescription",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M11",
+      "priority": "P0",
+      "status": "candidate",
+      "existingOperationIds": [
+        "cancelPrescription"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "preparePrescription",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M11",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "checkPreparedItem",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M11",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "readyPrescription",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M11",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "dispensePrescription",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M11",
+      "priority": "P0",
+      "status": "candidate",
+      "existingOperationIds": [
+        "dispensePrescription"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "addPatient",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M01",
+      "priority": "P0",
+      "status": "partial",
+      "existingOperationIds": [
+        "createPatient"
+      ],
+      "note": "Hosnex sex L/P and flat address vs gender enum and structured addresses"
+    },
+    {
+      "frontendAction": "register",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M01",
+      "priority": "P0",
+      "status": "partial",
+      "existingOperationIds": [
+        "createRegistration"
+      ],
+      "note": "Hosnex queueNumber/referral/practitioner vs API queueTicketId/payer object"
+    },
+    {
+      "frontendAction": "setQueue",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M01",
+      "priority": "P0",
+      "status": "partial",
+      "existingOperationIds": [
+        "callQueue"
+      ],
+      "note": "Hosnex supports waiting/called/in-service/done; API has separate transitions"
+    },
+    {
+      "frontendAction": "addTriage",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M03",
+      "priority": "P0",
+      "status": "partial",
+      "existingOperationIds": [
+        "createEmergencyTriage"
+      ],
+      "note": "Related API is not semantically identical"
+    },
+    {
+      "frontendAction": "updateTriage",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M03",
+      "priority": "P0",
+      "status": "partial",
+      "existingOperationIds": [
+        "reassessEmergency"
+      ],
+      "note": "Related API is not semantically identical"
+    },
+    {
+      "frontendAction": "requestAdmission",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M04",
+      "priority": "P0",
+      "status": "candidate",
+      "existingOperationIds": [
+        "createAdmission"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "reserveBed",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M04",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "admit",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M04",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "transfer",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M04",
+      "priority": "P0",
+      "status": "candidate",
+      "existingOperationIds": [
+        "transferAdmission"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "discharge",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M04",
+      "priority": "P0",
+      "status": "candidate",
+      "existingOperationIds": [
+        "completeDischarge"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    },
+    {
+      "frontendAction": "setBedStatus",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M04",
+      "priority": "P0",
+      "status": "missing",
+      "existingOperationIds": [],
+      "note": "No equivalent lifecycle operation in current 180 candidate"
+    },
+    {
+      "frontendAction": "saveEncounter",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M02",
+      "priority": "P0",
+      "status": "partial",
+      "existingOperationIds": [
+        "updateOutpatientAssessment"
+      ],
+      "note": "Combined SOAP/vitals/Rx/lab/radiology draft; API splits into notes/observations/orders/prescriptions"
+    },
+    {
+      "frontendAction": "void",
+      "source": "src/lib/simrs/store.ts",
+      "module": "M01",
+      "priority": "P0",
+      "status": "candidate",
+      "existingOperationIds": [
+        "voidRegistration"
+      ],
+      "note": "Candidate only; DTO, RBAC, state and side effects unverified"
+    }
+  ]
+}
