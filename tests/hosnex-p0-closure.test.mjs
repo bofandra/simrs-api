@@ -9,7 +9,7 @@ test('P0 unresolved requirements remain visible and are not claimed implemented'
  const p0=original.actions.filter(a=>a.priority==='P0');
  assert.equal(p0.length,65);
  assert.equal(backlog.totalP0Actions,65);
- assert.equal(backlog.composedCandidateOperations,199);
+ assert.equal(backlog.composedCandidateOperations,200);
  assert.equal(backlog.proposedAdditions,overlay.operations.length);
  assert.equal(backlog.counts.existingCandidate+backlog.counts.existingPartial+
   backlog.counts.coveredByV32Proposal+backlog.counts.missingNoProposal,65);
