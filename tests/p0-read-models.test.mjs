@@ -19,7 +19,8 @@ test('five P0 module read models serve list/detail, synthetic flags and no real 
   const modules=['M05','M13','M14','M16','M21'];
   const catalog=await request(base,source);
   assert.equal(catalog.status,200);
-  assert.deepEqual(catalog.body.modules,modules);
+  assert.equal(catalog.body.modules.length,14);
+  assert.deepEqual(catalog.body.modules.slice(0,5),modules);
   for(const module of modules){
     const list=await request(base,source+'/'+module);
     assert.equal(list.status,200,module);
